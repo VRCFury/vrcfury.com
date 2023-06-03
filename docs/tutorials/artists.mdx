@@ -1,0 +1,56 @@
+# VRCFury for Artists
+
+## How can VRCFury be useful to artists distributing their own prefabs?
+
+You can think of VRCFury as a list of automatic installation instructions that are executed while a user is uploading their avatar. This can involve adding layers to their controllers, adding to their menu, creating parameters, linking clothing to the user's avatar bones, and more.
+
+Additionally, since these changes are only made on the temporary upload copy -- vrcfury is 100% non-destrutive -- it's totally reversible. If the user removes your prefab (and thus your VRCFury "instructions"), their next upload will be as if it was never there.
+
+The most common way to distribute a VRCFury-enabled prop is to make a standard unity prefab, containing both your prop, and a VRCFury component describing how it should be installed.
+
+Here are a few common things that artists can do using VRCFury in their prefab:
+
+## Merge in a custom controller / menu / parameters
+
+If your prefab comes with its own controller, menu, and list of parameters, you can tell VRCFury to put these on the user's avatar automatically. Simply add a VRCFury component with the `Full Controller` feature to your prefab, and give it a reference to your controller, menu, and parameter files.
+
+This comes with a couple additional benefits:
+1. Your animation clip keys will be automatically rewritten if the user opts to name your prefab object something different.
+2. Your parameters are automatically namespaced so they have no chance of colliding with parameters on the user's avatar (or even other instances of your same prefab).
+3. Your controller can be written with WD on or off. VRCF will automatically adjust the states to match the WD selection of the avatar.
+
+## Link clothes to the user's armature
+
+If you are making a clothing prefab that contains an armature matching the one in a user's avatar (the bones are named the same), you can add a VRCFury component with an `Armature Link` feature to your prefab. This will automatically rewrite the skinned meshes (clothes) in your prefab so that they are instead weighted to the avatar's matching bones. This saves on bone count, is simpler to install, and is even more performant than having the user "drag and drop" all the bones onto the avatar by hand.
+
+Even more importantly, since VRCFury is 100% non-destructive, the user can just delete your clothes prefab, and there will be no clothing "bones" left all over the place.
+
+For more info, check out [Linking Clothes](linking-clothes)
+
+## Reparent an object to a specific bone on the avatar
+
+If your prop depends on some attachment to a specific avatar bone, you can do so using the VRCFury `Armature Link` feature. This feature will cause the object you specify to be automatically parented to the bone you request. In some cases (fingers), you can specify fallback bones in the Advanced Settings in case the avatar doesn't contain the bone that was your first choice.
+
+## Create a menu toggle for something in your prefab without even making a controller
+
+If you put a `Toggle` feature on a vrcfury component in your prefab, it'll be added to the user's menu automatically at the menu path that you specify. You can toggle various things, including game objects, blend shapes, or even arbitrary animation clips.
+
+## Force an object to start as active, inactive, or deleted
+
+Sometimes, users may do something which unexpectedly breaks your prop. For instance, they may "deactivate" the main object to temporarily hide it in the editor, while your animations only expect an inner child object to normally be deactivated. Using a VRCFury `Force Object State` feature, you can correct these issues for the user, forcefully activating, deactivating, or (in some rare cases) deleting any given object during their upload.
+
+## Editor gizmos
+
+Sometimes, you may want a user to drag a hidden object, such as a constraint target or particle emitter, into a specific spot on their avatar. Without an indicator, it may be difficult for users to align these objects properly. If you add a VRCFury component with a `Gizmo` feature to the object, you can create a custom editor gizmo on the object, to assist the user with custom text, an arrow, or wireframe sphere.
+
+## Test what VRCFury is going to do
+
+To check how vrcfury is going apply your changes to the avatar, simply go into unity's play mode. The changes will be applied to the play mode avatar object automatically and your changes should be visible.
+
+## Allow users to install using VRCFury OR manually
+
+VRCFury doesn't have to be a full investment. If you'd like to make VRCFury *optional*, you can simply build a separate prefab for it. Put your own prop prefab within the new VRCFury prefab as a child, then put your VRCFury component on the new prefab's root object.
+
+## Learn more about VRCFury components
+
+For info about all the different available components, check out [Feature Components](/components)
