@@ -1,0 +1,6 @@
+label: Tutorials
+position: 40
+link:
+  slug: /tutorials
+  type: generated-index
+  description: Common things you may want to do with VRCFury.

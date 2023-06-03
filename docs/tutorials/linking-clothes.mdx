@@ -1,0 +1,59 @@
+# Linking Clothes
+
+There are two steps to link clothes to an avatar using VRCFury:
+1. Link the armature, and
+1. Link the blendshapes (optional)
+
+## A. Linking the Armature
+
+Linking the clothing armature "attaches" the clothes to your avatar's bones. Beware that this can only work if the clothes are specifically designed for your avatar. The clothes should have their own armature with bone names matching the ones on your avatar.
+
+1. Drag the clothing prefab onto your avatar's root object. Usually this is part of the package provided from your clothing artist. The filename will vary, but usually it will be a .prefab or sometimes a .fbx file in the main folder provided for the clothing.
+
+![image](https://user-images.githubusercontent.com/117542830/230131953-9111baff-001c-4242-b681-130e49824e9f.png)
+
+>>
+
+![image](https://user-images.githubusercontent.com/117542830/230132050-1744f6f3-2198-47de-8d47-ac31e406ba34.png)
+
+2. Click on the prefab you dragged in, and find the inspector on the right side.
+
+![image](https://user-images.githubusercontent.com/117542830/230132154-146568b7-87ce-446b-887a-d1798dbfc02e.png)
+
+![image](https://user-images.githubusercontent.com/117542830/230132215-9b69760b-b4fa-404c-b091-dff886929c76.png)
+
+3. Click "Add Component", and add a VRC Fury component with an Armature Link feature.
+
+![image](https://user-images.githubusercontent.com/117542830/230132323-fa7422c1-f883-4d3c-b498-ad100bf0a617.png)
+
+![image](https://user-images.githubusercontent.com/117542830/230132433-c5303b3a-00d2-4fd3-9b13-4edf71d0681e.png)
+
+4. Find the Hips bone in your clothing's armature (the location and name of the hips bone varies from clothing to clothing), and drag it into the armature link `Root bone/object in the prop` box. (Note, if the main clothing bone isn't the hips, you may need to adjust the dropdown to match!)
+
+![image](https://user-images.githubusercontent.com/117542830/230132683-8d76bb60-4de3-4b24-bc05-fc53b145f98b.png)
+
+![image](https://user-images.githubusercontent.com/117542830/230132775-ecb27869-a61f-4f0f-82e3-7dcdc01d6b5b.png)
+
+5. You're done! The clothes should now be be properly attached to your avatar when you upload or go into play mode. In rare circumstances, some clothing may require changes in the Advanced Settings section of Armature Link. Join the VRCFury discord if you have questions.
+
+## B. Linking the blendshapes (optional)
+
+If the clothing has blendshapes with the same names as the ones on the avatar's body, you can link them automatically.
+
+1. Add a `Blendshape Link` to the VRC Fury component you made earlier.
+
+![image](https://user-images.githubusercontent.com/117542830/230133123-1c50e6c3-80e4-4240-b0c2-ddc1702c711f.png)
+
+2. In the `Name of skinned mesh object on avatar` box, type the name of the main body renderer on the avatar. This is often called `Body` or similar.
+
+![image](https://user-images.githubusercontent.com/117542830/230133360-6ce020fd-f479-4ec2-929b-614635d69234.png)
+
+![image](https://user-images.githubusercontent.com/117542830/230133401-4ab09f83-1597-470d-855f-d40e4ed56909.png)
+
+3. Click the plus on `Skinned meshes to link`, and drag in the renderer object from your clothes. Usually this is the child object inside the clothing prefab that IS NOT the armature. If the clothing prefab contains multiple renderers, you can add them all.
+
+![image](https://user-images.githubusercontent.com/117542830/230133576-b00cdb08-c061-428c-aa4f-29651c46b5be.png)
+
+![image](https://user-images.githubusercontent.com/117542830/230133626-e9c6f7b1-3419-4c22-836f-33fd0cecfe61.png)
+
+4. The debug info box will show the blendshapes which are linked.
