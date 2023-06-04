@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1000
+sidebar_position: 10000
 ---
 
 # Other Components
@@ -18,13 +18,6 @@ Benefits:
 
 Adding this feature ensures that all of your avatar meshes use the same anchor override, which ensures
 different meshes receive the same environment lighting level.
-
-## Armature Link (Attach clothing, props, etc)
-
-Is your prop a skinned mesh that "attaches" to the bones of the root avatar? Armature Link is what you need! Give it the root bone (hips) within your prop and the path to that same root bone in the avatar, and VRCFury will automatically attach the mesh to the avatar's bones. Just make sure the bones you want to link are all in the same order and have the same names.
-
-You can also use this feature to attach an object to an avatar's bone. For instance, if your prop contains a
-empty that must be on the avatar's hand, you can use Armature Link to place it there.
 
 ## Blendshape Link
 
@@ -76,12 +69,6 @@ This feature can activate, deactivate, or delete an object on your avatar during
 
 All this does is show an editor gizmo. It does nothing in game. Useful primarily for prop artists
 who wish to identify something on their prop without including it in the upload.
-
-### Global Collider
-
-VRCFury can be used to add globally-synced colliders to any bone on your avatar. This means you can put one on your foot, your nose, or anywhere else you can imagine, then bap people with them! Simply create an empty on the bone you'd like to add a collider to, then add a `VRCF Global Collider` component to that empty.
-
-Beware that this feature steals colliders from your fingers, so the more you add, the fewer contacts there will be on your fingers. It will try to steal from the least important fingers first. You've been warned!
 
 ## Move Menu Item
 
