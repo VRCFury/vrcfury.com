@@ -1,0 +1,42 @@
+# SPS (Super Plug Shader)
+
+SPS, or Super Plug Shader, is a free deformation shader that can used to deform meshes towards a target. This is a
+fully-compatible replacement for DPS (Dynamic Penetration System) by Raliv, and TPS (Thry Penetration System) included
+in Poiyomi.
+
+## Benefits
+
+* Free (!?!?!?!)
+* Works fully with both rigged AND un-rigged meshes
+* The transition between undeformed and deformed states is smooth and doesn't "snap"
+* The deformation curve doesn't cause stretching issues like other alternatives
+* Works properly with Avatar Scaling, and scaling of mesh
+* Backward compatible with all TPS and DPS systems
+* Very easy setup
+* Compatible with nearly ANY shader! Poiyomi Toon or Pro 7/8+, liltoon, UTS, Mochie, XSToon, Silent, Standard, and MORE!
+
+
+## How to Setup a Plug
+
+* Tools > VRCFury > Haptics > Create Plug
+* Check "Enable TPS" on the VRCFury Haptic Plug component in the Inspector on the right
+* If your mesh is rigged (it has bones):
+  * Drag the new object onto the bone nearest the "base" or "bottom" of the area that should deform
+* If your mesh is un-rigged (no bones):
+  * Drag the new object onto the mesh renderer for the mesh that should deform
+* Position the new object so that it's located at the "base" or "bottom" of the area that should deform
+* Rotate the new object so that the "Tip" of the red capsule in the 3D view is at the "tip" of the deformed area
+
+## How to Setup a Socket
+
+* Tools > VRCFury > Haptics > Create Socket
+* Drag the new object onto the bone you'd like to attach it to
+* Position the new object so it's located where you'd like plugs to target
+* Rotate the new object so the arrow points INWARD
+
+## How to Test in the editor
+
+* Ensure you have [Gesture Manager](https://github.com/BlackStartx/VRC-Gesture-Manager) installed (Available in the VCC "Manage Your Project")
+* If you are testing a plug, add a test Socket to your scene (see above). It does not need to be inside your avatar.
+* Ensure the light bulb on the top left of the 3d view is ON
+* Go into play mode, and move things around to test!
