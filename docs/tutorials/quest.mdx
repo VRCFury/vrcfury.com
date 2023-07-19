@@ -1,0 +1,19 @@
+# Quest Compatibility
+
+Creating a Quest version of your avatar is something beyond the scope of VRCFury. It often involves creating a more
+optimized version of your mesh, creating alternative versions of your materials using only mobile shaders,
+and choosing what props and materials you are going to leave off.
+
+However, for toggles and menu options to sync properly between Desktop and Quest, the parameters for each must
+be identical, and **in the same order**. The easiest way to do this on an avatar with VRCFury is to follow these steps:
+
+* Your Quest avatar should start as an identical copy of your Desktop avatar. If you understand prefabs, you may even
+  want your Quest version to be a prefab variant of your desktop version.
+* On the copy, do not delete any objects or VRCFury scripts. Deleting VRCFury scripts may cause some parameters to be
+  missing from the quest version, preventing VRChat's parameter sync from working properly.
+* If you wish to delete a mesh, light, or item, delete the Mesh Renderer component or other components from the objects,
+  while leaving the VRCFury components in place. Again, do not delete entire objects.
+* Replace materials and meshes with optimized / mobile versions if desired.
+* If you still seem to have issues with toggles not syncing between platforms properly, you can go into play mode
+  on each version, and check VRCFury's generated "parameters" file on the avatar descriptor in play mode. If the parameters
+  do not match exactly, the missing parameter may give you a hint about what is missing between the two versions.
