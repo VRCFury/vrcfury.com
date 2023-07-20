@@ -53,3 +53,20 @@ full backward-compatible replacement for DPS (Dynamic Penetration System by Rali
 * Select the Gesture Manager object (if you don't have one, Tools > Gesture Manager Emulator)
 * If you are testing a socket on the avatar, be sure to turn it on in the "Sockets" menu in Gesture Manager
 * Move things around and have fun!
+
+## Troubleshooting
+
+### Plug seems to "snap" toward socket while testing in editor
+
+If you are using Av3Emulator, try Gesture Manager instead. Av3Emulator enables an option which improperly
+adjusts the bounding box of the plug mesh, making it smaller than it should be which prevents it from "seeing"
+the socket from far away.
+
+### Plug continues deforming in editor even when all sockets are disabled
+
+A bug in the unity editor causes shaders to receive old light positions when all lights have been disabled. This
+does not occur in game.
+
+### Other question?
+
+Ask on the discord!
