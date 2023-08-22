@@ -8,68 +8,74 @@ Use this for a normal "on / off" prop. For simple object props, click `Add Actio
 
 ## Options
 
-### Menu Entry
+### Menu Path
 
-The name you put in the prop's text field will be used as the name of the toggle in your VRChat menu. If you wish to put the prop in a sub-menu, use slashes. Ex: `Props/My Cool Piano`
+The name of the toggle in your VRChat radial menu.
+
+Use slashes to place the toggle in a submenu. For example, `Props/My Cool Piano` would place the toggle _My Cool Piano_ in a submenu named _Props_.
+
+### Saved Between Worlds
+
+Saves toggle state between worlds and avatar changes. Use this for options such as outfits, body adjustments, or texture swaps that should stay the same.
+
+### Use Slider Wheel
+
+Convert the toggle into a radial slider. 0 will be the avatar default state, and 100 will be your "enabled" state.
+If `Default On` is enabled, a starting value can be set.
+
+### Protect with Security
+
+When a toggle is flagged with the `Security` flag, it can only be enabled when the [Security Lock](https://vrcfury.com/components/other#security-lock) feature is unlocked on your avatar.
 
 ### Default On
 
-Want to add an idle animation or "default prop" to your avatar? Create a new prop, click the `*` and select `Default On`. Your idle animation or prop will now be on all the time (but you can also trigger it back off in game!)
+Automatically enables the prop or animation when the avatar loads. This is useful for idle animations or props that should be on by default.
+
+_You can still disable the toggle in-game from your VRChat radial menu._
 
 ### Show in Rest Pose
 
 If set, this toggle will be enabled in the avatar's "Rest Pose".
-This means the toggle will shown "on" in the in-game avatar selector, during
+The toggle will shown "on" in the in-game avatar selector, during
 full body calibration, and for users who have disabled your avatar's
 animations.
 
-### Slider
-
-Select `Slider` from the `*` menu, and VRC Fury will make the prop into a slider rather than a toggle. 0 will be the avatar default state, and 100% will be your "enabled" state.
-If `Default On` is also set, an arbitrary starting value can be set.
-
-### Saved
-
-Not everything in VRC Fury has to be a temporary prop. Want to save your clothes (or anything else?) across worlds? Select `Saved between worlds` in the `*` menu.
-
-### Security
-
-When a prop is flagged with the `Security` flag, it can only be enabled when the Security Lock feature is unlocked on your avatar (see the Security Lock section for more details).
-
-### Physbone Reset
+### Add PhysBone to Reset
 
 Got an animation that changes parameters on a physbone?
 
-Click the advanced `*` button on the VRC Fury prop for the animation, then click `Add PhysBone to Reset`. Drag the object for the physbone into the box (it should be on an empty by itself). VRC Fury will automatically flip the bone off and on any time your animation is run or reset, causing the physbone to reload your changed settings.
+Enable the `Add PhysBone to Reset` option and specify the PhysBone object. VRCFury will automatically flip the bone off and on any time your animation is run or reset, causing the physbone to reload your changed settings.
 
 ### Exclusive Tags
 
 If multiple toggles contain the same Exclusive Tag, only one can be active at a time. For example,
-if you have multiple sets of clothing which interfere with each other, you can give them the
-same tag. When one is enabled, all other toggles with the same tag will be disabled. Multiple tags
-can be given, separated by commas.
+if you have multiple sets of clothing which interfere with each other, you can define an exclusive tag `clothing`. When one is enabled, all other toggles with the same tag will be disabled.
 
-### Exclusive Tag Off State
+Multiple tags can be given, separated by commas.
 
-If set, this toggle will automatically be activated when all other toggles with the same
-`Exclusive Tags` are disabled. This makes it usable as an "Off" state for a set of conflicting
-toggles.
+### Exclusive Off State
+
+Automatically be activated when all other toggles with the same `Exclusive Tags` are disabled. This should be used on the 'default' option for a set of exclusive toggles.
+
+### Set Custom Menu Icon
+
+Sets a Texture2D as the icon of the toggle in the radial menu.
 
 ### Separate Local State
 
-If set, this creates a separate animation for local and remote machines. The local state will be seen by the user in the avatar, and the remote state will be seen by everyone else.
+Use a separate animation for local and remote machines. The local state will be seen by the user in the avatar, and the remote state will be seen by everyone else.
 
 ### Enable Transition State
 
-If set, this will create 2 additional states for animating a transition between the off and on state. The transition animation will be played forwards when transitioning from off to on and backwards when transitioning from on to off when `Transition Out is reverse of Transition In` is on, otherwise an separate out transition can be set. If `Separate Local State` is also on, separate local transitions can also be set.
+Creates two additional states for animating a transition between the off and on state. The transition animation will be played forwards when transitioning from off to on and backwards when transitioning from on to off when `Transition Out is reverse of Transition In` is on, otherwise an separate out transition can be set. If `Separate Local State` is enabled, separate local transitions can also be set.
 
 ### Use a Global Parameter
 
-If set, this will use a given parameter name instead of an autogenerated parameter for the toggle. This is useful if you want to have a toggle that is controlled by via OSC, or if you want to use the same toggle in other places in an Animator.
+Use a given parameter name instead of an autogenerated parameter for the toggle. This is useful if you want to have a toggle that is controlled by via OSC, or if you want to use the same toggle in other places in an Animator.
 
 ### Hold Button
 
-If set, this will make the toggle the button type instead of a toggle. This means that the toggle will be enabled while the button is held down, and disabled when the button is released.
+The toggle will be enabled while the button is held down, and disabled when is released.
 
 ## Toggle Sets ("One At a Time")
 
