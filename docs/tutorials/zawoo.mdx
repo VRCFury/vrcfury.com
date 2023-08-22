@@ -5,8 +5,29 @@ sidebar_class_name: hidden_sidebar
 
 # Zawoo
 
-Instructions for the Zawoo VRCFury setup prefab have been moved to the VRCFury AD discord.
+## 1. Import things
 
-* [Click here to join the VRCFury AD discord](https://vrcfury.com/nsfw)
-* Then click here for instructions for the [Knotty Canine](https://discord.com/channels/1095394960666279966/1143005047920283668/1143005047920283668)
-or the [Hybrid Anthro](https://discord.com/channels/1095394960666279966/1143004902369533972/1143004902369533972)
+* Import [VRCFury](https://vrcfury.com/download)
+* Import the zawoo asset from [Zawoo on Gumroad](https://zawoo.gumroad.com/)
+* Import the [VRCFury Knotty Canine setup prefab](https://cdn.discordapp.com/attachments/1143005047920283668/1143005048260005998/VRCFury_Zawoo_Knotty_Canine.unitypackage)
+  or the [VRCFury Hybrid Anthro setup prefab](https://cdn.discordapp.com/attachments/1143004902369533972/1143004902872858664/VRCFury_Zawoo_Hybrid_Anthro.unitypackage)
+
+## 2. Delete old Zawoo installs
+
+**If** you tried to install a Zawoo prefab on your avatar before using VRCFury, select your avatar in the hierarchy, then go into the top unity menu, `Tools > VRCFury > Utilities > Nuke Zawoo Parts` button. This will delete the potentially-broken install of the Zawoo prefab that you attempted to install before. You don’t need to do this if you started fresh with VRCFury.
+
+## 3. Add the prefab
+
+Find `Assets/VRCFury Zawoo Knotty Canine` or `Assets/VRCFury Zawoo Hybrid Anthro` in the folder browser
+
+Drag the prefab file from this folder onto your main avatar object, then drag the newly created object onto your avatar's hips.
+
+> If you drag it straight onto your hips instead of onto your avatar root first, it might have a crazy default scale!
+
+Make sure it winds up inside of your Hips bone! Scale and position the item as you see fit. DO NOT UNPACK THE PREFAB. None of these instructions from the normal zawoo install doc are needed with vrcfury!
+
+## 4. You’re done!
+
+Customize the materials if you want, and upload away! You're done! You can turn it on in-game in the `Zawoo` expressions menu.
+
+> If you're uploading for quest, you will need to change the materials to use shaders from vrchat's quest-approved shader list: https://docs.vrchat.com/docs/quest-content-limitations#shaders . Additionally, this means the DPS version of the asset will not work on quest.
