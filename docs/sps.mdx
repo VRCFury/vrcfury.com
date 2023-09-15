@@ -56,20 +56,28 @@ full backward-compatible replacement for DPS (Dynamic Penetration System by Rali
 
 ## How to move/rename generated "Sockets" menu
 
-- Select your avatar root object in the hierarchy, the same object that contains your VRC Avatar Descriptor.
-- In the Inspector, if there is not already a VRC Fury component, click "Add Component" and add one.
- ![image](tutorials/assets/sps/230132323-fa7422c1-f883-4d3c-b498-ad100bf0a617.png)
- - In that VRC Fury component, click the "+" on the bottom right and add a "Move Menu Item" subcomponent.
- - In "From Path", enter `Sockets`
- - In "To Path", enter the new path you want to find it in. For example, if you want it called `Holes` in a folder called `CoolMenu`, you would type in `CoolMenu/Holes`
-![image](tutorials/assets/sps/2023-09-05--21-19-33-Unity.png)
-- Done!
+* Select your avatar root object in the hierarchy, the same object that contains your VRC Avatar Descriptor.
+* In the Inspector, if there is not already a VRC Fury component, click "Add Component" and add one.
+  > ![image](assets/sps/230132323-fa7422c1-f883-4d3c-b498-ad100bf0a617.png)
+* In that VRC Fury component, click the "+" on the bottom right and add a "Move Menu Item" subcomponent.
+* In `From Path`, enter `Sockets`
+* In `To Path`, enter the new path you want to find it in. For example, if you want it called `Holes` in a folder called `CoolMenu`, you would type in `CoolMenu/Holes`
+  > ![image](assets/sps/2023-09-05--21-19-33-Unity.png)
+* Done!
 ## Troubleshooting
 
 ### Plug continues deforming in editor even when all sockets are disabled
 
 A bug in the unity editor causes shaders to receive old light positions when all lights have been disabled. This
 does not occur in game.
+
+### Plug seems to work in the editor, but doesn't deform in game
+
+Ensure you have `Avatar Self Interact` enabled in the VRChat settings menu.
+
+import selfInteract from './assets/sps/self-interact.png';
+
+<img src={selfInteract} width="300px"/>
 
 ### Other question?
 
