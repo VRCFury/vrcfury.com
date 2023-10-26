@@ -55,17 +55,17 @@ then change the shader on the material from `Raliv/Penetrator` to `Standard` (or
 * Ensure the light bulb button on the top left of unity's 3d view is ON
 * Go into play mode
 * Select the Gesture Manager object (if you don't have one, Tools > Gesture Manager Emulator)
-* If you are testing a socket on the avatar, be sure to turn it on in the "Sockets" menu in Gesture Manager
+* If you are testing a socket on the avatar, be sure to turn it on in the "SPS" menu in Gesture Manager
 * Move things around and have fun!
 
-## How to move/rename the generated "Sockets" menu
+## How to move/rename the generated "SPS" menu
 
 SPS sockets that you create automatically include a menu toggle to turn them on and off in game. If you would like to move those toggles:
 * Select your avatar root object in the hierarchy (the same object that contains your VRC Avatar Descriptor)
 * In the Inspector, if there is not already a VRC Fury component, click `Add Component` and add one.
   > ![image](assets/sps/230132323-fa7422c1-f883-4d3c-b498-ad100bf0a617.png)
 * In that VRC Fury component, click the "+" on the bottom right and add a `Move Menu Item` subcomponent.
-* In `From Path`, enter `Sockets`
+* In `From Path`, enter `SPS`
 * In `To Path`, enter the new path you want to find it in. For example, if you want it called `Holes` in a folder called `CoolMenu`, you would type in `CoolMenu/Holes`
   > ![image](assets/sps/2023-09-05--21-19-33-Unity.png)
 * Done!
