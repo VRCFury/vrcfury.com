@@ -23,9 +23,9 @@ full backward-compatible replacement for DPS (Dynamic Penetration System by Rali
 * [Ensure VRCFury is up to date](/download) (we're always adding features and fixing bugs!)
 * Tools > VRCFury > Haptics > Create Plug
 * If your mesh is rigged (it has bones):
-  * Drag the new object onto the bone nearest the "base" or "bottom" of the area that should deform
+* Drag the new object onto the bone nearest the "base" or "bottom" of the area that should deform
 * If your mesh is un-rigged (no bones):
-  * Drag the new object onto the mesh renderer for the mesh that should deform
+* Drag the new object onto the mesh renderer for the mesh that should deform
 * Position the new object so that it's located at the "base" or "bottom" of the area that should deform
 * Rotate the new object so that the "Tip" of the red capsule in the 3D view is at the "tip" of the deformed area
 
@@ -52,7 +52,7 @@ then change the shader on the material from `Raliv/Penetrator` to `Standard` (or
 * Ensure you have [Gesture Manager](https://github.com/BlackStartx/VRC-Gesture-Manager) installed (Available in the VCC "Manage Your Project")
 * If you are testing a plug, add a test Socket to your scene (see above). It does not need to be inside your avatar.
 * If you are testing socket animations, be sure the plug has contacts. Non-upgraded DPS does not contain contacts. You can upgrade
-  plain DPS plugs by selecting them, then clicking Tools > VRCFury > Haptics > Upgrade Legacy Haptics.
+plain DPS plugs by selecting them, then clicking Tools > VRCFury > Haptics > Upgrade Legacy Haptics.
 * Ensure the light bulb button on the top left of unity's 3d view is ON
 * Go into play mode
 * Select the Gesture Manager object (if you don't have one, Tools > Gesture Manager Emulator)
@@ -64,7 +64,7 @@ then change the shader on the material from `Raliv/Penetrator` to `Standard` (or
 SPS sockets that you create automatically include a menu toggle to turn them on and off in game. If you would like to move those toggles:
 * Select your avatar root object in the hierarchy (the same object that contains your VRC Avatar Descriptor)
 * In the Inspector, if there is not already a VRC Fury component, click `Add Component` and add one.
-  > ![image](assets/sps/230132323-fa7422c1-f883-4d3c-b498-ad100bf0a617.png)
+> ![image](../assets/sps/230132323-fa7422c1-f883-4d3c-b498-ad100bf0a617.png)
 * In that VRC Fury component, click the "+" on the bottom right and add an `SPS Options` subcomponent.
 * In the `Menu Path` box, type where you'd like it to be in your menu. The default is `SPS`.
 * Done!
@@ -80,7 +80,7 @@ does not occur in game.
 
 Ensure you have `Avatar Self Interact` enabled in the VRChat settings menu.
 
-import selfInteract from './assets/sps/self-interact.png';
+import selfInteract from '../assets/sps/self-interact.png';
 
 <img src={selfInteract} width="300px"/>
 

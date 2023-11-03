@@ -1,0 +1,16 @@
+# Avoid Using Constraints with SPS
+
+When setting up raliv DPS by hand, using parent constraints to move a single socket around may be helpful to ensure only one is enabled at a time (enabling more than that one can cause some very unusual issues!).
+
+So why not do this with SPS?
+
+* **Constraints introduce massive amounts of jitter to contacts due to a vrchat bug.** This causes unexpected variations in depth animations and haptics.
+* **Deactivated lights have no impact on render performance**. It's not bad to have extra lights that are off.
+* **A single socket uses 2 lights, which already marks your vrchat avatar as "Very Poor."** Additional lights won't make your performance rank any worse.
+* Parent constraints are very slightly less performant than placing objects directly on their parent bone.
+* Re-using one socket prevents all SPS menu features from working, such as Auto mode, Dual mode, etc.
+* Re-used sockets cannot have separate animations.
+* OGB is unable to detect which specific haptics to activate if a socket is re-used since they all share the same parameter name.
+* When socket light and contact installation is automated by VRCFury, it already ensures only one can be active at a time.
+
+To put it simply: **DON'T MIX SPS WITH CONSTRAINTS**
