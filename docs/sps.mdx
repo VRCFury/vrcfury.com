@@ -8,10 +8,11 @@ full backward-compatible replacement for DPS (Dynamic Penetration System by Rali
 * Free (!?!?!?!)
 * Works fully with both rigged AND un-rigged meshes
 * Supports animating blendshapes WHILE deforming!
-* The transition between undeformed and deformed states is smooth and doesn't "snap"
+* Active development, often several updates per week!
 * The deformation curve doesn't cause stretching issues like other alternatives
 * Works properly with Avatar Scaling, and scaling of mesh
 * Backward compatible with all TPS and DPS systems
+* Easy setup of blendshape and other types of animations based on depth
 * Very easy setup
 * Compatible with nearly ANY shader! Poiyomi Toon or Pro 7/8+, liltoon, UTS, Mochie, XSToon, Silent, Standard, and MORE!
 
@@ -64,10 +65,8 @@ SPS sockets that you create automatically include a menu toggle to turn them on 
 * Select your avatar root object in the hierarchy (the same object that contains your VRC Avatar Descriptor)
 * In the Inspector, if there is not already a VRC Fury component, click `Add Component` and add one.
   > ![image](assets/sps/230132323-fa7422c1-f883-4d3c-b498-ad100bf0a617.png)
-* In that VRC Fury component, click the "+" on the bottom right and add a `Move Menu Item` subcomponent.
-* In `From Path`, enter `SPS`
-* In `To Path`, enter the new path you want to find it in. For example, if you want it called `Holes` in a folder called `CoolMenu`, you would type in `CoolMenu/Holes`
-  > ![image](assets/sps/2023-09-05--21-19-33-Unity.png)
+* In that VRC Fury component, click the "+" on the bottom right and add an `SPS Options` subcomponent.
+* In the `Menu Path` box, type where you'd like it to be in your menu. The default is `SPS`.
 * Done!
 
 ## Troubleshooting
