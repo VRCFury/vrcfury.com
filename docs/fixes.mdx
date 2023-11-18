@@ -1,0 +1,59 @@
+---
+sidebar_position: 60
+description: Fixes that VRCFury applies to all avatars by default
+---
+
+# Automatic Fixes
+
+When a VRCFury component or prop is placed anywhere on an avatar, several fixes are activated by default. These fixes are applied
+to resolve common VRChat and Unity bugs that we have deemed safe to apply in all scenarios.
+
+* VRChat does not support Animator Override Controllers
+  * VRCFury automatically flattens Animator Override Controllers on your descriptor, making them compatible with VRChat.
+* Transition times for muscle animations are ignored by unity when placed on layer 0 of an animator
+  * VRCFury inserts an empty base layer when this issue is detected
+* The VRC avatar descriptor is corrupted and includes two FX layers when you change the avatar rig to generic and back to humanoid
+  * VRCFury corrects this issue by keeping the proper FX controller and replacing the other with the missing Action layer
+* Assets that were used in an animator previously, but the layer was deleted, are still included in the upload bundle
+  * VRCFury corrects this by walking all controllers and building a new copy containing only the layers and states that are actually used
+* Controller layers that are empty still take processing time in game
+  * VRCFury automatically removes layers that are guaranteed to be empty and have no side-effects
+* Animations that target invalid objects still take processing time
+  * VRCFury automatically removes animation properties that are guaranteed to be invalid (targeting an object that does not exist)
+* States in an additive layer marked as WD off can cause blendshape values to multiply by 3x, and cause unrelated transforms to move continuously
+  * VRCFury removes the additive controller that VRChat adds by default (unused by virtually everyone)
+  * VRCFury automatically marks all additive states as WD on (only if you opt into Fix Write Defaults)
+* States marked as WD off containing a direct blendtree can cause unrelated animations in the controller to break
+  * VRCFury automatically marks all direct blendtrees as WD on (only if you opt into Fix Write Defaults)
+* The VRCSDK fails with a cryptic error message when menu icons are too large
+  * VRCFury detects this condition and shows a useful error message with the icon paths
+* VRChat throws away parameters in game if there are more than 256 unique params, even if they are not network synced
+  * VRCFury detects this condition and shows a useful error message
+* VRChat throws away contacts in game if you have more than 256 total
+  * VRCFury detects this condition and shows a useful error message
+* VRChat IK and OSC will crash if you have two parameters with the same name, except one has underscores where the other has spaces
+  * VRCFury automatically renames parameters conflicting in this way
+* VRChat IK and OSC will crash if you have a parameter containing the text `[]`
+  * VRCFury automatically renames parameters conflicting in this way
+* Controller states and blendtree children with a "None" (missing) animation can break transforms and other animations in avatars using WD off
+  * VRCFury automatically replaces missing animations with an empty 1-second clip in these scenarios
+* Unity "claims" transforms and muscles for the lowest controller that has them unmasked, even if they are not actively being animated
+  * This is a common issue between an avatar's Gesture and FX layers, because when users have no mask in FX, it "claims" all transforms,
+    breaking any transforms that are attempted in Gesture.
+  * VRCFury solves this issue by merging Gesture and FX into a single controller, individually layer-masking the layers from each to ensure
+    they continue working as they did previously.
+  * Applying a mask to all FX layers (as recommended in other guides) is not a complete solution, as masking layers is not possible in some
+    scenarios (outside the scope of this document).
+* Using WD off in a controller state that is placed in a layer at or below a state with WD on causes unity to break all animations in the controller
+  * VRCFury detects this scenario and offers the option to solve it automatically by aligning the WD of each setting.
+  * Additive layers and direct blendtrees are excluded from this rule, and must always be WD on (as described above).
+* MMD worlds do not work properly for avatars using WD off, disable the Gesture controller, and (in some songs) disable FX layer 1 and 2
+  * VRCFury automatically resolves all of these issue (only if you opt into VRCFury MMD Compatibility)
+* When you delete an int controller parameter and recreate it as a bool, all controller transitions using that parameter will say "True", even though internally they are broken and will never transition.
+  * VRCFury automatically corrects these transitions to work if the bool is true, as indicated by the editor.
+* When you delete or change the type of a parameter, attempting to use the controller will cause unity to abort the controller entirely, breaking the avatar in the editor and in game
+  * VRCFury automatically removes these transitions, as they are never valid
+* If one of the controllers on the avatar descriptor is set to "None", unity animation states temporarily reset in between frames, causing Audio Sources to restart every frame
+  * VRCFury automatically replaces "None" controllers with an empty replacement
+* Non-mobile materials are still included in the quest upload bundle if they are used in animations
+  * VRCFury automatically removes all non-mobile materials from quest builds to ensure they are not included in the upload
