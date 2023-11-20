@@ -57,3 +57,7 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury automatically replaces "None" controllers with an empty replacement
 * Non-mobile materials are still included in the quest upload bundle if they are used in animations
   * VRCFury automatically removes all non-mobile materials from quest builds to ensure they are not included in the upload
+* VRChat ignores Animator Tracking Control behaviors that run too soon after the avatar is loaded
+  * VRCFury buffers all tracking control changes and repeats them several times as the avatar is loaded
+* Animator Tracking Control behaviors from various unrelated plugins can break MMD dances
+  * VRCFury buffers all tracking control changes and triggers them only once the avatar is not in an MMD station
