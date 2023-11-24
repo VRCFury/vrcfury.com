@@ -95,16 +95,23 @@ Then:
 Possible Fixes:
 * If a state uses WD off, ensure that all motions and blendtree children are set to an animation clip containing at least one property (it does not have to be valid)
 
-## Improper Blending with WD On
+## WD On Blending is not Additive
 
 When:
 * WD is on
 * A property is set in a clip in one layer
-* The same property is modified at a partial weight within a blendtree in a lower layer
+* The same property is modified at a partial weight >0 within a blendtree in a lower layer
 
 Then:
-* The value of the final property is totally, arbitrarily wrong.
+* The value of the final property does not account for the value in the first layer.
+* For example:
+  * If the default (resting state) value of the property is 0
+  * and the property is animated to 5 in layer 1
+  * and the property is animated to 10 with 0.1 weight in layer 2
+  * The final value will be 1 (disregarding the 5 entirely)
+  * However, if the weight on layer 2 is changed to 0, suddenly the final value is 5
 
 Possible Fixes:
-* There is currently no known solution to this problem.
-* Do not animate the same property from multiple layers if they involve partial blending.
+* Do not animate the same property from multiple layers if they involve "open-ended" blending.
+* All blendtrees involving properties animated in higher layers should fully animate all shared properties in all children.
+* Direct blendtrees involving properties animated in higher layers should always have weight 1 (fully animated) or 0 (fall through to above layer).
