@@ -91,4 +91,10 @@ For advanced outfits (such as a mixture of tops, bottoms, and full-body outfits)
 
 ### Solution 2: Create a Slider
 
-You can use VRCFury to create a single slider wheel, used to select between all of your outfits / materials. Currently, this requires creating an animation clip with one frame for each outfit / material. Then, create a VRCFury Toggle, enable `Use Slider Wheel` in the `Options` menu, then add your animation clip as the Toggle Action.
+You can use VRCFury to create a single slider wheel, used to select between all of your outfits / materials.
+
+1. Create a new VRCFury Toggle
+2. Click `Options` -> `Use Slider Wheel`
+3. Click `Add Action` and choose `Flipbook Builder`
+4. Add a page to the flipbook for each outfit / preset / material
+5. In each page, add actions like `Material Swap` to customize what happens in that portion of the slider
