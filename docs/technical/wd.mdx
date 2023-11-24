@@ -1,0 +1,97 @@
+# Write Default Bugs in Unity
+
+Write Defaults causes tons of undocumented unity bugs, many of which are still being discovered to this day. These
+are the bugs we are currently aware of:
+
+## Mixed Write Defaults
+
+When:
+* Controller contains a mix of WD on or WD off
+* A WD Off state is in a layer or beneath a layer containing a WD On state
+
+Then:
+* Random properties in the controller will "stick," refusing to change even when they are instructed to by an animation.
+
+Possible Fixes:
+* Do not mix WD within a controller (except for direct blendtrees and additive layers, where WD MUST ALWAYS be on)
+* If a mix is absolutely required, ensure that all WD on is below any WD off
+* Note that ALL playable layer controllers in a vrchat avatar are considered one "controller"
+
+## Direct Blendtrees and Additive Layers with WD Off
+
+When:
+* A state containing a direct blendtree, or a state within an Additive layer, are set to WD off
+
+Then:
+* Random properties in the controller may grow or shink in value every frame, causing them to fly off into oblivion.
+* Blendshapes animated in the controller may have their values unexpectedly multiplied by 2x or 3x.
+
+Possible Fixes:
+* Ensure all Direct Blendtrees and all states within Additive layers are always WD on
+
+## Transforms in Unmasked Controllers with WD Off
+
+When:
+* Multiple controllers in a mixer use WD off (such as Gesture and FX)
+
+Then:
+* The lowest controller in the mixer (usually FX) will claim ownership of all unmasked muscles and transforms
+* Even if the transforms or animations are not animated within any state in the controller, it will still prevent any higher controller in the mixer from animating them.
+
+Possible Fixes:
+* Use WD on
+* Combine Gesture and FX, so that FX claiming all transforms is acceptable (as all transform animations will be within the one controller)
+* Add masks to FX, preventing it from owning specific transforms (impossible in some scenarios due to `Maks break certain types of properties`)
+
+## Muscles in Unmasked Layers with WD Off
+
+When:
+* Multiple layers in a single controller use WD off
+* Two layers animate the same muscle of the humanoid rig
+
+Then:
+* The lowest layer "claims" ownership of the muscle the first time it is animated, preventing any higher layer from ever animating that muscle
+* Moving to a state no longer animating the muscle does not release ownership
+
+Possible Fixes
+* Use WD on
+* Use Animator Layer Control to "weight" the lower layer to 0
+
+## Broken Properties in Masked Layers
+
+When:
+* A state's layer, or the controller's base layer, contains a mask that does not allow All Transforms
+
+Then:
+* The state cannot perform a material swap on material slot 0 if it's not an allowed transform in the mask
+* The state cannot perform a material swap on a material slot greater than 0 at all
+* The state cannot animate properties on a VRC Physbone (and possibly other non-standard component types)
+
+Possible Fixes:
+* Do not use masks on the layer or the controller's base layer
+
+## Empty Animations with WD Off
+
+When:
+* A state uses WD off
+* The state contains a "none" animation, or an empty animation clip, in the root motion or any blendtree child
+
+Then:
+* Similar symptoms to `Mixed WD`
+
+Possible Fixes:
+* If a state uses WD off, ensure that all motions and blendtree children are set to an animation clip containing at least one property (it does not have to be valid)
+
+## Improper Blending with WD On
+
+When:
+* WD is on
+* A property is set in a clip in one layer
+* The same property is modified at a partial weight within a blendtree in a lower layer
+
+Then:
+* The value of the final property is totally, arbitrarily wrong.
+
+Possible Fixes:
+* If the top layer sets the initial value within a direct blendtree, the bug does not seem to occur.
+* VRCFury stores its "Defaults" layer within a direct blendtree for this purpose.
