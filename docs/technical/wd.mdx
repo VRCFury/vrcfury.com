@@ -35,13 +35,26 @@ When:
 * Multiple controllers in a mixer use WD off (such as Gesture and FX)
 
 Then:
-* The lowest controller in the mixer (usually FX) will claim ownership of all unmasked muscles and transforms
-* Even if the transforms or animations are not animated within any state in the controller, it will still prevent any higher controller in the mixer from animating them.
+* The lowest controller in the mixer (usually FX) will claim ownership of all unmasked transforms
+* Even if the transforms are not animated within any state in the controller, it will still prevent any higher controller in the mixer from animating them.
 
 Possible Fixes:
 * Use WD on
 * Combine Gesture and FX, so that FX claiming all transforms is acceptable (as all transform animations will be within the one controller)
-* Add masks to FX, preventing it from owning specific transforms (impossible in some scenarios due to `Maks break certain types of properties`)
+* Add masks to FX, preventing it from owning specific transforms (impossible in some scenarios due to `Broken Properties in Masked Layers`)
+
+## Muscles in Unmasked Controllers with WD Off OR On
+
+When:
+* Multiple controllers in a mixer animate the same humanoid muscle
+
+Then:
+* The lowest controller in the mixer (usually FX) will claim ownership of all unmasked muscles
+* Even if the muscles are not animated within any state in the controller, it will still prevent any higher controller in the mixer from animating them.
+
+Possible Fixes:
+* Ensure each muscle is only animated by one controller
+* If overriding is required, use Playable Layer Control to weight the override controller to 0 when the animation is complete (like is done with Action)
 
 ## Muscles in Unmasked Layers with WD Off
 
