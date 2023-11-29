@@ -6,7 +6,7 @@ slug: /troubleshooting
 
 ## VRCFury doesn't show up or install or update {#script-errors}
 
-> The associated script can not be loaded. Please fix any compile errors and assign a valid script.
+`The associated script can not be loaded. Please fix any compile errors and assign a valid script.`<br/>
 
 Does it seem like the installer isn't doing anything, or you installed but VRCFury still doesn't show up? Usually this is
 caused by something else broken in your project. If ANY script in your project is broken, it breaks THE WHOLE THING, including
@@ -29,7 +29,7 @@ VRCFury.
 
 ## Extra Field can't be serialized
 
-> Type '[VRCFury]...' has an extra field '...' of type '...' in the player, and thus can't be serialized
+`Type '[VRCFury]...' has an extra field '...' of type '...' in the player, and thus can't be serialized`<br/>
 
 This can happen if unity gets confused in the middle of a VRCFury upgrade.
 
@@ -39,16 +39,16 @@ This can happen if unity gets confused in the middle of a VRCFury upgrade.
 
 ## Assembly search path does not exist
 
-> The assembly search path '.../com.vrcfury.vrcfury/Libs' does not exist
+`The assembly search path '.../com.vrcfury.vrcfury/Libs' does not exist`<br/>
 
 This is a warning and can be ignored. It happens if you uninstall VRCFury because unity will not
 unload VRCFury's DLL's until the next time it restarts.
 
 ## Poiyomi is broken
 
-> Assets\_PoiyomiShaders\Scripts\... error: No overload for method...
-> Assets\_PoiyomiShaders\Scripts\... error: ... does not contain a definition for ...
-> Assets\_PoiyomiShaders\Scripts\... error: etc
+`Assets\_PoiyomiShaders\Scripts\... error: No overload for method...`<br/>
+`Assets\_PoiyomiShaders\Scripts\... error: ... does not contain a definition for ...`<br/>
+`Assets\_PoiyomiShaders\Scripts\... error: etc`<br/>
 
 * This is not a VRCFury issue.
 * Your Poiyomi is out of date and broken, and it is breaking all scripts in your project.
@@ -56,14 +56,14 @@ unload VRCFury's DLL's until the next time it restarts.
 
 ## Preprocess Callback Failed
 
-> The VRCSDK build was aborted because the VRCSDKPreprocessAvatarCallback 'PreuploadHook' reported a failure
+`The VRCSDK build was aborted because the VRCSDKPreprocessAvatarCallback 'PreuploadHook' reported a failure`<br/>
 
 * This error just means 'The build failed for some reason', and has no meaning.
 * For the root cause, check the popup or error that occurred before this one.
 
 ## Failed to create state behaviour
 
-> Failed to create state behaviour of type ... Usually this means you have an error in one of your other non-vrcfury packages.
+`Failed to create state behaviour of type ... Usually this means you have an error in one of your other non-vrcfury packages.`<br/>
 
 * An error should be listed in the message.
 * Delete the package mentioned in the error if you are not using it, or upgrade it to a new version otherwise.
@@ -71,7 +71,7 @@ unload VRCFury's DLL's until the next time it restarts.
 
 ## Missing script
 
-> You are trying to replace or create a Prefab from the instance ... that references a missing script. This is not allowed.
+`You are trying to replace or create a Prefab from the instance ... that references a missing script. This is not allowed.`<br/>
 
 * If you believe the missing script is VRCFury, follow the instructions
   at [VRCFury doesn't show up or install or update](#script-errors)
@@ -96,7 +96,7 @@ unload VRCFury's DLL's until the next time it restarts.
 
 ## FixGestureFxConflict Conflicting Parameter Type
 
-> VRCF tried to create parameter ??? with type ??? in controller FX, but parameter already exists with type ???
+`VRCF tried to create parameter ??? with type ??? in controller FX, but parameter already exists with type ???`<br/>
 
 * Check the gesture and FX controllers set in your avatar's Avatar Descriptor.
 * Look in the parameters tab of each. It's likely that you have the same parameter listed in both, but with different types.
