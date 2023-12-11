@@ -106,3 +106,20 @@ unload VRCFury's DLL's until the next time it restarts.
 * Check the gesture and FX controllers set in your avatar's Avatar Descriptor.
 * Look in the parameters tab of each. It's likely that you have the same parameter listed in both, but with different types.
 * Usually, you can delete the conflicting parameter from Gesture to resolve the issue.
+
+## Found a null list on a child object
+
+> VRCFury component is corrupted on ???
+
+Cause 1. Unity 2022
+
+The VRCFury package you are trying to use may have been created using Unity 2022, but you are using Unity 2019. Packages created using 2022 can only be used in projects on 2022. You must upgrade your project to 2022 to use the package.
+
+Cause 2. Outdated VRCFury
+
+Your VRCFury may have been out of date when you imported the package. Update VRCFury. If the error persists, find the erroring file in the unity browser, right click on it, and select `Reimport`.
+
+## PlayerSettings.Android does not contain a definition for optimizedFramePacing
+
+Your project has VRCSDK 3.5.0+, which requires Unity 2022, but you are using Unity 2019.
+Either upgrade to unity 2022 in the Creator Companion, or downgrade the VRCSDK to 3.4.2.
