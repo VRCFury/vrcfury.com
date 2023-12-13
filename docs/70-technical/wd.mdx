@@ -115,3 +115,18 @@ Possible Fixes:
 * Do not animate the same property from multiple layers if they involve "open-ended" blending.
 * All blendtrees involving properties animated in higher layers should fully animate all shared properties in all children.
 * Direct blendtrees involving properties animated in higher layers should always have weight 1 (fully animated) or 0 (fall through to above layer).
+
+## WD On breaks transition time to blendtrees when a parameter is Animated
+
+When:
+* WD is on
+* Any parameter in the animator is controlled by an animation
+* One state transitions to another state that uses a blend tree, and the current blend involves more than one motion
+
+Then:
+* The transition ignores the state that is being transitioned from, snapping to the new state immediately
+
+Possible Fixes:
+* Use WD off
+* Avoid this scenario entirely (do not use blendtrees in a multi-state layer)
+* Do not use animated parameters (often unavoidable)
