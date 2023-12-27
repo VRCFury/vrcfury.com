@@ -115,3 +115,12 @@ Your VRCFury may have been out of date when you imported the package. Update VRC
 
 Your project has VRCSDK 3.5.0+, which requires Unity 2022, but you are using Unity 2019.
 Either upgrade to unity 2022 in the Creator Companion, or downgrade the VRCSDK to 3.4.2.
+
+## The type or namespace name 'AndroidExternalToolsSettings' does not exist in the namespace 'UnityEditor.Android' (are you missing an assembly reference?)
+
+This is not related to VRCFury. This can happen if you install unity android support, then switch to android in a project without restarting unity first.
+
+## Application Error
+
+This error is unrelated to VRCFury. It means that you are trying to upload an avatar ID to VRChat that does not belong to your account. Find the `Pipeline Manager`
+component on your main avatar object (next to your VRC Avatar Descriptor) and click `Detach` to create a new avatar ID, then try your upload again.
