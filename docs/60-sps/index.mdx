@@ -21,7 +21,7 @@ full backward-compatible replacement for DPS (Dynamic Penetration System by Rali
 <div style={{fontSize: 13, marginTop: -20, marginBottom: 20}}>(Known as a "Penetrator" in other systems)</div>
 
 * [Ensure VRCFury is up to date](/download) (we're always adding features and fixing bugs!)
-* Tools > VRCFury > Haptics > Create Plug
+* Tools > VRCFury > SPS > Create Plug
 * If your mesh is rigged (it has bones):
 * Drag the new object onto the bone nearest the "base" or "bottom" of the area that should deform
 * If your mesh is un-rigged (no bones):
@@ -38,21 +38,21 @@ then change the shader on the material from `Raliv/Penetrator` to `Standard` (or
 <div style={{fontSize: 13, marginTop: -20, marginBottom: 20}}>(Known as an "Orifice" in other systems)</div>
 
 * [Ensure VRCFury is up to date](/download) (we're always adding features and fixing bugs!)
-* Tools > VRCFury > Haptics > Create Socket
+* Tools > VRCFury > SPS > Create Socket
 * Drag the new object onto the bone you'd like to attach it to
 * Position the new object so it's located where you'd like plugs to target
 * Rotate the new object so the arrow points INWARD
 
 > **Already got DPS or TPS orifices?**<br/>
 > You can keep them as is (SPS is backward-compatible), or you can upgrade them automatically with<br/>
-> **Tools > VRCFury > Haptics > Upgrade Legacy Haptics!**
+> **Tools > VRCFury > SPS > Upgrade Legacy Haptics!**
 
 ## How to Test in the editor
 
 * Ensure you have [Gesture Manager](https://github.com/BlackStartx/VRC-Gesture-Manager) installed (Available in the VCC "Manage Your Project")
 * If you are testing a plug, add a test Socket to your scene (see above). It does not need to be inside your avatar.
 * If you are testing socket animations, be sure the plug has contacts. Non-upgraded DPS does not contain contacts. You can upgrade
-plain DPS plugs by selecting them, then clicking Tools > VRCFury > Haptics > Upgrade Legacy Haptics.
+plain DPS plugs by selecting them, then clicking Tools > VRCFury > SPS > Upgrade Legacy Haptics.
 * Ensure the light bulb button on the top left of unity's 3d view is ON
 * Go into play mode
 * Select the Gesture Manager object (if you don't have one, Tools > Gesture Manager Emulator)

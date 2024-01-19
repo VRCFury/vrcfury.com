@@ -15,7 +15,8 @@ VRCFury.
 ### Are you using the VCC **AND** do you have an `Assets/VRCSDK` folder in your project?
 
 * If so, you have two conflicting copies of the VRCSDK.
-* Open the VCC, go to Manage Your Project, downgrade the vrcsdk to any previous version, then upgrade it again.
+* Delete Packages/com.vrchat.base and Packages/com.vrchat.avatars from your project using windows explorer
+* Open the VCC, go to Manage Your Project, and re-add the VRChat SDK - Avatars
 * This will automatically clean up the conflicting copy.
 
 ### Still not fixed?
@@ -29,8 +30,11 @@ VRCFury.
 
 ## 'Client' does not contain a definition for 'Resolve' {#2019-vrm}
 
-* You may have accidentally updated the VRChat Package Resolver Tool in the VCC to 0.1.27 or newer.
-* These versions are only for unity 2022. If you are unity 2019, use 0.1.26.
+* You may have accidentally updated the VRChat Package Resolver Tool in the VCC to 0.1.27 or newer while using unity 2019.
+* First, upgrade the VCC itself. Newer versions would have prevented you from experiencing this issue.
+* Then, choose one:
+  * Upgrade the project to Unity 2022 follow the instructions in the VCC
+  * Or, downgrade the VRChat Package Resolver Tool in your project to 0.1.26
 
 ## Extra Field can't be serialized
 
