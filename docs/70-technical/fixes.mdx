@@ -40,10 +40,9 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
 * Unity "claims" transforms and muscles for the lowest controller that has them unmasked, even if they are not actively being animated
   * This is a common issue between an avatar's Gesture and FX layers, because when users have no mask in FX, it "claims" all transforms,
     breaking any transforms that are attempted in Gesture.
-  * VRCFury solves this issue by merging Gesture and FX into a single controller, individually layer-masking the layers from each to ensure
-    they continue working as they did previously.
-  * Applying a mask to all FX layers (as recommended in other guides) is not a complete solution, as masking layers is not possible in some
-    scenarios (outside the scope of this document).
+  * VRCFury solves this issue by moving all non-muscle animations from Gesture into the top of FX, ensuring they continue working as they did previously.
+  * Applying a mask to all FX layers (as recommended in other guides) is not a foolproof solution, as masking layers is impossible in some
+    scenarios ([read more about it here](/technical/wd#broken-properties-in-masked-layers)).
 * Using WD off in a controller state that is placed in a layer at or below a state with WD on causes unity to break all animations in the controller
   * VRCFury detects this scenario and offers the option to solve it automatically by aligning the WD of each setting.
   * Additive layers and direct blendtrees are excluded from this rule, and must always be WD on (as described above).
