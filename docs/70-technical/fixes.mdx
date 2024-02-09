@@ -60,3 +60,5 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury buffers all tracking control changes and repeats them several times as the avatar is loaded
 * Animator Tracking Control behaviors from various unrelated plugins can break MMD dances
   * VRCFury buffers all tracking control changes and triggers them only once the avatar is not in an MMD station
+* The VRCSDK incorrectly applies android validations while in windows mode if you select the android tab in the inspector of a texture asset
+  * VRCFury automatically syncs this setting back to the proper value when the vrcsdk dialog loads and when a build begins
