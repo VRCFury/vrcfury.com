@@ -128,3 +128,10 @@ This is not related to VRCFury. This can happen if you install unity android sup
 
 This error is unrelated to VRCFury. It means that you are trying to upload an avatar ID to VRChat that does not belong to your account. Find the `Pipeline Manager`
 component on your main avatar object (next to your VRC Avatar Descriptor) and click `Detach` to create a new avatar ID, then try your upload again.
+
+## Unity 2022 with an ancient VRCFury install
+
+`Failed to resolve packages: Tarball package [com.vrcfury.installer] cannot be found at path`
+
+This error can happen if you migrate a project to Unity 2022 that was using a version of VRCFury from several years ago. Using windows explorer, open Packages/manifest.json in notepad
+(or a text editor of your choice) and remove all lines containing the word `vrcfury`. There may be more than one. Then, try to re-open the project.
