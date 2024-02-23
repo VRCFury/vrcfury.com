@@ -33,7 +33,7 @@ In nearly all cases, this should be left empty.
 #### Keep bone offsets
 If no, prop bones will be rigidly locked to the transform of the corresponding avatar bone, effectively nulling the position, scale and rotation offset from it.
 If yes, prop bones will maintain their offset to the corresponding avatar bone. This is unusual and will prevent scale detection from working and prevent the linked bones from adjusting to moved/scaled/rotated avatar bones, if any. When designing new clothes, this should be avoided
-If auto, bone offsets will only be kept
+If auto, bone offsets will be kept only if Reparent Root link mode is used.
 
 ## Debug info
 This will display where the prop will be merged, what Link Mode will be used and if Bone Offsets will be kept.\
