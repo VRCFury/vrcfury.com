@@ -1,5 +1,13 @@
+---
+description: Add a global Physbone collider and Contact sender anywhere on the avatar
+---
+
 # Global Collider
 
-VRCFury can be used to add globally-synced colliders to any bone on your avatar. This means you can put one on your foot, your nose, or anywhere else you can imagine, then bap people with them! Simply create an empty on the bone you'd like to add a collider to, then add a `VRCF Global Collider` component to that empty.
+> Add a global Physbone collider and Contact sender anywhere on the avatar
 
-Beware that this feature steals colliders from your fingers, so the more you add, the fewer contacts there will be on your fingers. It will try to steal from the least important fingers first. You've been warned!
+VRCFury can be used to add globally-synced colliders to any bone on your avatar. This means you can put one on your foot, your nose, or anywhere else you can imagine, then bap people with them! Simply create an empty object on the bone you'd like to add a collider to, then add a `VRCFury | Global Collider` component to that empty.
+
+:::note
+Beware that this component steals colliders from your fingers, so the more you add, the fewer contacts there will be on your fingers. It will try to steal from the least important fingers first, in sets of 2 for a **maximum of 6** across an entire avatar. The order in which VRCFury will steal finger colliders is Ring fingers > Little fingers > Middle Fingers. You've been warned!
+:::

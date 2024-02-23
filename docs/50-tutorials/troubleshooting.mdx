@@ -28,6 +28,13 @@ VRCFury.
 * If there are errors related to Gesture Manager, ensure it is up to date in the VCC or get a fresh copy from their github.
 * If there are errors related to some other script, try deleting it if you don't need it.
 
+## Toggles or other properties "stick" or do not work at all
+
+* This is most likely because of a [broken Write Defaults mix](/technical/wd#mixed-write-defaults). 
+* Check any of your VRCFury component's headers for a `W` next to the version number. This indicates that you clicked `Skip and stop asking` when VRCFury detected a (likely) broken WD mix and asked whether or not it should try to fix it for you automatically. 
+* If this is the case, find the [VRCFury | Fix Write Defaults](/other#fix-write-defaults) component under your avatar's root, and change it from `Disabled` to `Auto`
+* In case Auto causes other issues or breaks something, please report this on the [VRCFury Discord]
+
 ## 'Client' does not contain a definition for 'Resolve' {#2019-vrm}
 
 * You may have accidentally updated the VRChat Package Resolver Tool in the VCC to 0.1.27 or newer while using unity 2019.
@@ -86,8 +93,8 @@ unload VRCFury's DLL's until the next time it restarts.
   at [VRCFury doesn't show up or install or update](#script-errors)
 * Some unity packages still come with old dynamic bones. If your missing scripts are on places where dynamic bones may exist
   (like ears, tails, dresses, etc), import the [dynamic bones stub](https://github.com/VRLabs/Dynamic-Bones-Stub/releases/tag/v1.0.0)
-  then in unity, choose `VRChat SDK > Utilities > Convert DynamicBones to PhysBones`. Note that this is not an issue related to VRCFury,
-  so we cannot provide support regarding Dynamic Bones.
+  then in unity, select your avatar's root and choose `VRChat SDK > Utilities > Convert DynamicBones to PhysBones`. Note that this is not an issue related to VRCFury, so we cannot provide support regarding Dynamic Bones.
+* If you don't know what the missing script is, refer to the instructions of the asset you imported and look for any dependencies you missed, or ask the creator. Note that this is also not an issue related to VRCFury, so we cannot provide support regarding this either.
 
 ## Synced layers disappear
 
@@ -101,7 +108,7 @@ unload VRCFury's DLL's until the next time it restarts.
 * This is a VRChat limitation.
 * Although the unity editor allows blendshapes to be outside this range, once in game, VRChat uses a unity setting called
   `Clamp BlendShapes (Deprecated)` which forces them to remain within the 0-100 range.
-* You can enable this `Clamp Blendshapes` option in the Player settings in the editor to replicate how it will work in game.
+* You can enable this `Clamp Blendshapes` option in the Player settings in the editor to replicate how it will work in game. In version 3.5.1 or newer of the VRChat SDK, this option is enabled automatically.
 
 ## Found a null list on a child object
 

@@ -1,6 +1,12 @@
+---
+description: Create menu toggles, buttons and sliders
+---
+
 # Toggle
 
-Use this for a normal "on / off" prop. For simple object props, click `Add Action +`, choose `Object toggle`, and then drag the object into the field. If you choose blendshape, the blendshape will be set to 100 when "on" (only works on root skinned meshes). For more advanced "on" states, you can provide an animation clip instead.
+> Create menu toggles, buttons and sliders
+
+Use this for a normal on/off toggle, button or slider. For simple object props, click `Add Action +`, choose `Object toggle`, and then drag the object into the field. You can also use any of the other [actions](/actions) available within VRCFury. For more advanced "on" states, you can provide an animation clip instead.
 
 ## Options
 
@@ -26,21 +32,14 @@ When a toggle is flagged with the `Security` flag, it can only be enabled when t
 ### Default On
 
 Automatically enables the prop or animation when the avatar loads. This is useful for idle animations or props that should be on by default.
+A toggle set to Default On will also be shown in the avatar's "Rest Pose".\
+The "Rest Pose" describes the in-game avatar selector, during full body calibration, and for users who have disabled your avatar's custom animations.
 
 _You can still disable the toggle in-game from your VRChat radial menu._
 
-### Show in Rest Pose
+### Show/Hide when animator disabled
 
-If set, this toggle will be enabled in the avatar's "Rest Pose".
-The toggle will shown "on" in the in-game avatar selector, during
-full body calibration, and for users who have disabled your avatar's
-animations.
-
-### Add PhysBone to Reset
-
-Got an animation that changes parameters on a physbone?
-
-Enable the `Add PhysBone to Reset` option and specify the PhysBone object. VRCFury will automatically flip the bone off and on any time your animation is run or reset, causing the physbone to reload your changed settings.
+If enabled, this toggle will either appear as enabled or disabled respectively in the avatar's "Rest Pose". Show will automatically swap to Hide if you enable `Default On`.
 
 ### Exclusive Tags
 

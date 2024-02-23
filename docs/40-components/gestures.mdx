@@ -1,31 +1,42 @@
+---
+description: Create animations based on hand gestures
+---
+
 # Gestures
 
-This is the one-stop shop for adding hand gestures to your avatar! For each hand gesture, choose
+> Create animations based on hand gestures
+
+This is the one-stop shop for adding hand gestures to your avatar! For each gesture, choose
 which hand is used for the gesture, and which hand sign needs to be acted. If
 you select COMBO, the gesture will only activate if you do the given gesture on both hands
-simultaneously. Use the + (Plus symbol) to set the animation clip / blend shape that
-your gesture will activate.
+simultaneously. Add any [action](/actions)(s) that your gesture should activate, like a Blendshape, Animation clip or Disable Blinking, which is useful when making a 'Closed Eyes' or 'Blink' gesture.
+
+:::warning
+Due to a Unity bug, reordering Gestures may [cause the Unity Editor to crash](https://github.com/VRCFury/VRCFury/issues/229). Avoid reordering gestures and save your scene regularly.
+:::
 
 ## Options
 
-### Disable Blinking when Active
-
-If enabled, this gesture will automatically prevent your avatar from blinking while the gesture
-is active. Useful if the gesture does something like sad eyes or eyes closed. Note: Only works
-if your avatar's blinking is controlled by the VrcFury Blink Controller.
-
 ### Customize Transition Time
 
-By default, gestures will active in 0.1 seconds. You can adjust this with this option.
+By default, gestures will blend for 0.1 seconds. You can adjust this with this option.
 
-### Gesture Lock
+### Add 'Gesture Lock' toggle to menu
 
 Set a menu path here, and an item will be created in your expression menu at the given path. The
 menu item will allow you to easily lock the gesture "on" without having to hold the hand sign.
 
-### Exclusive Tag
+### Enable Exclusive Tags
 
 If multiple gestures contain the same Exclusive Tag, only one can be active at a time. For instance,
 if you have a Sad and an Angry gesture, you could give them both the same tag, and the system will
-prevent them from being active simultaneously. The "highest" one in the list wins. A gesture
+prevent them from being active simultaneously. If there is a conflict, the highest gesture in the list takes priority. A gesture
 can have multiple Exclusive Tags separated by commas.
+:::note
+Exclusive Tags do not sync between VRCFury Gestures and Toggles
+:::
+
+### Use gesture weight (fist only)
+
+Uses the GestureWeight parameter to animate the action(s) gradually, similar to how a [Slider Toggle](/components/toggle#use-slider-wheel) drives an action. GestureWeight is based on how far you depressed either the trigger or grip button on your controller, depending on model.
+Note that you can only use this with the Fist gesture.

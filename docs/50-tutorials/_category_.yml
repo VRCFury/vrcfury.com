@@ -1,1 +1,5 @@
 label: Tutorials
+link:
+  slug: /tutorials
+  type: generated-index
+  description: These are tutorials that guide you on how to use VRCFury.
