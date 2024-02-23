@@ -1,0 +1,64 @@
+---
+description: Actions used in various VRCFury components
+---
+
+# Actions
+These are the actions used in various VRCFury components, such as Toggles, Gestures, Apply During Upload and more
+
+## Object Toggle
+`Turn On` turns the specified Object on, and sets the default state of the object to off, `Turn Off` does the opposite.\
+`Flip State (Deprecated)` simply flips the current state the object of in the editor. You may see this on toggles created in older versions of VRCFury.
+
+## BlendShape
+Animates a Blendshape to the defined value. By default, the Blendshape will be animated on all renderers/meshes of the avatar, you can also uncheck this and define certain meshes it should apply to.
+
+## Animation Clip
+Runs a provided pre-made animation clip. Useful if you want to animate something not supported by VRCFury Actions yet or non-static animations, such as a slider animating multiple blendshapes at different points. If `Loop Time` is checked on the provided animation clip, the animation will loop.
+:::tip
+When used in a Toggle, Gesture or other VRCFury component, VRCFury will first try to match the animation path relative to the object said VRCFury component is placed on. This means that if the object you are animating is a child of that component, you can move it anywhere on the avatar and the path will be adjusted automatically.\
+This is similar to how a [Full Controller](/components/full-controller) works.
+:::
+
+## Poiyomi Flipbook Frame
+Animates the current frame of a Poiyomi Flipbook on the specified renderer to the defined value.
+
+## Poiyomi UV Tile
+Sets up toggles for [Poiyomi UV Tile Discard](https://www.poiyomi.com/special-fx/uv-tile-discard).
+
+## SCSS Shader Inventory
+Similar to the Poiyomi UV Tile action, but for [Silent's SCSS](https://github.com/s-ilent/scss)
+
+## Material Property
+Animates a Material Property on the specified renderer to the defined value. In many shaders, you can simply right click a slider or value to copy its name. If your shader supports locking, make sure to mark the Material Property you are animating as animated.
+If the Material Property should be applied to all renderers on the avatar, enable `Apply to all renderers`. This is useful for avatar-wide toggles such as Audiolink or lighting modifications\
+Note: Material Properties will be applied across the entire renderer, this is a unity limitation. If your shader has any, This can be avoided by using the Renaming function of your shader, for example [Poiyomi Rename Animated](https://www.poiyomi.com/general/locking#rename-animated).
+
+## Scale
+Scales the specified object to the defined multiplier. Note that this is not the absolute scale value, but rather a multiplier. For example, an object set to an absolute scale of 0.75 will be animated to ab absolute scale of 1.5 by a Scale action set to a multipler of 2.
+
+## Material Swap
+Swaps the material on the specified renderer and material slot to the defined material. Note that unity starts counting material slots at 0. If you are unsure of the slot number you want to animate, look at the Element number shown in the `Skinned Mesh Renderer` component on the mesh.
+
+## Enable SPS
+Enables SPS on an existing SPS Plug. Like an Object Toggle set to `Turn On`, this will also set the default state to off.
+
+## Set an FX Float
+Drives a `Float` type parameter in the FX animator controller to the defined value.\
+Can also be used to drive `Bool` or `Int` type parameters, but this is **less performant**. Consider using a Float instead, it can be used in the same way.
+:::warning
+This will cause the FX parameter to be 'animated', which means it cannot be used in a menu or otherwise controlled by VRChat.
+:::
+
+## Disable Blinking
+Sets the `Eyes & Eyelids` VRC Tracking Control to animation, disabling blinking and eye look. If you are using a VRCFury [Blink Controller](/components/other#blink-controller), it will also respect that Tracking Control value.
+
+## Disable Visemes
+Sets the `Mouth & Jaw` VRC Tracking Control to animation, disabling Visemes/Lipsync
+
+## Reset Physbone
+Turns the specified Physbone component off and on briefly, resetting it to its rest position and reloading any changed Physbone settings.\
+Useful if you have animations changing parameters on a Physbone.
+
+## Flipbook Builder
+Creates a flipbook-style animation with each page being one keyframe. You can add any amount of actions on each page, but all actions on a single page will be active at once. If you want the actions to be separate, create an individual page for each one of the actions you want separate.
+Mostly useful for creating [Slider Toggle Sets](/components/toggle#solution-2-create-a-slider), as it allows you to put various presets on the pages and flip through them using a slider wheel.

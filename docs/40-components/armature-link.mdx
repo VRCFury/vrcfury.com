@@ -10,3 +10,31 @@ Is your prop a skinned mesh that "attaches" to the bones of the root avatar? Arm
 
 You can also use this feature to attach an object to an avatar's bone. For instance, if your prop contains a
 empty that must be on the avatar's hand, you can use Armature Link to place it there.
+
+## Advanced Options
+
+### Search and Matching
+
+#### Link Modes
+Armature link offers several different link modes;
+* **Auto** selects Skin Rewrite if a mesh uses bones from the prop armature, or Reparent Root otherwise. In most cases, this setting should be kept as Auto.
+* **Skin Rewrite** rewrites meshes to use the avatar's bones, effectively merging the bones and minimizing bone count.
+* **Reparent Root** reparents the selected prop object to the specified `Link To` target
+* **Merge as Children** Deprecated. Same as Skin Rewrite.
+* **Bone Constraint** Deprecated. Same as Skin Rewrite.
+
+#### Remove bone suffix/prefix
+
+If set, this substring will be removed from all bone names in the prop. This is useful for props where the artist added something like _PropName to the end of every bone, breaking Armature Link in the process. If empty, the suffix will be predicted based on the difference between the name of the given root bones.
+In nearly all cases, this should be left empty.
+
+### Positioning and Alignment
+
+#### Keep bone offsets
+If no, prop bones will be rigidly locked to the transform of the corresponding avatar bone, effectively nulling the position, scale and rotation offset from it.
+If yes, prop bones will maintain their offset to the corresponding avatar bone. This is unusual and will prevent scale detection from working and prevent the linked bones from adjusting to moved/scaled/rotated avatar bones, if any. When designing new clothes, this should be avoided
+If auto, bone offsets will only be kept
+
+## Debug info
+This will display where the prop will be merged, what Link Mode will be used and if Bone Offsets will be kept.\
+If there are any prop bones that Armature Link did not find an match for in the avatar's armature, they will also be displayed in Debug Info. These bones will be added as new children. In most cases these are bones like Skirt bones, Strings, Straps

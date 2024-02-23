@@ -6,11 +6,14 @@ description: Merge an entire pre-made animator controller into the avatar
 
 > Merge an entire pre-made animator controller into the avatar
 
-This is usually only useful for prefab artists. Provide a controller, menu, and params, and it will be merged into your client's avatar automatically. If you're working on your own avatar, you should usually just add these things to your avatar's own controller, menu, and params instead.
+This is mostly useful for prefab creators. Provide an animator controller, VRChat expression menu, and expression parameters, and it will be merged into an avatar automatically. 
+If you're working on your own avatar, you should usually just add these things to your avatar's own controller, menu, and params instead.
 
-NOTE: Animation clips in your specified controller should have animated paths relative
+:::note
+Animation clips in your specified controller should have animated paths relative
 to your prop's root. VRCF will automatically add prefixes to all the animations so they
 work wherever it is installed on the avatar. If you wish to animate properties on the avatar
 itself (outside of your prop), you can specify a path from the root of the avatar (as you traditionally would), and they will
 still work. VRCFury will automatically determine if the path is from the avatar root or from the prop root, and rewrite them
 appropriately if needed.
+:::
