@@ -37,7 +37,7 @@ Note: Material Properties will be applied across the entire renderer, this is a 
 Scales the specified object to the defined multiplier. Note that this is not the absolute scale value, but rather a multiplier. For example, an object set to an absolute scale of 0.75 will be animated to ab absolute scale of 1.5 by a Scale action set to a multipler of 2.
 
 ## Material Swap
-Swaps the material on the specified renderer and material slot to the defined material. Note that unity starts counting material slots at 0. If you are unsure of the slot number you want to animate, look at the Element number shown in the `Skinned Mesh Renderer` component on the mesh.
+Swaps the material on the specified renderer and material slot to the defined material. Note that unity starts counting material slots at 0. If you are unsure of the slot number you want to animate, look at the Element number shown in the `Renderer` component on the mesh.
 
 ## Enable SPS
 Enables SPS on an existing SPS Plug. Like an Object Toggle set to `Turn On`, this will also set the default state to off.
@@ -53,7 +53,7 @@ This will cause the FX parameter to be 'animated', which means it cannot be used
 Sets the `Eyes & Eyelids` VRC Tracking Control to animation, disabling blinking and eye look. If you are using a VRCFury [Blink Controller](/components/other#blink-controller), it will also respect that Tracking Control value.
 
 ## Disable Visemes
-Sets the `Mouth & Jaw` VRC Tracking Control to animation, disabling Visemes/Lipsync
+Sets the `Mouth & Jaw` VRC Tracking Control to animation, disabling Visemes/Lipsync. If you are using VRCFury [Advanced Visemes](/components/other#advanced-visemes), it will also respect that Tracking Control value.
 
 ## Reset Physbone
 Turns the specified Physbone component off and on briefly, resetting it to its rest position and reloading any changed Physbone settings.\

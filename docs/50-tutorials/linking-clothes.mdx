@@ -37,9 +37,9 @@ Linking the clothing armature "attaches" the clothes to your avatar's bones. Bew
 If the clothes were designed for your avatar but created using an improper base rig, they may appear to **shrink, expand, or flip upside down**. If the clothes look proper in the editor when not in play mode, you can usually fix this by going into the Armature Link **Advanced Options** section, and changing `Keep bone offsets` to `Yes`. This should be avoided when designing new clothes, since it prevents scale detection from working.
 :::
 
-## B. Linking the blendshapes (optional)
+## B. Linking the Blendshapes (optional)
 
-If the clothing has blendshapes with the same names as the ones on the avatar's body, you can link them automatically.
+If the clothing has Blendshapes with the same names as the ones on the avatar's body, you can link them automatically.
 
 1. Add a `VRCFury | Blendshape Link` component below the Armature Link component you made earlier.
 
@@ -67,5 +67,6 @@ If your clothes have blendshape names that differ from the base, eg. spelled dif
 4. The debug info box will show the blendshapes which are linked. If you linked additional blendshapes, verify that they appear here.
 
 :::warning
-Blendshapes driven by VRChat directly like Visemes, Blinking or Look Up/Down are special and cannot be linked by Blendshape Link as they are not driven through animations.
+Blendshapes driven by VRChat directly like Visemes or Blinking are special and cannot be linked by Blendshape Link as they are not driven through animations.\
+If you need to link these Blendshapes, either merge the meshes using an app like blender, or use an [Advanced Visemes](/components/other#advanced-visemes) or [Blink Controller](/components/other#blink-controller) component.
 :::

@@ -31,9 +31,8 @@ VRCFury.
 ## Toggles or other properties "stick" or do not work at all
 
 * This is most likely because of a [broken Write Defaults mix](/technical/wd#mixed-write-defaults). 
-* Check any of your VRCFury component's headers for a `W` next to the version number. This indicates that you clicked `Skip and stop asking` when VRCFury detected a (likely) broken WD mix and asked whether or not it should try to fix it for you automatically. 
-* If this is the case, find the [VRCFury | Fix Write Defaults](/other#fix-write-defaults) component under your avatar's root, and change it from `Disabled` to `Auto`
-* In case Auto causes other issues or breaks something, please report this on the [VRCFury Discord]
+* Look for a [VRCFury | Fix Write Defaults](/components/other#fix-write-defaults) component under your avatar's root (the same object containing the VRC Avatar Descriptor), and change it from `Disabled` to `Auto`. `Disabled` This indicates that you clicked `Skip and stop asking` when VRCFury detected a (likely) broken WD mix and asked whether or not it should try to fix it for you automatically. 
+* In case `Auto` causes other issues or breaks something, please report this on the [VRCFury Discord].
 
 ## 'Client' does not contain a definition for 'Resolve' {#2019-vrm}
 
