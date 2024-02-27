@@ -18,14 +18,18 @@ appropriately if needed. If the path is found on both, the prop root will be pre
 
 :::note
 VRCFury will automatically convert any merged controllers to either Write Defaults `on` or `off`, matching what is used on the avatar.
-Therefore, you should use Write Defaults `on` for merged controllers, as converting from `off` to `on` will cause the 'stickiness' of properties to be lost.
+Therefore, you should use Write Defaults `on` for merged controllers, as converting from `off` to `on` will cause the 'stickiness' of properties to be lost. Converting from `on`to `off` does not have this problem.
 :::
 
 ## Advanced Options
 
 ### Global Parameters
-Parameters used in a Full Controller will have a `VF##` prefix added to prevent parameter conflicts with other props or features on the avatar, effectively isolating the Full Controller from the rest of the avatar. 
+Normally, parameters used in a Full Controller will have a `VF##` prefix added to prevent parameter conflicts with other props or features on the avatar, effectively isolating the Full Controller from the rest of the avatar. Parameters defined in this list will not be prefixed and have their name kept as is, allowing you to interact with parameters in the avatar itself or other instances of the prop.
 
+If you want to make all parameters global, you can do so by entering a `*`. If you want to make all parmeters global except for a few, you can mark specific parameters as not global by prefixing them with a `!`.
+:::note
+[VRChat global parameters](https://creators.vrchat.com/avatars/animator-parameters/#parameters) (such as `GestureLeft/Right` or `IsLocal`) are included by default.
+:::
 ### Smooth Parameters
 All parameters listed here that are found in FX controllers listed above will have their values smoothed. The duration represents how many seconds it should take to reach 90% of the target value.
 
@@ -35,5 +39,5 @@ This allows you to rewrite the binding paths used in the animation clips used in
 ## Debug info
 This will show any animation paths in the merged controllers not found as children of the object on which the Full Controller component is placed on. If you want the prop to be reusable, you should make use of the Binding Rewrite Rules feature in `Advanced Settings` to rewrite these paths so they work with how the objects are located within the object. If you intend to animate these paths as absolute paths from the avatar root, you can ignore this as VRCFury will also try matching the paths from the avatar root.
 
-A warning will be displayed here if a controller using Write Defaults `off` is detected due to the issue mentioned in the note above.
+A warning will be displayed here if a controller using Write Defaults `off` is detected due to the issue mentioned in the note at the top.
 
