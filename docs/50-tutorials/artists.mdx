@@ -22,7 +22,7 @@ This comes with a couple additional benefits:
 
 ## Link your asset to the user's armature
 
-If you are making a clothing prefab that contains an armature matching the one in a user's avatar (the bones are named the same), you can add a [VRCFury | Armature Link](components/armature-link) component to your prefab. After setting it up according to the [Linking Clothes](linking-clothes) tutorial, this will automatically rewrite the skinned meshes (clothes) in your prefab so that they are instead weighted to the avatar's matching bones. This saves on bone count, is simpler to install, and is even more performant than having the user "drag and drop" all the bones onto the avatar by hand.
+If you are making a clothing prefab that contains an armature matching the one in a user's avatar (the bones are named the same), you can add a [VRCFury | Armature Link](/components/armature-link) component to your prefab. After setting it up according to the [Linking Clothes](linking-clothes) tutorial, this will automatically rewrite the skinned meshes (clothes) in your prefab so that they are instead weighted to the avatar's matching bones. This saves on bone count, is simpler to install, and is even more performant than having the user "drag and drop" all the bones onto the avatar by hand.
 
 Even more importantly, since VRCFury is 100% non-destructive, the user can just delete your clothes prefab, and there will be no clothing "bones" left all over the place.
 

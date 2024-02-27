@@ -8,8 +8,10 @@ description: Attach clothing, props, etc to bones on the avatar
 
 Is your prop a skinned mesh that "attaches" to the bones of the root avatar? Armature Link is what you need! Give it the root bone (hips) within your prop and the path to that same root bone in the avatar, and VRCFury will automatically attach the mesh to the avatar's bones. Just make sure the bones you want to link are all in the same order and have the same names.
 
-You can also use this feature to attach an object to an avatar's bone. For instance, if your prop contains a
+You can also use this component to attach an object to an avatar's bone. For instance, if your prop contains a
 empty that must be on the avatar's hand, you can use Armature Link to place it there.
+
+Animating an Armature Linked object? No problem! Armature Link will automatically rewrite any animation clips pointing to the original path of the object to the new path after it is moved.
 
 ## Advanced Options
 
