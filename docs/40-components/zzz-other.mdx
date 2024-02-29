@@ -14,10 +14,14 @@ Benefits:
 * You can use bone transforms in your visemes, meaning you can open your jaw rather than using an "open mouth" Blendshape.
 * This can enhance some features, such as tongue movement, while your mouth is open during speech.
 
-## Anchor Override Fix
+## Anchor Override Fix 
 
 Adding this component ensures that all of your avatar meshes use the same anchor override, which ensures
 different meshes receive the same environment lighting level.
+
+## Apply During Upload
+
+This component can apply any [action](/actions) on your avatar during the upload/build process. Useful if you want to show a property like a blendshape on your avatar in the editor but have it "off" when uploading.
 
 ## Blendshape Link
 
@@ -47,39 +51,46 @@ This component ensures that every mesh on your avatar has a suitably large bound
 VRChat introduces roll to your eye bones in some circumstances, making it appear that you've gone cross-eyed.
 Adding this fix will solve this problem automatically through a combination of rotation constraints to eliminate roll.
 
-## Direct Tree Optimizer
-
-If you add this component to your avatar, VRCFury will attempt to convert all "plain" toggle layers on your avatar into a compressed
-direct blend-tree. This reduces the number of animator layers on your avatar, which can have a meaningful improvement on performance
-(frame time).
-
-## Fix Write Defaults
-
-This component will automatically align Write Defaults for every state on your avatar. If will automatically prefer whichever your avatar is "closest to," meaning it will select On or Off depending on which requires the fewest changes to your avatar. If you'd like, you can override the selection and Force Off or Force On. Yes, it's magic.
-
-## Apply During Upload
-
-This component can apply any [action](/actions) on your avatar during the upload/build process. Useful if you want to show a property like a blendshape on your avatar in the editor but have it "off" when uploading.
-
 ## Delete During Upload
 
 Deletes the entire object, and all children of the object it is added to during the upload/build process. No other VRCFury components stored within will be processed.
+
+## Direct Tree Optimizer
+
+If you add this component to your avatar, VRCFury will attempt to convert all non-conflicting animator layers on your avatar into a single
+direct blend tree layer. This reduces the number of animator layers on your avatar, which can result in a significant improvement on performance
+(frametime) of your avatar. Various VRCFury components that add animator logic like Toggles, Gestures, Full Controllers, SPS or Advances Visemes will automatically have this optimization applied.
+
+## Droppable (World Constraint)
+
+This component will allow you to 'drop' the object it is added to in the world, whenever you enable the toggle added in your menu.
+
+## Fix Write Defaults
+
+This component will automatically align Write Defaults for every state on your avatar. It will automatically prefer whichever your avatar is "closest to," meaning it will select On or Off depending on which requires the fewest changes to your avatar. If you'd like, you can override the selection and Force Off or Force On. Yes, it's magic.
 
 ## Gizmo
 
 All this does is show an editor gizmo. It does nothing in game. Useful primarily for prop artists
 who wish to identify something on their prop without including it in the upload.
 
+## MMD Compatibility
+
+This component will improve MMD compatibility for your avatar, by maintaining MMD blendshapes when using a [Blendshape Optimizer](/components/other#blendshape-optimizer), avoiding usage of layers that MMD worlds are known to interfere with, and disabling hand animations when MMD dances are active.
+Under advanced options, you can define additional animator layers that are to be disabled, or a global bool that is to be set to true when MMD is detected.
+
 ## Move Menu Item
 
-Can move a menu item, either already on the avatar, or one created by VRCFury. Simply enter the path you'd like to move from and move to. For example:
+Can move a menu item like a toggle or submenu, either already on the avatar, or one created by VRCFury. Simply enter the path you'd like to move from and move to. For example:
 
-* From: `My Folder/Clothing/Shirt`
-* To: `Cool Stuff/Clothes/Shirt`
+* From Path: `My Folder/Clothing/Shirt`
+* To Path: `Cool Stuff/Clothes/Shirt`
+
+Leaving the `To Path` field blank will delete the menu item.
 
 ## Override Menu Icon
 
-Will override the icon for the given item in your menu.
+Will override the icon for the given item and path in your menu.
 
 ## Override Menu Settings
 
@@ -89,9 +100,20 @@ Allows you to change VRCFury's default "Next" menu item, when there are too many
 
 When present, this component eliminates any features in your avatar's non-VRCFury controllers that use hand gestures. This is useful if you'd like to implement your own hand gestures with VRCFury, don't want them to conflict with ones that came with a base avatar, and don't want to edit them manually.
 
-## Security Lock
+## Security Pin Number
 
-This component allows you to set a pin number which, when entered in your avatar's Security submenu, will unlock any VRCFury Toggles which you've marked with the [Security](/components/toggle#protect-with-security) flag.
+This component will add a `Security` submenu in your avatar's menu. Until the correct pin number is entered:
+* All objects with a [VRCFury | Security Restricted](/components/other#security-restricted) component will be disabled.
+* All VRCFury Toggles marked with the `Security` flag will be forced Off.
+
+The pin number can be between 4 and 10 digits long, only numbers between 1-7 can be used.
+
+## Security Restricted
+
+Any object this component is placed on will be forcefully disabled until a Security Pin is entered is entered in your avatar's menu.
+:::note
+You MUST have a [VRCFury | Security Pin Number](/components/other#security-pin-number) component on your avatar's root with a pin number set, or this will not do anything!
+:::
 
 ## Senky Gesture Driver
 
@@ -103,7 +125,7 @@ This component uses constraints to always show the object that it is placed on a
 
 ## Toes Puppet
 
-Given an animation for up, down, and out, this creates a puppet for toe control in your menu.
+Given an action for down, up and splay, this creates a puppet for toe control in your menu.
 
 ## When-Talking State
 

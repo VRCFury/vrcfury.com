@@ -22,12 +22,16 @@ Saves toggle state between worlds and avatar changes. Use this for options such 
 
 ### Use Slider Wheel
 
-Convert the toggle into a radial slider. 0 will be the avatar default state, and 100 will be your "enabled" state.
-If `Default On` is enabled, a starting value can be set.
+Convert the toggle into a radial slider. 0% will be the avatar default state, and 100% will be your "enabled" state.
+
+If you want to use [Exclusive Tags](/components/toggle#exclusive-tags) or [Transition States](/components/toggle#enable-transition-state) with this toggle, you must enable `Zero is 'Off' (Advanced) which will turn the toggle entirely 'off' when the slider is at 0%, meaning that NOTHING will be animated at 0%. It is unusual to check this, but required to use the Options mentioned above.
 
 ### Protect with Security
 
-When a toggle is flagged with the `Security` flag, it can only be enabled when the [Security Lock](/components/other#security-lock) feature is unlocked on your avatar.
+When a toggle is flagged with the `Security` flag, it can only be enabled when the pin number defined in the [Security Pin Number](/components/other#security-pin-number) is entered in your avatar's menu.
+:::note
+You MUST have a [VRCFury | Security Pin Number](/components/other#security-pin-number) component on your avatar's root with a pin number set, or this will not do anything!
+:::
 
 ### Default On
 
