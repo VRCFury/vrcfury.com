@@ -62,3 +62,21 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury buffers all tracking control changes and triggers them only once the avatar is not in an MMD station
 * The VRCSDK incorrectly applies android validations while in windows mode if you select the android tab in the inspector of a texture asset
   * VRCFury automatically syncs this setting back to the proper value when the vrcsdk dialog loads and when a build begins
+* VRCFury removes the built-in unity "Toggle", "Dropdown" and "Toggle Group" components from the Add Component menu, as they are not usable
+  during avatar creation, and cause confusion when creating an avatar Toggle.
+* AudioLink in the editor does not automatically attach to newly-created renderers after entering play mode.
+  * VRCFury reinitializes all AudioLink components in the scene after an avatar's preprocessor hooks have run.
+* Av3Emualator throws errors and breaks if an animator in the scene disappears or has its controller changes after play mode has begun
+  * VRCFury reinitializes Av3Emu after an avatar's preprocessor hooks have run
+* Importing Poiyomi or the VRCSDK from an avatar package when they are already installed breaks the project for users who do not know to exclude them from the import
+  * VRCFury prevents Poiyomi or VRCSDK asset files from being imported if they are already detected in the project.
+* Poiyomi locks down all materials when preprocessor hooks are run in play mode in versions before 9
+  * VRCFury patches Poiyomi's LockMaterialsOnUpload to never apply while in play mode.
+* VRCSDK contacts do not properly distinguish between "Self" and "Others" when testing in editor play mode
+  * VRCFury automatically adjusts the playerId on avatar contacts in play mode to make "Self" and "Others" work properly.
+* Unity does not properly apply changes from nested prefabs when those changes are made externally (for example, using version management) until the outer prefab is reimported
+  * VRCFury automatically recursively triggers unity to reimport prefabs in inside-out order prior to loading their vrcfury components
+* Users accidentally hide console errors and then complain that there are no script errors when checking
+  * VRCFury ensures the Error logging level is enabled in the unity console whenever scripts are reloaded
+* Users accidentally go into pause mode forever and then complain that Gesture Manager does not work properly
+  * VRCFury ensures pause mode and "Error Pause" are both disabled when scripts are reloaded
