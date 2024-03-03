@@ -50,8 +50,10 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury automatically resolves all of these issues (only if you opt into VRCFury MMD Compatibility)
 * When you delete an int controller parameter and recreate it as a bool, all controller transitions using that parameter will say "True", even though internally they are broken and will never transition.
   * VRCFury automatically corrects these transitions to work if the bool is true, as indicated by the editor.
-* When you delete or change the type of a parameter, attempting to use the controller will cause unity to abort the controller entirely, breaking the avatar in the editor and in game
+* When you delete or change the type of a parameter, but have conditions expecting the old type, attempting to use the controller will cause unity to abort the controller entirely, breaking the avatar in the editor and in game
   * VRCFury automatically removes these transitions, as they are never valid
+* When you delete a float parameter and recreate it as an int, unity will internally respect the old float thresholds even though the editor displays them as floored
+  * VRCFury automatically updates the internal thresholds to reflect the value displayed in the editor
 * If one of the controllers on the avatar descriptor is set to "None", unity animation states temporarily reset in between frames, causing Audio Sources to restart every frame
   * VRCFury automatically replaces "None" controllers with an empty replacement
 * Non-mobile materials are still included in the quest upload bundle if they are used in animations
