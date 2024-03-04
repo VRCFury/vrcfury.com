@@ -82,3 +82,8 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury ensures the Error logging level is enabled in the unity console whenever scripts are reloaded
 * Users accidentally go into pause mode forever and then complain that Gesture Manager does not work properly
   * VRCFury ensures pause mode and "Error Pause" are both disabled when scripts are reloaded
+* Avatars with WD on will incorrectly always select the default value of material properties from the first material slot, even if that material doesn't have the property.
+  * Strangely, this issue only happens in-game and is not reproducible in the editor
+  * VRCFury resolves this issue by detecting these cases and forcefully records the default state in a top defaults layer, even if WD is on.
+* Many avatars upload with VRC's default Action controller, even though it's impossible to trigger any of the dances due to a customized menu.
+  * VRCFury automatically removes the default VRC action controller if the menu on the avatar descriptor does not use VRCEmote.
