@@ -47,7 +47,7 @@ then change the shader on the material from `Raliv/Penetrator` to `Standard` (or
 > You can keep them as is (SPS is backward-compatible), or you can upgrade them automatically with<br/>
 > **Tools > VRCFury > SPS > Upgrade Legacy Haptics!**
 
-## How to Test in the editor
+## Testing in the Editor
 
 * Ensure you have [Gesture Manager](https://github.com/BlackStartx/VRC-Gesture-Manager) installed (Available in the VCC "Manage Your Project")
 * If you are testing a plug, add a test Socket to your scene (see above). It does not need to be inside your avatar.
@@ -59,6 +59,8 @@ plain DPS plugs by selecting them, then clicking Tools > VRCFury > SPS > Upgrade
 * If you are testing a socket on the avatar, be sure to turn it on in the "SPS" menu in Gesture Manager
 * Move things around and have fun!
 
+> Note: A bug in the unity editor can cause plugs to continue deforming when all sockets are disabled. This does not occur in game.
+
 ## How to move/rename the generated "SPS" menu
 
 SPS sockets that you create automatically include a menu toggle to turn them on and off in game. If you would like to move those toggles:
@@ -66,21 +68,6 @@ SPS sockets that you create automatically include a menu toggle to turn them on 
 * At the bottom of the Inspector on the right, click `Add Component` and search for `SPS Options`.
 * In the new component's `Menu Path` box, type where you'd like it to be in your menu. The default is `SPS`.
   * If you'd like it to be in a submenu like "Props", you'd put `Props/SPS`
-
-## Troubleshooting
-
-### Plug continues deforming in editor even when all sockets are disabled
-
-A bug in the unity editor causes shaders to receive old light positions when all lights have been disabled. This
-does not occur in game.
-
-### Plug seems to work in the editor, but doesn't deform in game
-
-Ensure you have `Avatar Self Interact` enabled in the VRChat settings menu.
-
-import selfInteract from '../assets/sps/self-interact.png';
-
-<img src={selfInteract} width="300px"/>
 
 ## Disabling SPS Plug deformation using a toggle or other animation
 
@@ -95,19 +82,38 @@ in the SPS Plug component on or off within your own animation clip.
 
 There are some limitations on how SPS plugs can be manipulated in animations.
 
-*These are allowed:*
+**These are allowed:**
+
 1. You can animate the scale (uniformly) any PARENT object of the SPS Plug object
 2. You can animate blendshapes of the SPS Plug's renderer, but only if you add the blendshape name to the "Animated Blendshapes" list on the plug component, and only if they DO NOT impact the plug's length
 3. You can position, rotate, scale, or use blendshapes in the editor's "default pose" (not within an animation)
 
-*These are not allowed:*
+**These are not allowed:**
+
 1. You CANNOT animate the position, rotation, or scale of any bone belonging to the SPS Plug's renderer that is not a parent of the SPS plug object
 2. You CANNOT animate blendshapes that impact the plug's length
 
-*So how do you "lengthen" a plug in an animation without increasing its girth?*
+**So how do you "lengthen" a plug in an animation without increasing its girth?**
+
 In your animation, you can scale up the overall mesh (uniformly), then create and use a blendshape to reduce its radius. Remember, blendshapes should not impact plug length.
 
-Note: All of these limitations only apply while deformation is enabled. If SPS plug deformation is disabled by animating off the "Animated Toggle" box on the SPS plug, then you can go nuts and do whatever you want.
+> Note: All of these limitations only apply while deformation is enabled. If SPS plug deformation is disabled by animating off the "Animated Toggle" box within the SPS plug component, then you can go nuts and do whatever you want.
+
+## Troubleshooting
+
+### Plug seems to work in the editor, but doesn't deform in game
+
+Ensure you have `Avatar Self Interact` enabled in the VRChat settings menu.
+
+import selfInteract from '../assets/sps/self-interact.png';
+
+<img src={selfInteract} width="300px"/>
+
+### Plug works in game for sockets on my avatar, but not for sockets on other avatars
+
+Ensure the other player has allowed interactions for you. You should see a yellow hand in their name card when your menu is open.
+
+You should also verify that they actually have their socket enabled in the SPS menu. Verify if their socket works for others to determine if the issue is on your end or theirs.
 
 ### Other question?
 
