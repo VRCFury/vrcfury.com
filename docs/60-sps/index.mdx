@@ -101,7 +101,7 @@ In your animation, you can scale up the overall mesh (uniformly), then create an
 
 ## Troubleshooting
 
-### Plug seems to work in the editor, but doesn't deform in game
+### Plug seems to work in the editor, but doesn't deform in game?
 
 Ensure you have `Avatar Self Interact` enabled in the VRChat settings menu.
 
@@ -109,11 +109,17 @@ import selfInteract from '../assets/sps/self-interact.png';
 
 <img src={selfInteract} width="300px"/>
 
-### Plug works in game for sockets on my avatar, but not for sockets on other avatars
+### Plug works in game for sockets on my avatar, but not for sockets on other avatars?
 
 Ensure the other player has allowed interactions for you. You should see a yellow hand in their name card when your menu is open.
 
 You should also verify that they actually have their socket enabled in the SPS menu. Verify if their socket works for others to determine if the issue is on your end or theirs.
+
+### Deformation works, but depth animations / sounds do not work?
+
+Plugs and sockets stored within worlds, and un-upgraded DPS (not SPS) on other avatars, cannot trigger depth animations because they do not contain contacts.
+Ask the other player to install VRCFury and run `Tools > VRCFury > SPS > Upgrade Legacy Haptics` to upgrade their DPS with contacts.
+There is no solution to this problem for objects stored within worlds.
 
 ### Other question?
 
