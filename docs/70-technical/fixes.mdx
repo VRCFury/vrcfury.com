@@ -87,3 +87,9 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury resolves this issue by detecting these cases and forcefully records the default state in a top defaults layer, even if WD is on.
 * Many avatars upload with VRC's default Action controller, even though it's impossible to trigger any of the dances due to a customized menu.
   * VRCFury automatically removes the default VRC action controller if the menu on the avatar descriptor does not use VRCEmote.
+* When a physbone with Is Animated unchecked is placed on a humanoid bone (like the hips), it prevents that bone from animating even if the multi-child mode is set to Ignore.
+  * VRCFury automatically marks all physbones targeting humanoid bones as animated, to ensure that locomotion and full body animations can operate correctly.
+* Because of the way stereo cameras work in VR, objects with small bounding boxes can disappear when still in view, even if the bounding box is technically correct.
+  * VRCFury automatically increases the bounds of all renderers by up to one meter.
+  * Renderers using lights are left untouched (DPS/TPS/SPS).
+  * The bounds are not increased if they will impact the avatar's overall bounds, ensuring the performance rank will not be affected.
