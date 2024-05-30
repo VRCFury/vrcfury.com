@@ -1,15 +1,17 @@
 ---
-description: Merge an entire pre-made animator controller into the avatar
+description: Merge an entire pre-made animator controller, expression menu and parameters into the avatar
 ---
 
 # Full Controller
 
-> Merge an entire pre-made animator controller into the avatar
+> Merge an entire pre-made animator controller, expression menu and parameters into the avatar
 
 This is mostly useful for prefab creators. Provide an animator controller, VRChat expression menu, and expression parameters, and it will be merged into an avatar automatically. 
 If you're working on your own avatar, you should usually just add these things to your avatar's own controller, menu, and params instead. Advanced users may use this component for modularity.
 
-Animation clips in your specified controller should have animated paths relative
+### Animation Paths
+
+Animation clips in your specified controller should usually have animated paths relative
 to your prop's root. VRCFury will automatically rewrite any animation paths so they
 work anywhere on the avatar.\
 If you wish to animate properties on the avatar outside of the prop, you can specify a path from the root of the avatar (as you traditionally would), and they will
@@ -24,7 +26,7 @@ Therefore, you should use Write Defaults `on` for merged controllers, as convert
 ## Advanced Options
 
 ### Global Parameters
-Normally, parameters used in a Full Controller will have a `VF##` prefix added to prevent parameter conflicts with other props or features on the avatar, effectively isolating the Full Controller from the rest of the avatar. Parameters defined in this list will not be prefixed and have their name kept as is, allowing you to interact with parameters in the avatar itself or other instances of the prop.
+Normally, parameters used in a Full Controller will have a `VF##` prefix added to prevent parameter conflicts with other props or features on the avatar, effectively isolating the Full Controller from the rest of the avatar. Parameters defined in this list will not be prefixed and have their name kept as is, allowing you to interact with parameters in the avatar itself, other instances of the prop or with OSC apps that do not ignore the prefix.
 
 If you want to make all parameters global, you can do so by entering a `*`. If you want to make all parmeters global except for a few, you can mark specific parameters as not global by prefixing them with a `!`.
 :::note
@@ -37,7 +39,7 @@ All parameters listed here that are found in FX controllers listed above will ha
 This allows you to rewrite the binding paths used in the animation clips used in this controller. Useful if the animations in the controller were originally written to be based from a specific avatar root, but you are now trying to use it as a re-usable VRCFury prop.
 
 ## Debug info
-This will show any animation paths in the merged controllers not found as children of the object on which the Full Controller component is placed on. If you want the prop to be reusable, you should make use of the Path Rewrite Rules feature in `Advanced Settings` to rewrite these paths so they work with how the objects are located within the object. If you intend to animate these paths as absolute paths from the avatar root, you can ignore this as VRCFury will also try matching the paths from the avatar root.
+This will show any animation paths in the merged controllers not found as children of the object on which the Full Controller component is placed on. If you want the prop to be reusable, you should make use of the Path Rewrite Rules feature in Advanced Options to rewrite these paths so they work with how the objects are located within the object. If you intend to animate these paths as absolute paths from the avatar root, you can ignore this as VRCFury will also try matching the paths from the avatar root.
 
 A warning will be displayed here if a controller using Write Defaults `off` is detected due to the issue mentioned in the note at the top.
 

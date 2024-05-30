@@ -22,9 +22,9 @@ VRCFury.
 ### Still not fixed?
 
 * Open the Unity Console tab by pressing Ctrl+Shift+C Unity, then click Clear on the top left. Take note of any errors.
-* If there are errors related to AV3Manager, delete the folder for that plugin.
-* If there are errors related to AV3Emulator, delete the folder for that plugin and (optionally) use Gesture Manager instead.
-* If there are errors related to Poiyomi, delete the Assets/_PoiyomiShaders folder and import a fresh copy from their website.
+* If there are errors related to AV3Manager, remove it in the VCC or delete the folder for that plugin.
+* If there are errors related to AV3Emulator, remove it in the VCC or delete the folder for that plugin and (optionally) use Gesture Manager instead.
+* If there are errors related to Poiyomi, reimport it using the VCC from https://poiyomi.github.io/vpm/.
 * If there are errors related to Gesture Manager, ensure it is up to date in the VCC or get a fresh copy from their github.
 * If there are errors related to some other script, try deleting it if you don't need it.
 
@@ -32,7 +32,7 @@ VRCFury.
 
 * This is most likely because of a [broken Write Defaults mix](/technical/wd#mixed-write-defaults). 
 * Look for a [VRCFury | Fix Write Defaults](/components/other#fix-write-defaults) component under your avatar's root (the same object containing the VRC Avatar Descriptor), and change it from `Disabled` to `Auto`. `Disabled` indicates that you clicked `Skip and stop asking` when VRCFury detected a (likely) broken WD mix and asked whether or not it should try to fix it for you automatically. 
-* In case `Auto` causes other issues or breaks something, please report this on the [VRCFury Discord].
+* In case `Auto` causes other issues or breaks something, please report this on the [VRCFury Discord](https://vrcfury.com/discord).
 
 ## 'Client' does not contain a definition for 'Resolve' {#2019-vrm}
 
