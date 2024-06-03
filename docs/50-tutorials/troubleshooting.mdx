@@ -14,9 +14,11 @@ VRCFury.
 
 ### Are you using the VCC **AND** do you have an `Assets/VRCSDK` folder in your project?
 
+import reinstallAll from '../assets/reinstall-all.png';
+
 * If so, you have two conflicting copies of the VRCSDK.
-* Delete Packages/com.vrchat.base and Packages/com.vrchat.avatars from your project using windows explorer
-* Open the VCC, go to Manage Your Project, and re-add the VRChat SDK - Avatars
+* Open the VCC, go to Manage Your Project, click the `...` button, and click `Reinstall All Packages`.
+* <img src={reinstallAll} width="300px"/>
 * This will automatically clean up the conflicting copy.
 
 ### Still not fixed?
