@@ -127,6 +127,13 @@ This component uses constraints to always show the object that it is placed on a
 
 Given an action for down, up and splay, this creates a puppet for toe control in your menu.
 
+## Unlimited Params (Beta)
+
+This component will optimize all synced menu-controlled Float and Int parameters into 16 total synced bits.
+
+Non menu-controlled parameters and parameters used in two/four axis puppets are not optimized as they might be driven by OSC for features like face tracking or used for puppeting things like tails, ears or other avatar features.
+This is to ensure real-time sync for those use cases.
+
 ## When-Talking State
 
 This is a very simple component which activates the given action(s) only while the user is "talking" (with any viseme).
