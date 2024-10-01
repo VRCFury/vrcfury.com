@@ -93,3 +93,27 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury automatically increases the bounds of all renderers by up to one meter.
   * Renderers using lights are left untouched (DPS/TPS/SPS).
   * The bounds are not increased if they will impact the avatar's overall bounds, ensuring the performance rank will not be affected.
+* Physbones not marked as Animated targeting humanoid bones completely break full-body animations, even if they are set to Ignore multi-child mode
+  * VRCFury automatically marks all physbones targeting humanoid bones as animated
+* VRCSDK fails upload if textures do not have "Streaming Mip-Maps" enabled
+  * VRCFury automatically clones textures and enables "Streaming Mip-Maps" on them if required by the VRCSDK
+* VRCSDK fails upload if menu icons are too large or uncompressed
+  * VRCFury automatically clones menu icons and resizes / compresses them to fit VRCSDK limits
+* VRCSDK fails upload if audio clips do not have "Load in Background" checked
+  * VRCFury automatically audio clips and enables this option when required
+* VRCFury automatically upgrades all unity constraints on the avatar to VRC Constraints during the upload
+  * In the rare situation that this breaks things, it can be disabled in Tools > VRCFury > Settings.
+* Certain particle system settings will cause VRChat to disable your avatar for "Security Checks"
+  * VRCFury will automatically correct these settings to not violate the VRChat restrictions.
+* VRCAnimatorPlayAudio audio clips are included in the upload during android builds, even though they cannot play
+  * VRCFury removes all VRCAnimatorPlayAudio behaviours from android builds to save space in your upload bundle
+* Params in the FX controller with invalid parameter types break synchronization of the mirror clone
+  * VRCFury automatically removes all controller parameters with invalid types
+* Reloading scripts in the editor breaks things if you are in play mode
+  * VRCFury automatically changes unity's "Compilation During Play" setting to "Recompile After Finished Playing" if it is set to "Recompile And Continue Playing"
+* Unity can segfault during the avatar build if certain methods are called after using the VRCSDK's custom thumbnail camera
+  * VRCFury unsets the unity main camera before executing to prevent this issue
+* VRChat Expression Parameters are synced between platforms by order and type (sorta) rather than by name, making it very difficult to keep platform sync working properly with non-destructive frameworks
+  * VRCFury automatically aligns and corrects the order of parameters within mobile builds to match the last desktop build of the same blueprint ID. Missing parameters are replaced with a placeholder, and extra parameters have network sync disabled (with a warning).
+* Having the VRCSDK in a project creates a useless folder called XR in the Assets root
+  * VRCFury automatically moves the Assets/XR folder into its own temporary package to keep your project clean
