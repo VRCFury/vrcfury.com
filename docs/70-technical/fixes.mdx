@@ -117,3 +117,11 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury automatically aligns and corrects the order of parameters within mobile builds to match the last desktop build of the same blueprint ID. Missing parameters are replaced with a placeholder, and extra parameters have network sync disabled (with a warning).
 * Having the VRCSDK in a project creates a useless folder called XR in the Assets root
   * VRCFury automatically moves the Assets/XR folder into its own temporary package to keep your project clean
+* VRCSDK opens an empty Animator window that cannot be closed if scripts reload while viewing a Parameter Driver
+  * VRCFury patches this issue to not occur
+* Unity Animator Controller editors spam the console with "Invalid Layer Index" and shows incorrect layer weight and parameter values while viewing an avatar controlled by a controller mixer (Gesture Manager or av3emu)
+  * VRCFury patches the animator controller editor to work properly with controller mixers
+* The VRCSDK opens switches back to the Authentication tab every time you reload scripts
+  * VRCFury automatically switches the VRCSDK to the Builder tab if you are already logged in when scripts reload
+* The VRCSDK spams the console with "Animator is not playing an AnimatorController" before the animator loads if your avatar contains contacts
+  * VRCFury patches this issue to not occur
