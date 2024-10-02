@@ -4,18 +4,10 @@ Creating a Quest version of your avatar is something beyond the scope of VRCFury
 optimized version of your mesh, creating alternative versions of your materials using only mobile shaders,
 and choosing what props and materials you are going to leave off.
 
-However, for toggles and menu options to sync properly between Desktop and Quest, the parameters for each must
-be identical, and **in the same order**. The easiest way to do this on an avatar with VRCFury is to follow these steps:
-
-* Your Quest avatar should start as an identical copy of your Desktop avatar. If you understand prefabs, you may even
-  want your Quest version to be a prefab variant of your desktop version.
-* On the copy, do not delete any objects or VRCFury scripts. Deleting VRCFury scripts may cause some parameters to be
-  missing from the quest version, preventing VRChat's parameter sync from working properly.
-* If you wish to delete a mesh, light, or item, delete the Mesh Renderer component or other components from the objects,
-  while leaving the VRCFury components in place. Again, do not delete entire objects.
-* Replace materials and meshes with optimized / mobile versions if desired.
-* If you still seem to have issues with toggles not syncing between platforms properly, you can go into play mode
-  on each version, and check VRCFury's generated "parameters" file on the avatar descriptor in play mode. If the parameters
-  do not match exactly, the missing parameter may give you a hint about what is missing between the two versions.
-* If you are using VRCFury's `Unlimited Parameters` component, you also need to make sure that your Menu matches between the two versions,
-  otherwise it may optimize different parameters between the two platforms.
+**NEW in October 2024** - For avatars using VRCFury 1.1088+:
+* You CAN use different parameter files between your desktop and mobile versions
+* You CAN remove entire assets and parameters from the mobile version without it messing up sync
+* You MUST always upload your desktop version FIRST, followed by your mobile versions
+* If you use separate projects for desktop/mobile, you MUST use the same version of VRCFury in each
+* If you change something in your desktop version which would result in different parameters, you MUST re-upload the mobile versions after uploading your desktop change
+* Desktop and mobile versions must be uploaded from the same PC (a local temporary file is used to pass data about the desktop upload to the mobile project)
