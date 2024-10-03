@@ -5,8 +5,11 @@ slug: /fixes
 
 # Automatic Fixes
 
-When a VRCFury component or prop is placed anywhere on an avatar, several fixes are activated by default. These fixes are applied
-to resolve common VRChat and Unity bugs that we have deemed safe to apply in all scenarios.
+When VRCFury is present in a project, it applies several fixes to resolve common VRChat and Unity bugs.
+
+## Avatars
+
+**Note**: The fixes in this section **only** apply if your avatar contains any VRCFury component.
 
 * VRChat does not support Animator Override Controllers
   * VRCFury automatically flattens Animator Override Controllers on your descriptor, making them compatible with VRChat.
@@ -62,31 +65,9 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury buffers all tracking control changes and repeats them several times as the avatar is loaded
 * Animator Tracking Control behaviors from various unrelated plugins can break MMD dances
   * VRCFury buffers all tracking control changes and triggers them only once the avatar is not in an MMD station
-* The VRCSDK incorrectly applies android validations while in windows mode if you select the android tab in the inspector of a texture asset
-  * VRCFury automatically syncs this setting back to the proper value when the vrcsdk dialog loads and when a build begins
-* VRCFury removes the built-in unity "Toggle", "Dropdown" and "Toggle Group" components from the Add Component menu, as they are not usable
-  during avatar creation, and cause confusion when creating an avatar Toggle.
-* AudioLink in the editor does not automatically attach to newly-created renderers after entering play mode.
-  * VRCFury reinitializes all AudioLink components in the scene after an avatar's preprocessor hooks have run.
-* Av3Emualator throws errors and breaks if an animator in the scene disappears or has its controller changes after play mode has begun
-  * VRCFury reinitializes Av3Emu after an avatar's preprocessor hooks have run
-* Importing Poiyomi or the VRCSDK from an avatar package when they are already installed breaks the project for users who do not know to exclude them from the import
-  * VRCFury prevents Poiyomi or VRCSDK asset files from being imported if they are already detected in the project.
-* Poiyomi locks down all materials when preprocessor hooks are run in play mode in versions before 9
-  * VRCFury patches Poiyomi's LockMaterialsOnUpload to never apply while in play mode.
-* VRCSDK contacts do not properly distinguish between "Self" and "Others" when testing in editor play mode
-  * VRCFury automatically adjusts the playerId on avatar contacts in play mode to make "Self" and "Others" work properly.
-* Unity does not properly apply changes from nested prefabs when those changes are made externally (for example, using version management) until the outer prefab is reimported
-  * VRCFury automatically recursively triggers unity to reimport prefabs in inside-out order prior to loading their vrcfury components
-* Users accidentally hide console errors and then complain that there are no script errors when checking
-  * VRCFury ensures the Error logging level is enabled in the unity console whenever scripts are reloaded
-* Users accidentally go into pause mode forever and then complain that Gesture Manager does not work properly
-  * VRCFury ensures pause mode and "Error Pause" are both disabled when scripts are reloaded
 * Avatars with WD on will incorrectly always select the default value of material properties from the first material slot, even if that material doesn't have the property.
   * Strangely, this issue only happens in-game and is not reproducible in the editor
   * VRCFury resolves this issue by detecting these cases and forcefully records the default state in a top defaults layer, even if WD is on.
-* Many avatars upload with VRC's default Action controller, even though it's impossible to trigger any of the dances due to a customized menu.
-  * VRCFury automatically removes the default VRC action controller if the menu on the avatar descriptor does not use VRCEmote.
 * When a physbone with Is Animated unchecked is placed on a humanoid bone (like the hips), it prevents that bone from animating even if the multi-child mode is set to Ignore.
   * VRCFury automatically marks all physbones targeting humanoid bones as animated, to ensure that locomotion and full body animations can operate correctly.
 * Because of the way stereo cameras work in VR, objects with small bounding boxes can disappear when still in view, even if the bounding box is technically correct.
@@ -109,24 +90,61 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury removes all VRCAnimatorPlayAudio behaviours from android builds to save space in your upload bundle
 * Params in the FX controller with invalid parameter types break synchronization of the mirror clone
   * VRCFury automatically removes all controller parameters with invalid types
+* VRChat Expression Parameters are synced between platforms by order and type (sorta) rather than by name, making it very difficult to keep platform sync working properly with non-destructive frameworks
+  * VRCFury automatically aligns and corrects the order of parameters within mobile builds to match the last desktop build of the same blueprint ID. Missing parameters are replaced with a placeholder, and extra parameters have network sync disabled (with a warning).
+
+## VRCSDK
+
+* The VRCSDK incorrectly applies android validations while in windows mode if you select the android tab in the inspector of a texture asset
+  * VRCFury automatically syncs this setting back to the proper value when the vrcsdk dialog loads and when a build begins
+* VRCSDK contacts do not properly distinguish between "Self" and "Others" when testing in editor play mode
+  * VRCFury automatically adjusts the playerId on avatar contacts in play mode to make "Self" and "Others" work properly.
+* Having the VRCSDK in a project creates a useless folder called XR in the Assets root
+  * VRCFury automatically moves the Assets/XR folder into its own temporary package to keep your project clean
+* The VRCSDK opens an empty Animator window that cannot be closed if scripts reload while viewing a Parameter Driver
+  * VRCFury patches this issue to not occur
+* The VRCSDK switches back to the Authentication tab every time you reload scripts
+  * VRCFury automatically switches the VRCSDK to the Builder tab if you are already logged in when scripts reload
+* The VRCSDK spams the console with "Animator is not playing an AnimatorController" before the animator loads if your avatar contains contacts
+  * VRCFury patches this issue to not occur
+* The VRCSDK spams the unity console with AmplitudeAPI errors if your network uses pihole or adguard
+  * VRCFury hides these messages from the console, since they are non-actionable and clutter actual errors that the user is looking for
+
+## Unity
+
+* VRCFury removes the built-in unity "Toggle", "Dropdown" and "Toggle Group" components from the Add Component menu, as they are not usable
+  during avatar creation, and cause confusion when creating an avatar Toggle.
+* Unity 2019 does not properly apply changes from nested prefabs when those changes are made externally (for example, using version management) until the outer prefab is reimported
+  * VRCFury automatically recursively triggers unity to reimport prefabs in inside-out order prior to loading their vrcfury components
+  * This bug is resolved in Unity 2022
+* Users accidentally hide console errors and then complain that there are no script errors when checking
+  * VRCFury ensures the Error logging level is enabled in the unity console whenever scripts are reloaded
+* Users accidentally go into pause mode forever and then complain that Gesture Manager does not work properly
+  * VRCFury ensures pause mode and "Error Pause" are both disabled when scripts are reloaded
 * Reloading scripts in the editor breaks things if you are in play mode
   * VRCFury automatically changes unity's "Compilation During Play" setting to "Recompile After Finished Playing" if it is set to "Recompile And Continue Playing"
 * Unity can segfault during the avatar build if certain methods are called after using the VRCSDK's custom thumbnail camera
   * VRCFury unsets the unity main camera before executing to prevent this issue
-* VRChat Expression Parameters are synced between platforms by order and type (sorta) rather than by name, making it very difficult to keep platform sync working properly with non-destructive frameworks
-  * VRCFury automatically aligns and corrects the order of parameters within mobile builds to match the last desktop build of the same blueprint ID. Missing parameters are replaced with a placeholder, and extra parameters have network sync disabled (with a warning).
-* Having the VRCSDK in a project creates a useless folder called XR in the Assets root
-  * VRCFury automatically moves the Assets/XR folder into its own temporary package to keep your project clean
-* VRCSDK opens an empty Animator window that cannot be closed if scripts reload while viewing a Parameter Driver
-  * VRCFury patches this issue to not occur
 * Unity Animator Controller editors spam the console with "Invalid Layer Index" and shows incorrect layer weight and parameter values while viewing an avatar controlled by a controller mixer (Gesture Manager or av3emu)
   * VRCFury patches the animator controller editor to work properly with controller mixers
-* The VRCSDK opens switches back to the Authentication tab every time you reload scripts
-  * VRCFury automatically switches the VRCSDK to the Builder tab if you are already logged in when scripts reload
-* The VRCSDK spams the console with "Animator is not playing an AnimatorController" before the animator loads if your avatar contains contacts
-  * VRCFury patches this issue to not occur
 * A bug in Mono breaks the VRCSDK dialog when Harmony is used, the system locale is non-english, and the project path contains non-english characters
   * VRCFury patches Mono to prevent this issue from occurring to the VRCSDK and other plugins using Assembly.GetName()
-* The VRCSDK spams the unity console with AmplitudeAPI errors if your network uses pihole or adguard
-  * VRCFury hides these messages from the console, since they are non-actionable and clutter actual errors that the user is looking for
 
+## AudioLink
+
+* AudioLink in the editor does not automatically attach to newly-created renderers after entering play mode.
+  * VRCFury reinitializes all AudioLink components in the scene after an avatar's preprocessor hooks have run.
+
+## Av3Emulator
+
+* Av3Emualator throws errors and breaks if an animator in the scene disappears or has its controller changes after play mode has begun
+  * VRCFury reinitializes Av3Emu after an avatar's preprocessor hooks have run
+
+## Package Importer
+* Importing Poiyomi or the VRCSDK from an avatar package when they are already installed breaks the project for users who do not know to exclude them from the import
+  * VRCFury prevents Poiyomi or VRCSDK asset files from being imported if they are already detected in the project.
+
+## Poiyomi
+
+* Poiyomi locks down all materials when preprocessor hooks are run in play mode in versions before 9
+  * VRCFury patches Poiyomi's LockMaterialsOnUpload to never apply while in play mode.
