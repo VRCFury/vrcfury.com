@@ -96,6 +96,13 @@ Will override the icon for the given item and path in your menu.
 
 Allows you to change VRCFury's default "Next" menu item, when there are too many items to fit on a page.
 
+## Parameter Compressor (Beta)
+
+This component will optimize all synced menu-controlled Float and Int parameters into 16 total synced bits.
+
+Non menu-controlled parameters and parameters used in two/four axis puppets are not optimized as they might be driven by OSC for features like face tracking or used for puppeting things like tails, ears or other avatar features.
+This is to ensure real-time sync for those use cases.
+
 ## Remove Hand Gestures
 
 When present, this component eliminates any features in your avatar's non-VRCFury controllers that use hand gestures. This is useful if you'd like to implement your own hand gestures with VRCFury, don't want them to conflict with ones that came with a base avatar, and don't want to edit them manually.
@@ -126,13 +133,6 @@ This component uses constraints to always show the object that it is placed on a
 ## Toes Puppet
 
 Given an action for down, up and splay, this creates a puppet for toe control in your menu.
-
-## Unlimited Params (Beta)
-
-This component will optimize all synced menu-controlled Float and Int parameters into 16 total synced bits.
-
-Non menu-controlled parameters and parameters used in two/four axis puppets are not optimized as they might be driven by OSC for features like face tracking or used for puppeting things like tails, ears or other avatar features.
-This is to ensure real-time sync for those use cases.
 
 ## When-Talking State
 
