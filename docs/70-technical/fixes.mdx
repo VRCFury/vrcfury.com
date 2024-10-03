@@ -125,3 +125,8 @@ to resolve common VRChat and Unity bugs that we have deemed safe to apply in all
   * VRCFury automatically switches the VRCSDK to the Builder tab if you are already logged in when scripts reload
 * The VRCSDK spams the console with "Animator is not playing an AnimatorController" before the animator loads if your avatar contains contacts
   * VRCFury patches this issue to not occur
+* A bug in Mono breaks the VRCSDK dialog when Harmony is used, the system locale is non-english, and the project path contains non-english characters
+  * VRCFury patches Mono to prevent this issue from occurring to the VRCSDK and other plugins using Assembly.GetName()
+* The VRCSDK spams the unity console with AmplitudeAPI errors if your network uses pihole or adguard
+  * VRCFury hides these messages from the console, since they are non-actionable and clutter actual errors that the user is looking for
+
