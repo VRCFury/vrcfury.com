@@ -92,6 +92,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury automatically removes all controller parameters with invalid types
 * VRChat Expression Parameters are synced between platforms by order and type (sorta) rather than by name, making it very difficult to keep platform sync working properly with non-destructive frameworks
   * VRCFury automatically aligns and corrects the order of parameters within mobile builds to match the last desktop build of the same blueprint ID. Missing parameters are replaced with a placeholder, and extra parameters have network sync disabled (with a warning).
+* Expression menu items with an invalid type show up as "Button" in the editor, but break in game and in editors
+  * VRCFury converts invalid menu item types to Button to match what is shown in the editor
 
 ## VRCSDK
 
