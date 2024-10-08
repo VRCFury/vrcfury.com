@@ -65,6 +65,7 @@ When:
 Then:
 * The lowest layer "claims" ownership of the muscle the first time it is animated, preventing any higher layer from ever animating that muscle
 * Moving to a state no longer animating the muscle does not release ownership
+* Moving to a state with NO BINDINGS (including invalid bindings) temporarily releases ownership, but it will be reclaimed immediately upon moving to another state with any bindings
 
 Possible Fixes
 * Use WD on
