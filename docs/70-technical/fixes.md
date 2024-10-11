@@ -133,6 +133,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury patches the animator controller editor to work properly with controller mixers
 * A bug in Mono breaks the VRCSDK dialog when Harmony is used, the system locale is non-english, and the project path contains non-english characters
   * VRCFury patches Mono to prevent this issue from occurring to the VRCSDK and other plugins using Assembly.GetName()
+* Unity throws a NullReferenceException in "UnityEditor.Graphs.Edge.WakeUp" when reloading scripts if an empty animator has been open recently
+  * VRCFury fixes this unity bug and prevents the error
 
 ## AudioLink
 
