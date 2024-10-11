@@ -111,6 +111,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury patches this issue to not occur
 * The VRCSDK spams the unity console with AmplitudeAPI errors if your network uses pihole or adguard
   * VRCFury hides these messages from the console, since they are non-actionable and clutter actual errors that the user is looking for
+* Because of a unity bug, VRCSDK's AnimatorPlayAudioEditor can throw an exception after scripts reload if the editor was previously used on a behaviour that has since been deleted (unity does not clean up old behaviour editors properly)
+  * VRCFury patches AnimatorPlayAudioEditor's OnEnable callback to properly return early if the targeted behaviour has been deleted
 
 ## Unity
 
