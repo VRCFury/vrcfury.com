@@ -34,7 +34,10 @@ Linking the clothing armature "attaches" the clothes to your avatar's bones. Bew
 5. You're done! The clothes should now be be properly attached to your avatar when you upload or go into play mode. In rare circumstances, some clothing may require changes in the Advanced Settings section of Armature Link. Join the VRCFury discord if you have questions.
 
 :::warning
-If the clothes were designed for your avatar but created using an improper base rig, they may appear to **shrink, expand, or flip upside down**. If the clothes look proper in the editor when not in play mode, you can usually fix this by going into the Armature Link **Advanced Options** section, and changing `Keep bone offsets` to `Yes`. This should be avoided when designing new clothes, since it prevents scale detection from working.
+If the clothes were designed for your avatar but created using an improper base rig, they may appear to **shrink, expand, or flip upside down**.
+This can happen if the clothes were incorrectly exported with bone rotations that didn't match the avatar's bones.
+If the clothes look proper in the editor when not in play mode, you can usually fix this by going into the Armature Link **Advanced Options** section, and unchecking `Align Rotation`.
+This should be avoided when designing new clothes, since it prevents clothes from applying to avatars that are posed in the editor.
 :::
 
 ## B. Linking the Blendshapes (optional)
