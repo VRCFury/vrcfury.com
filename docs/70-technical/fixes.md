@@ -140,7 +140,7 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury fixes this unity bug and prevents the error
 * Unity reloads all scripts and scenes when entering play mode
   * VRCFury automatically disables play mode domain reload and scene reload, which greatly speeds up entering play mode, and is (at this point) compatible with basically all unity plugins
-* Mesh data optimization takes FOREVER during avatar uploads, and is not a required process
+* Unity's "Mesh Data Optimization" takes FOREVER during avatar uploads, and is not a required process
   * Mesh data optimization removes unused UV channels from meshes if it determines the UVs are unused by all attached shaders
   * The duration of this process scales with the number and complexity of shaders used. Since poiyomi creates a unique shader for each material, this complexity grows extremely fast.
   * Unused UV channels are already quite rare (why would a model have them if they are not used?), and an entire UV channel is only half the size of one single blendshape.
