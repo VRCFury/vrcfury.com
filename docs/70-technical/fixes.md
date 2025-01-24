@@ -113,6 +113,9 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury hides these messages from the console, since they are non-actionable and clutter actual errors that the user is looking for
 * Because of a unity bug, VRCSDK's AnimatorPlayAudioEditor can throw an exception after scripts reload if the editor was previously used on a behaviour that has since been deleted (unity does not clean up old behaviour editors properly)
   * VRCFury patches AnimatorPlayAudioEditor's OnEnable callback to properly return early if the targeted behaviour has been deleted
+* Some versions of the VRCSDK break the testing of contacts in play mode
+  * https://feedback.vrchat.com/sdk-bug-reports/p/race-condition-in-contactmanager-often-crashes-contacts-in-the-editor
+  * VRCFury patches the VRCSDK to resolve this issue
 
 ## Unity
 
@@ -135,6 +138,13 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury patches Mono to prevent this issue from occurring to the VRCSDK and other plugins using Assembly.GetName()
 * Unity throws a NullReferenceException in "UnityEditor.Graphs.Edge.WakeUp" when reloading scripts if an empty animator has been open recently
   * VRCFury fixes this unity bug and prevents the error
+* Unity reloads all scripts and scenes when entering play mode
+  * VRCFury automatically disables play mode domain reload and scene reload, which greatly speeds up entering play mode, and is (at this point) compatible with basically all unity plugins
+* Mesh data optimization takes FOREVER during avatar uploads, and is not a required process
+  * Mesh data optimization removes unused UV channels from meshes if it determines the UVs are unused by all attached shaders
+  * The duration of this process scales with the number and complexity of shaders used. Since poiyomi creates a unique shader for each material, this complexity grows extremely fast.
+  * Unused UV channels are already quite rare (why would a model have them if they are not used?), and an entire UV channel is only half the size of one single blendshape.
+  * VRCFury automatically disables this optimizer to massively speed up avatar builds
 
 ## AudioLink
 
