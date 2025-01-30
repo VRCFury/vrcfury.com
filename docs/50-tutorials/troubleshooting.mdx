@@ -145,11 +145,8 @@ component on your main avatar object (next to your VRC Avatar Descriptor) and cl
 
 `Ambiguous match found. Check the unity console for details.`
 
-* Open the VCC, go to your project and click `Manage Your Project`
-* Ensure VRCFury is listed as installed. If it's not, follow the instructions at https://vrcfury.com/download
-* If it already is, click the `...` button, and click `Reinstall All Packages`
-* <img src={reinstallAll} width="300px"/>
-* Do not import any VRCFury `.unitypackage` files from now on. Only the VCC installation method is supported.
+You have a version of VRCFury installed in your project that is so old (several years) that it cannot be automatically removed.
 
-If the issue continues:
 * Using windows explorer, open Packages/manifest.json in notepad (or a text editor of your choice) and remove all lines containing the word `vrcfury`. There may be more than one.
+* Check if the issue is resolved. If it's not, search your project's Assets folder for folders or files named VRCFury or VRCFury Installer, and remove them.
+* Check if the issue is resolved. If it's not, remove and re-add VRCFury from the project in the Creator Companion.
