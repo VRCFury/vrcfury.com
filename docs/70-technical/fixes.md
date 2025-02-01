@@ -116,6 +116,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 * Some versions of the VRCSDK break the testing of contacts in play mode
   * https://feedback.vrchat.com/sdk-bug-reports/p/race-condition-in-contactmanager-often-crashes-contacts-in-the-editor
   * VRCFury patches the VRCSDK to resolve this issue
+* A bug in the VRCSDK prints an error message related to "stopwatch" when using play mode for the first time after scripts reload
+  * VRCFury patches the VRCSDK to fix this bug
 
 ## Unity
 
