@@ -24,21 +24,20 @@ Linking the clothing armature "attaches" the clothes to your avatar's bones. Bew
 
 ![image](assets/linking-clothes/230132323-fa7422c1-f883-4d3c-b498-ad100bf0a617.png)
 
-
 4. Find the root bone of your clothing's armature (in most cases this is Hips), and drag it into the armature link `Link From (Prop / Clothing)` box. (Note, if the main clothing bone isn't the hips, you may need to adjust the `Link To` dropdown to match!)
 
 ![image](assets/linking-clothes/230132683-8d76bb60-4de3-4b24-bc05-fc53b145f98b.png)
 
 ![image](assets/linking-clothes/230132775-ecb27869-a61f-4f0f-82e3-7dcdc01d6b5b.png)
 
-5. You're done! The clothes should now be be properly attached to your avatar when you upload or go into play mode. In rare circumstances, some clothing may require changes in the Advanced Settings section of Armature Link. Join the VRCFury discord if you have questions.
+5. You're done! The clothes should now be properly attached to your avatar when you upload or go into play mode. In rare circumstances, some clothing may require changes in the Advanced Settings section of Armature Link. Join the VRCFury discord if you have questions.
 
-:::warning
+### Warning about mis-matched rigs
+
 If the clothes were designed for your avatar but created using an improper base rig, they may appear to **shrink, expand, or flip upside down**.
 This can happen if the clothes were incorrectly exported with bone rotations that didn't match the avatar's bones.
 If the clothes look proper in the editor when not in play mode, you can usually fix this by going into the Armature Link **Advanced Options** section, and unchecking `Align Rotation`.
 This should be avoided when designing new clothes, since it prevents clothes from applying to avatars that are posed in the editor.
-:::
 
 ## B. Linking the Blendshapes (optional)
 
@@ -69,9 +68,10 @@ If your clothes have blendshape names that differ from the base, eg. spelled dif
 
 4. The debug info box will show the blendshapes which are linked. If you linked additional blendshapes, verify that they appear here.
 
-:::warning
-Blendshapes driven by VRChat directly like Visemes or Blinking are special and cannot be linked by Blendshape Link as they are not driven through animations.\
+### Warning about Visemes and Blink blendshapes
+
+Blendshapes driven by VRChat directly, like Visemes or Blinking, are special and cannot be linked by Blendshape Link as they are not driven through animations.
+
 If you need to link these Blendshapes, either merge the meshes using an app like blender, or use an [Advanced Visemes](/components/other#advanced-visemes) or [Blink Controller](/components/other#blink-controller) component.
 Note: Advanced Visemes are created using a simplified estimation of VRChat's visemes. They may appear more "jerky" or "robotic." If you are attaching an item directly to the face,
 where perfect sync with the face mesh is important, your only real option is to either merge in blender, or live with jerky visemes and use Advanced Visemes for both the base mesh and the addon (disabling visemes in the VRC avatar descriptor entirely).
-:::
