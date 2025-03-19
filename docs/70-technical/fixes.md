@@ -113,10 +113,11 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury hides these messages from the console, since they are non-actionable and clutter actual errors that the user is looking for
 * Because of a unity bug, VRCSDK's AnimatorPlayAudioEditor can throw an exception after scripts reload if the editor was previously used on a behaviour that has since been deleted (unity does not clean up old behaviour editors properly)
   * VRCFury patches AnimatorPlayAudioEditor's OnEnable callback to properly return early if the targeted behaviour has been deleted
-* Some versions of the VRCSDK break the testing of contacts in play mode
-  * https://feedback.vrchat.com/sdk-bug-reports/p/race-condition-in-contactmanager-often-crashes-contacts-in-the-editor
+* Some versions of the VRCSDK [break the testing of contacts in play mode](https://feedback.vrchat.com/sdk-bug-reports/p/race-condition-in-contactmanager-often-crashes-contacts-in-the-editor)
   * VRCFury patches the VRCSDK to resolve this issue
 * A bug in the VRCSDK prints an error message related to "stopwatch" when using play mode for the first time after scripts reload
+  * VRCFury patches the VRCSDK to fix this bug
+* [Dynamics and contacts stop working](https://feedback.vrchat.com/sdk-bug-reports/p/376-dynamics-only-work-the-first-time-you-enter-play-mode) after the first time you enter play mode in VRCSDK 3.7.6
   * VRCFury patches the VRCSDK to fix this bug
 
 ## Unity
@@ -147,6 +148,10 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * The duration of this process scales with the number and complexity of shaders used. Since poiyomi creates a unique shader for each material, this complexity grows extremely fast.
   * Unused UV channels are already quite rare (why would a model have them if they are not used?), and an entire UV channel is only half the size of one single blendshape.
   * VRCFury automatically disables this optimizer to massively speed up avatar builds
+* Dragging a controller state, by even a single pixel, while previewing a controller in play mode, immediately disables the animator and breaks gesture manager
+  * VRCFury prevents you from dragging controller states while previewing them in live-link
+* Unity's controller layer list scrolls all the way to the top any time you move or delete a layer
+  * VRCFury patches this issue
 
 ## AudioLink
 
