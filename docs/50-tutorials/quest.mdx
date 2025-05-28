@@ -4,10 +4,13 @@ Creating a Quest version of your avatar is something beyond the scope of VRCFury
 optimized version of your mesh, creating alternative versions of your materials using only mobile shaders,
 and choosing what props and materials you are going to leave off.
 
-**NEW in October 2024** - For avatars using VRCFury 1.1088+:
+If VRCFury is used on your desktop avatar in any way, it will automatically assist in fixing all parameter alignment issues
+in your mobile uploads. Just follow these rules:
+
+* Parameters that you want to sync between platforms should have the exact same name (order no longer matters!)
 * You CAN use different parameter files between your desktop and mobile versions
 * You CAN remove entire assets and parameters from the mobile version without it messing up sync
 * You MUST always upload your desktop version FIRST, followed by your mobile versions
 * If you use separate projects for desktop/mobile, you MUST use the same version of VRCFury in each
 * If you change something in your desktop version which would result in different parameters, you MUST re-upload the mobile versions after uploading your desktop change
-* Desktop and mobile versions must be uploaded from the same PC (a local temporary file is used to pass data about the desktop upload to the mobile project)
+* Desktop and mobile versions MUST be uploaded from the same PC (a local temporary file is used to pass data about the desktop upload to the mobile project)
