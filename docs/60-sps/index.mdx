@@ -21,7 +21,12 @@ full backward-compatible replacement for DPS (Dynamic Penetration System by Rali
 <div style={{fontSize: 13, marginTop: -20, marginBottom: 20}}>(Known as a "Penetrator" in other systems)</div>
 
 * [Ensure VRCFury is up to date](/download) (we're always adding features and fixing bugs!)
-* Tools > VRCFury > SPS > Create Plug
+* If you are upgrading an existing legacy plug:
+  * If the plug was DPS, change the shader for the plug's material from `Raliv/Penetrator` to `Standard` (or whatever other shader you want!)
+  * If the plug was TPS, disable the `Penetrator` checkbox on the Poiyomi material
+  * Remove any DPS `Tip` lights, which are commonly found in a child object named "Physics"
+  * Delete any existing `SPS Plug` components. These can often be found on the same object as the mesh renderer if the "VRCFury Haptic Upgrader" was previously run on the avatar
+* Click Tools > VRCFury > SPS > Create Plug
 * If your mesh is rigged (it has bones):
   * Drag the new object onto the bone nearest the "base" or "bottom" of the area that should deform
 * If your mesh is un-rigged (no bones):
@@ -32,11 +37,6 @@ full backward-compatible replacement for DPS (Dynamic Penetration System by Rali
   animation in the plug component's "Post-Bake Actions" box to pose it how you'd like it to be when not deforming.
 * Position the new SPS Plug object so that it's located at the "base" or "bottom" of the area that should deform
 * Rotate the new SPS Plug object so that the curved end is at the "tip" of the deformed area
-
-> **Upgrading from DPS?**<br/>Find the `Tip` object in the hierarchy, and remove the Light component,
-then change the shader on the material from `Raliv/Penetrator` to `Standard` (or whatever other shader you want!)
-
-> **Upgrading from TPS?**<br/>Disable the `Penetrator` checkbox on the Poiyomi material
 
 ## How to Set-up a Socket
 <div style={{fontSize: 13, marginTop: -20, marginBottom: 20}}>(Known as an "Orifice" in other systems)</div>
