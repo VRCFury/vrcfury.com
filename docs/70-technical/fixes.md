@@ -119,6 +119,12 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury patches the VRCSDK to fix this bug
 * [Dynamics and contacts stop working](https://feedback.vrchat.com/sdk-bug-reports/p/376-dynamics-only-work-the-first-time-you-enter-play-mode) after the first time you enter play mode in VRCSDK 3.7.6
   * VRCFury patches the VRCSDK to fix this bug
+* The VRCSDK collider editor automatically reverts custom collider transforms any time you look at the component
+  * VRCFury prevents this from happening when in play mode, so custom collider transforms will appear properly while testing
+* Avatar colliders can be unset, or set to incorrect transforms, if the rig is modified and then vrcsdk collider section is not viewed afterward
+  * VRCFury forces the VRCSDK to recalculate collider transforms at the beginning of each build (they can still be persistently customized by using a VRCFury Global Collider or Advanced Collider component)
+* The VRCSDK collider editor doesn't mirror offsets properly if the avatar is not at x=0
+  * VRCFury patches the mirroring logic so that colliders mirror properly across the avatar origin. Colliders with mirroring enabled are also recalculated at the start of each avatar build.
 
 ## Unity
 
