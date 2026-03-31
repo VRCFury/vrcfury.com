@@ -36,7 +36,5 @@
       "last 1 safari version"
     ]
   },
-  "engines": {
-    "node": ">=16.14"
-  }
+  "packageManager": "pnpm@10.30.3"
 }
