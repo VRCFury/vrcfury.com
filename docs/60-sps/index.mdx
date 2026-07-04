@@ -148,6 +148,9 @@ Known examples:
 
 There is no solution to this issue. Disable SPS when in these areas, or select a different world.
 
+> Note: While this issue was technically fixable in the original design of SPS, we chose not to, as it would have added
+a performance penalty everywhere, to only fix these few worlds.
+
 ### Backward Compatibility breaks when too many lights are nearby
 
 DPS, TPS, and SPS v1 used lights to help with deformation. Unity imposes strict light limits, so when too many are nearby,
