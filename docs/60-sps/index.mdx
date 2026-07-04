@@ -121,14 +121,37 @@ Plugs and sockets stored within worlds, and un-upgraded DPS (not SPS) on other a
 Ask the other player to install VRCFury and run `Tools > VRCFury > SPS > Upgrade Legacy Haptics` to upgrade their DPS with contacts.
 There is no solution to this problem for objects stored within worlds.
 
-### Limitations
+## Known Issues
 
-The absolute max limits of things that can be near each other (assuming the world doesn't have its own lights messing with things) are:
-* 2 sockets with unlimited SPS plugs.
-* 1 socket with 2 DPS plugs and unlimited SPS plugs.
+### ScreenFX
 
-If there's a point light nearby in the world the limits are lowered to:
-* 1 socket with 1 DPS plug and unlimited sps plugs.
+ScreenFX which depend on depth, such as edge outlines, edge glow, etc, may not follow SPS plug deformation.
+You may see a "ghost" outline during this situation.
+There is no solution to this, either disable the effect in the world's menu if possible, or use a different world.
+
+### Realtime Unity Shadows
+
+Realtime Unity shadows do not follow SPS plug deformation.
+You may see "ghost" shadows inside of the mesh during this situation.
+Either disable "Receive Shadows" on the mesh in the editor (if your avatar's look would be compatible), or choose a different
+world that does not use realtime shadows (which are quite unusual). VRC Light Volumes still work properly.
+
+### Triangles Drawn on Screen
+
+In some extremely rare circumstates, you may see triangles visible on your screen when SPS is enabled (even if not deforming).
+This can happen in worlds which use a solid color in place of a skybox, or which use camera re-rendering tricks.
+
+Known examples:
+* Avatar Testing Chamber "Gray Room"
+* Avatar Testing Chamber center self-camera
+* Last Resort (Halo 3)
+
+There is no solution to this issue. Disable SPS when in these areas, or select a different world.
+
+### Backward Compatibility breaks when too many lights are nearby
+
+DPS, TPS, and SPS v1 used lights to help with deformation. Unity imposes strict light limits, so when too many are nearby,
+some of them are discarded. If you encounter this, ensure both parties are upgraded to SPS2, where light limits no longer apply.
 
 ### Other question?
 
