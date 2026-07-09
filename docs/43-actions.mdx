@@ -43,6 +43,19 @@ Swaps the material on the specified renderer and material slot to the defined ma
 ## Enable SPS
 Enables SPS on an existing SPS Plug. Like an Object Toggle set to `Turn On`, this will also set the default state to off.
 
+## Change SPS Tag
+Animates SPS2 tags on an SPS Plug or SPS Socket.
+
+This can be used to:
+
+* Set a plug include tag
+* Set a plug exclude tag
+* Toggle a plug's `Global` SPS2 tag on or off
+* Set a socket tag
+
+When targeting a plug, the action can also control whether the tag applies to `Self`, `Others`, or both.
+When targeting a socket, it edits one of that socket's 2 custom SPS2 tag slots.
+
 ## Set an FX Float
 Drives a `Float` type parameter in the FX animator controller to the defined value.\
 Can also be used to drive `Bool` or `Int` type parameters, but this is **less performant**. Consider using a Float instead, it can be used in the same way.

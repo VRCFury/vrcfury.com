@@ -1,9 +1,45 @@
-# Upgrade DPS to SPS
+# Upgrade to SPS2
 
-* Click the main object for your avatar in the hierarchy on the left
-* At the top of the window, click `Tools > VRCFury > SPS > Upgrade DPS to SPS`
-* A window should notify you of which objects will be upgraded. Be sure all your haptic zones are listed, then click OK!
-When your avatar is selected, you should see orange gizmos in the 3D View enveloping your the upgraded haptic zones.
-* Upload your avatar and you're done!
+SPS2 is now included in the latest stable VRCFury.
 
-> Note: If your avatar was previously setup using Fluff's Toolbox DPS Setup or Universal DPS Attachment System, your menu toggles may move into a new folder named `SPS`.
+## If you already use SPS
+
+If your avatar already uses VRCFury SPS components:
+
+* Update VRCFury to the latest version
+* Upload again
+
+That is usually all you need to do to get SPS2.
+
+After updating, review any plug and socket settings you care about, especially:
+
+* `Disable Depth Pass` on plugs
+* `Enable Legacy Compatibility` on sockets
+* SPS2 tags on plugs and sockets
+
+## If you still use DPS or TPS
+
+To convert legacy DPS setups:
+
+* Select the main object for your avatar
+* Click `Tools > VRCFury > SPS > Upgrade DPS to SPS`
+* Review the list of objects that will be upgraded
+* Click `OK`
+* Upload your avatar
+
+When your avatar is selected, you should see orange SPS gizmos in the Scene view around the upgraded areas.
+
+## Recommended cleanup after upgrading legacy content
+
+For old penetrators:
+
+* If the plug used DPS, change the material shader from `Raliv/Penetrator` to a normal shader such as `Standard`
+* If the plug used TPS, disable the `Penetrator` checkbox on the Poiyomi material
+* Remove old DPS `Tip` lights, often found in a child object named `Physics`
+* Remove any duplicate or stale old SPS Plug components if they were left behind by older setups
+
+## Legacy compatibility after upgrading
+
+SPS2 can still interact with SPS1, DPS, and TPS if the relevant legacy compatibility options remain enabled.
+
+If you want a fully SPS2-only setup, turn those off after everyone you care about has upgraded.

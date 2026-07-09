@@ -96,6 +96,7 @@ What is supported:
 
 * SPS plugs in worlds
 * SPS sockets in worlds
+* Current SPS2 deformation behavior, including tags, guided paths, radius offset, and legacy compatibility settings
 
 What is not currently part of the worlds pipeline:
 
@@ -154,32 +155,6 @@ VRCFury's uninstall path explicitly reorganizes program assets back to the vanil
 
 Do not remove VRCFury without disabling Udon Cleaner first -- the restore process will not happen and things will be broken.
 
-## Automatic fixes and compatibility patches
+## Automatic Fixes
 
-VRCFury for Worlds also ships a number of automatic fixes for common world-authoring issues.
-
-### UdonSharp and inspector fixes
-
-* Prevents the first draw of a UdonSharp inspector from clipping the component below it
-* Suppresses the `Value cannot be null` error spam that can appear during serialization/reimport edge cases
-* Fixes `Assets/Create/U# Script` when saving into a package outside the project root
-* Speeds up some UdonSharp upgrade/update passes by batching asset editing work
-
-### Play mode and build lifecycle fixes
-
-* Prevents `UdonBehaviour.OnDisable` from running during play mode teardown when the editor is already half-unloading the scene
-* Makes world play mode run build-request callbacks that the normal VRChat build path would run, improving parity between testing and real builds
-* On SDK versions that expose `ActiveBuildType`, fixes "Build & Reload" leaving the world build flag unset
-* Tracks materials referenced by Udon / UdonSharp in play mode and restores them when you leave play mode, so temporary runtime edits do not stick on disk by accident
-
-### ClientSim and console-noise fixes
-
-* Prevents overlapping ClientSim persistence saves from racing each other
-* Resets `ClientSimNetworkingUtilities` state when domain reload is disabled
-* Prevents ClientSim from deleting `EditorOnly` objects too early when scene reload is disabled
-* Suppresses common non-actionable log spam from ClientSim and VideoTXL
-
-### Third-party package fixes
-
-* If CommonTXL / Texel packages are present, VRCFury patches several scripts from `VRCPlayerApi[100]` to `VRCPlayerApi[200]`
-* If Bakery is present, VRCFury patches it to work properly with "Play Mode Options" (which make play mode start faster)
+Just like for Avatar projects, VRCFury patches many World-related editor issues, documented on the [Automatic Fixes](/fixes) page.

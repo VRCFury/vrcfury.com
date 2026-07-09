@@ -1,16 +1,40 @@
 # Avoid Using Constraints with SPS
 
-When setting up raliv DPS by hand, using parent constraints to move a single socket around may be helpful to ensure only one is enabled at a time (enabling more than that one can cause some very unusual issues!).
+SPS2 fixed a lot of the old SPS1 scaling problems, but constraints are still usually not the best way to move plugs or sockets around.
 
-So why not do this with SPS?
+Most of the time, it is simpler and more reliable to just place a separate socket wherever you want one.
 
-* **Constraints introduce massive amounts of jitter to contacts due to a vrchat bug.** This causes unexpected variations in depth animations and haptics.
-* **Deactivated lights have no impact on render performance**. It's not bad to have extra lights that are off.
-* **A single socket uses 2 lights, which already marks your vrchat avatar as "Very Poor."** Additional lights won't make your performance rank any worse.
-* Parent constraints are very slightly less performant than placing objects directly on their parent bone.
-* Re-using one socket prevents all SPS menu features from working, such as Auto mode, Dual mode, etc.
-* Re-used sockets cannot have separate animations.
-* OGB is unable to detect which specific haptics to activate if a socket is re-used since they all share the same parameter name.
-* When socket light and contact installation is automated by VRCFury, it already ensures only one can be active at a time.
+## Why
 
-To put it simply: **DON'T MIX SPS WITH CONSTRAINTS**
+* Even after all of VRC's fixes, constraints continue to introduce jitter to contacts and physbones in some rare cases. That jitter affects SPS contacts, depth animations, and haptics.
+* Re-using one socket in multiple places usually makes the setup harder to understand than just making two sockets.
+* A shared socket cannot have different tags, guided paths, menu state, animations, or legacy settings per location.
+* Auto Mode works better when each location has its own socket.
+* OGB and other haptics systems have a harder time telling which location is supposed to be active if multiple placements share one socket.
+* Constraints are still a little more fragile than just putting the SPS object where it belongs.
+
+## SPS2 note
+
+With SPS2, the old "I need to re-use sockets to save lights" reasoning mostly does not apply anymore.
+
+Pure SPS2 deformation does not need lights at all. If you are not using legacy compatibility, separate sockets are usually the cleanest option.
+
+Also, disabled sockets have **zero performance impact**. If a socket is off, there is usually no reason to bend the setup around trying to "save" it.
+
+## Performance
+
+If an avatar uses SPS, trying to squeeze it out of `Very Poor` is usually not a very useful goal.
+
+SPS is already a choice to spend performance on a feature you want. In practice, trying to optimize around VRChat rank cutoffs often leads to worse setup decisions than just building the SPS setup the clean way.
+
+The same goes for worlds with strict performance limits. If a world or event really cares about avatar performance restrictions, SPS is usually not a great fit there in the first place.
+
+## Recommendation
+
+If you can:
+
+* Put each socket directly on the bone or object where it belongs (or use Armature Link)
+* Give each location its own socket
+* Use tags, menu toggles, guided paths, and legacy compatibility settings directly on those sockets
+
+Short version: use constraints with SPS only when you really need to.

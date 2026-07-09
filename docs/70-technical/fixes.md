@@ -1,5 +1,5 @@
 ---
-description: Fixes that VRCFury applies to all avatars by default
+description: Automatic fixes that VRCFury applies for common VRChat, Unity, and package issues
 slug: /fixes
 ---
 
@@ -95,24 +95,31 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 * Expression menu items with an invalid type show up as "Button" in the editor, but break in game and in editors
   * VRCFury converts invalid menu item types to Button to match what is shown in the editor
 
-## VRCSDK
+## VRCSDK Base
+
+* Having the VRCSDK in a project creates a useless folder called XR in the Assets root
+  * VRCFury automatically moves the Assets/XR folder into its own temporary package to keep your project clean
+* The VRCSDK spams the unity console with AmplitudeAPI errors if your network uses pihole or adguard
+  * VRCFury hides these messages from the console, since they are non-actionable and clutter actual errors that the user is looking for
+* Some versions of the VRCSDK save assets for no useful reason during script reloads
+  * VRCFury removes that extra save step to reduce unnecessary scene and asset churn
+* A bug in Mono can make the VRCSDK builder fail to open when the system locale is non-English and the project path contains non-English characters
+  * VRCFury patches this so the builder still opens normally
+
+## VRCSDK Avatars
 
 * The VRCSDK incorrectly applies android validations while in windows mode if you select the android tab in the inspector of a texture asset
   * VRCFury automatically syncs this setting back to the proper value when the vrcsdk dialog loads and when a build begins
 * VRCSDK contacts do not properly distinguish between "Self" and "Others" when testing in editor play mode
-  * VRCFury automatically adjusts the playerId on avatar contacts in play mode to make "Self" and "Others" work properly.
-* Having the VRCSDK in a project creates a useless folder called XR in the Assets root
-  * VRCFury automatically moves the Assets/XR folder into its own temporary package to keep your project clean
+  * VRCFury automatically adjusts avatar contacts in play mode to make "Self" and "Others" work properly
 * The VRCSDK opens an empty Animator window that cannot be closed if scripts reload while viewing a Parameter Driver
   * VRCFury patches this issue to not occur
 * The VRCSDK switches back to the Authentication tab every time you reload scripts
   * VRCFury automatically switches the VRCSDK to the Builder tab if you are already logged in when scripts reload
 * The VRCSDK spams the console with "Animator is not playing an AnimatorController" before the animator loads if your avatar contains contacts
   * VRCFury patches this issue to not occur
-* The VRCSDK spams the unity console with AmplitudeAPI errors if your network uses pihole or adguard
-  * VRCFury hides these messages from the console, since they are non-actionable and clutter actual errors that the user is looking for
-* Because of a unity bug, VRCSDK's AnimatorPlayAudioEditor can throw an exception after scripts reload if the editor was previously used on a behaviour that has since been deleted (unity does not clean up old behaviour editors properly)
-  * VRCFury patches AnimatorPlayAudioEditor's OnEnable callback to properly return early if the targeted behaviour has been deleted
+* Because of a Unity editor bug, VRCSDK's AnimatorPlayAudioEditor can throw an exception after scripts reload if the editor was previously used on a behaviour that has since been deleted
+  * VRCFury patches this editor path to return safely instead of throwing
 * Some versions of the VRCSDK [break the testing of contacts in play mode](https://feedback.vrchat.com/sdk-bug-reports/p/race-condition-in-contactmanager-often-crashes-contacts-in-the-editor)
   * VRCFury patches the VRCSDK to resolve this issue
 * A bug in the VRCSDK prints an error message related to "stopwatch" when using play mode for the first time after scripts reload
@@ -121,10 +128,31 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury patches the VRCSDK to fix this bug
 * The VRCSDK collider editor automatically reverts custom collider transforms any time you look at the component
   * VRCFury prevents this from happening when in play mode, so custom collider transforms will appear properly while testing
-* Avatar colliders can be unset, or set to incorrect transforms, if the rig is modified and then vrcsdk collider section is not viewed afterward
-  * VRCFury forces the VRCSDK to recalculate collider transforms at the beginning of each build (they can still be persistently customized by using a VRCFury Global Collider or Advanced Collider component)
-* The VRCSDK collider editor doesn't mirror offsets properly if the avatar is not at x=0
-  * VRCFury patches the mirroring logic so that colliders mirror properly across the avatar origin. Colliders with mirroring enabled are also recalculated at the start of each avatar build.
+* Avatar colliders can be unset, or set to incorrect transforms, if the rig is modified and then the VRCSDK collider section is not viewed afterward
+  * VRCFury forces the VRCSDK to recalculate collider transforms at the beginning of each build
+* The VRCSDK collider editor doesn't mirror offsets properly if the avatar is not at `x=0`
+  * VRCFury patches the mirroring logic so colliders mirror properly across the avatar origin
+
+## VRCSDK Worlds
+
+* The first draw of a UdonSharp inspector can clip the component below it
+  * VRCFury patches the inspector so it lays out correctly the first time
+* World projects can spam `Value cannot be null` errors during certain serialization and reload edge cases
+  * VRCFury suppresses this non-actionable error noise
+* `Assets/Create/U# Script` can fail if you save into a package outside the project root
+  * VRCFury patches the save path handling so script creation still works
+* `UdonBehaviour.OnDisable` can run during play mode teardown when the scene is already half unloaded
+  * VRCFury blocks that broken teardown path to avoid follow-on errors
+* "Build & Reload" can leave the SDK world build flag unset on supported SDK versions
+  * VRCFury patches the build flow so world testing and build state stay in sync
+* ClientSim persistence can try to save multiple times in parallel
+  * VRCFury gates those saves so they do not race each other
+* `ClientSimNetworkingUtilities` can break when domain reload is disabled
+  * VRCFury resets that state so play mode remains usable
+* ClientSim can delete `EditorOnly` objects too early when scene reload is disabled
+  * VRCFury delays that cleanup so testing behaves correctly
+* ClientSim and related world tooling can spam the console with non-actionable errors
+  * VRCFury suppresses the known noise so real errors are easier to see
 
 ## Unity
 
@@ -172,6 +200,21 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 ## Package Importer
 * Importing Poiyomi or the VRCSDK from an avatar package when they are already installed breaks the project for users who do not know to exclude them from the import
   * VRCFury prevents Poiyomi or VRCSDK asset files from being imported if they are already detected in the project.
+
+## CommonTXL / Texel
+
+* If CommonTXL / Texel packages are present, some scripts still target `VRCPlayerApi[100]` and break on newer SDK layouts
+  * VRCFury patches those references to `VRCPlayerApi[200]`
+
+## Bakery
+
+* If Bakery is present, its editor integration can misbehave with Unity Play Mode Options
+  * VRCFury patches it so fast play mode remains usable
+
+## SPS
+
+* If SPS touches a broken PCSS shader pass, the world build can fail
+  * VRCFury automatically patches that pass so the build succeeds
 
 ## Poiyomi
 
