@@ -184,6 +184,10 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * Renderers using lights are left untouched (DPS/TPS/SPS).
   * The bounds are not increased if they will impact the avatar's overall bounds, ensuring the performance rank will not be affected.
 
+## Unity (Package Importer)
+* Importing Poiyomi or the VRCSDK from an avatar package when they are already installed breaks the project for users who do not know to exclude them from the import
+  * VRCFury prevents Poiyomi or VRCSDK asset files from being imported if they are already detected in the project.
+
 ## AudioLink
 
 * AudioLink in the editor does not automatically attach to newly-created renderers after entering play mode.
@@ -193,10 +197,6 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 * Av3Emualator throws errors and breaks if an animator in the scene disappears or has its controller changes after play mode has begun
   * VRCFury reinitializes Av3Emu after an avatar's preprocessor hooks have run
-
-## Package Importer
-* Importing Poiyomi or the VRCSDK from an avatar package when they are already installed breaks the project for users who do not know to exclude them from the import
-  * VRCFury prevents Poiyomi or VRCSDK asset files from being imported if they are already detected in the project.
 
 ## CommonTXL / Texel
 
@@ -208,10 +208,10 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 * If Bakery is present, its editor integration can misbehave with Unity Play Mode Options
   * VRCFury patches it so fast play mode remains usable
 
-## SPS
+## PCSS Shader
 
-* If SPS touches a broken PCSS shader pass, the world build can fail
-  * VRCFury automatically patches that pass so the build succeeds
+* PCSS shader (available on Booth) contains a pass that fails to compile (as of 2026)
+  * When used by SPS, VRCFury automatically patches the shader to compile properly.
 
 ## Poiyomi
 
