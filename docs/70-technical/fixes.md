@@ -83,6 +83,10 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury automatically removes all controller parameters with invalid types
 * Physbones not marked as Animated targeting humanoid bones completely break full-body animations, even if they are set to Ignore multi-child mode
   * VRCFury automatically marks all physbones targeting humanoid bones as animated
+* The expressions menu does not appear in-game if your avatar does not have a valid humanoid rig
+  * VRCFury automatically attaches a dummy rig to any non-humanoid avatar to ensure the menu loads properly in game
+* VRCSDK dialog box crashes when you don't own the blueprint ID currently set in the Pipeline Manager
+  * VRCFury patches this VRCSDK bug
 
 ## VRCSDK (Worlds)
 
