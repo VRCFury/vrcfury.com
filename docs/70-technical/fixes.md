@@ -184,7 +184,7 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * Strangely, this issue only happens in-game and is not reproducible in the editor
   * VRCFury resolves this issue by detecting these cases and forcefully records the default state in a top defaults layer, even if WD is on.
 * Because of the way stereo cameras work in VR, objects with small bounding boxes can disappear when still in view, even if the bounding box is technically correct.
-  * VRCFury automatically increases the bounds of all renderers by up to one meter.
+  * VRCFury automatically increases the bounds of all renderers to fill the existing overall bounds of the avatar.
   * Renderers using lights are left untouched (DPS/TPS/SPS).
   * The bounds are not increased if they will impact the avatar's overall bounds, ensuring the performance rank will not be affected.
 
