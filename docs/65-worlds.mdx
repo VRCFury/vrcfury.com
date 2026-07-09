@@ -1,0 +1,185 @@
+---
+title: VRCFury for Worlds
+slug: /worlds
+description: Udon utilities, SPS support, Udon Cleaner, and world editor fixes included with VRCFury.
+---
+
+# VRCFury for Worlds
+
+VRCFury for Worlds is included in the normal VRCFury VCC package. There is no separate "worlds edition" to install.
+
+If your project is a VRChat World project with Udon available, VRCFury adds a set of world-specific tools:
+
+## UdonDI
+
+UdonDI is a simple dependency injection system for world Udon behaviours.
+
+It uses two VRCFury components:
+
+* `UdonDI - Register Component (VRCFury)`
+* `UdonDI - Inject Field (VRCFury)`
+
+### How registration works
+
+Add `UdonDI - Register Component` to the object that owns the component you want to expose.
+
+When VRCFury processes the scene, it registers every non-editor-only component on that same GameObject under the optional `Registered ID`.
+
+Notes:
+
+* The ID is optional if you only expect one matching service.
+* Matching is by both ID and assignable type.
+* `GameObject` injection is supported as a convenience.
+* Array fields are supported and receive every matching service.
+
+### How injection works
+
+Add `UdonDI - Inject Field` to the object that contains the target field.
+
+VRCFury then:
+
+* Looks for Udon and U# components on that same object
+* Finds a field with the exact name you entered
+* Injects the matching registered component during play mode setup or build processing
+
+If no matching field exists, no matching service exists, or a non-array field has multiple matches, VRCFury fails the processing step with a clear error.
+
+### Example
+
+If you want every video player prefab to receive a reference to one shared access-control behaviour:
+
+1. Put `UdonDI - Register Component` on the access-control object.
+1. Put `UdonDI - Inject Field` on the video player object or prefab.
+1. Set `Field on this object to inject into` to the field name on the Udon behaviour (probably accessControl)
+
+That field will be filled automatically when VRCFury runs.
+
+## InjectUnityAction
+
+This feature lets UdonSharp methods automatically subscribe to UnityEvents on the same GameObject.
+
+Example:
+
+```csharp
+using com.vrcfury.udon.Attributes;
+using UnityEngine;
+using UdonSharp;
+
+public class MyButtonHandler : UdonSharpBehaviour {
+    [InjectUnityAction("onClick")]
+    public void _OnClick() {
+        Debug.Log("The button on this object was clicked!");
+    }
+}
+```
+
+If that behaviour is on the same GameObject as a `Button`, VRCFury finds the `onClick` UnityEvent and adds a persistent call that forwards to the Udon backing behaviour through `SendCustomEvent`.
+
+Rules:
+
+* The method must be `void` and take no arguments.
+* The UnityEvent name must match exactly.
+* The event must exist on another component on the same GameObject.
+
+This is useful for buttons, toggles, sliders, and similar Unity UI or component events where manual wiring would otherwise be repetitive.
+
+## SPS for Worlds
+
+World projects can use the normal VRCFury SPS authoring workflow:
+
+* `Tools > VRCFury > SPS > Create Plug`
+* `Tools > VRCFury > SPS > Create Socket`
+
+During processing, VRCFury bakes world SPS components into the build copy of the scene and writes any generated material assets into VRCFury-managed temporary storage automatically.
+
+What is supported:
+
+* SPS plugs in worlds
+* SPS sockets in worlds
+
+What is not currently part of the worlds pipeline:
+
+* Depth animations
+* Udon event hooks for depth
+
+## Udon Cleaner
+
+The Udon Cleaner is OPTIONAL.
+
+Enable it here:
+
+* `Tools > VRCFury > Settings > Enable Udon Cleaner (Alpha)`
+
+Before enabling it:
+
+* Back up the project first
+* Do not enable it in a project you use to distribute Unity packages unless you understand the compatibility tradeoff
+* If you ever want to remove it, disable the menu item first instead of uninstalling VRCFury
+
+### What it changes
+
+When enabled, the Udon Cleaner removes most of the generated Udon asset noise that normally leaks into `Assets`, scenes, prefabs, and prefab overrides.
+
+Specifically, it:
+
+* Moves UdonSharp `.asset` program assets out of your normal `Assets` tree into VRCFury-managed temporary storage
+* Does the same for `SerializedUdonPrograms`
+* Clears generated `programSource` and `serializedProgramAsset` references before scenes and prefabs are saved
+* Removes junk prefab overrides created only by Udon/UdonSharp bookkeeping
+* Clears generated `DynamicMaterials` and `DynamicPrefabs` entries from `VRC_SceneDescriptor` before save
+* Stops several Udon/UdonSharp editor hooks from constantly rewriting the scene just because you opened, saved, or inspected something
+
+The practical result is:
+
+* Far less random scene churn
+* Far fewer meaningless prefab overrides
+* Cleaner git history
+* A much more usable prefab overrides dropdown
+
+### Compatibility warning
+
+Projects exported as Unity packages while the Udon Cleaner is enabled are only safe to import into projects that also use the Udon Cleaner.
+
+If you distribute packages to other people (who may not use Udon Cleaner), the safest workflow is to keep the cleaner disabled.
+
+### Removing the cleaner
+
+To remove it:
+
+1. Turn off `Tools > VRCFury > Settings > Enable Udon Cleaner (Alpha)`.
+1. Let VRCFury reload scripts and run its uninstall/repair step.
+1. Wait for it to restore the normal Udon asset layout and repair prefabs and scenes.
+
+VRCFury's uninstall path explicitly reorganizes program assets back to the vanilla layout and repairs prefabs, open scenes, and unloaded scenes.
+
+Do not remove VRCFury without disabling Udon Cleaner first -- the restore process will not happen and things will be broken.
+
+## Automatic fixes and compatibility patches
+
+VRCFury for Worlds also ships a number of automatic fixes for common world-authoring issues.
+
+### UdonSharp and inspector fixes
+
+* Prevents the first draw of a UdonSharp inspector from clipping the component below it
+* Suppresses the `Value cannot be null` error spam that can appear during serialization/reimport edge cases
+* Fixes `Assets/Create/U# Script` when saving into a package outside the project root
+* Speeds up some UdonSharp upgrade/update passes by batching asset editing work
+
+### Play mode and build lifecycle fixes
+
+* Prevents `UdonBehaviour.OnDisable` from running during play mode teardown when the editor is already half-unloading the scene
+* Makes world play mode run build-request callbacks that the normal VRChat build path would run, improving parity between testing and real builds
+* On SDK versions that expose `ActiveBuildType`, fixes "Build & Reload" leaving the world build flag unset
+* Tracks materials referenced by Udon / UdonSharp in play mode and restores them when you leave play mode, so temporary runtime edits do not stick on disk by accident
+
+### ClientSim and console-noise fixes
+
+* Prevents overlapping ClientSim persistence saves from racing each other
+* Resets `ClientSimNetworkingUtilities` state when domain reload is disabled
+* Prevents ClientSim from deleting `EditorOnly` objects too early when scene reload is disabled
+* Suppresses common non-actionable log spam from ClientSim and VideoTXL
+
+### Third-party package fixes
+
+* If CommonTXL / Texel packages are present, VRCFury patches several scripts from `VRCPlayerApi[100]` to `VRCPlayerApi[200]`
+* If Bakery is present, VRCFury patches it to work properly with "Play Mode Options" (which make play mode start faster)
