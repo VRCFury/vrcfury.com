@@ -1,0 +1,40 @@
+---
+slug: /api
+unlisted: true
+---
+
+# VRCFury API (Writing your own VRCFury Addon)
+
+Before deciding to write your own script which integrates with VRCFury, first consider if you really need to.
+99% of props, addons, clothes, and even full avatars can be implemented using VRCFury's built-in components,
+Full Controller, Toggle, Armature Link, etc.
+
+If for some reason you are not able to achieve your goals with the built-in components, and you are capable of writing
+your own unity c# editor scripts, you can take advantage of VRCFury's built-in logic for controller merging, etc.
+
+## Step 1: Add a VRC Avatar Preprocessor Hook that runs before VRCFury
+
+VRCFury runs at preprocessor priority -10000. A good spot for your preprocessor might be -20000. Details about how
+to do this are beyond the scope of this document.
+
+## Step 2: Generate temporary assets during your hook
+
+Create an animator controller / VRC params / menu(s) in your script that you would like to merge into the avatar. DO NOT edit the files on the
+user's avatar descriptor directly. You should only be creating NEW assets and saving them to some temporary location.
+
+## Step 3: Instruct VRCFury to merge the controller for you
+
+In your asmdef, add a reference on `com.vrcfury.api`. This will give you access to the FuryComponents class, which
+allows you to create a vrcfury Full Controller component on the avatar, along with your controller (and params and menu).
+You can also use FuryComponents to dynamically add an Armature Link or Toggle component if needed (although this is even more rare).
+
+That's it! During the build, your hook will run first, generate its temp files, create the vrcfury components, and then VRCFury will run,
+and handle applying those components for you.
+
+## Warning: DO NOT run AFTER VRCFury
+
+Do not modify the user's avatar files (controllers/menu/params) directly, and do not count on vrcfury to make a clone "first."
+There are many, many reasons for this:
+* VRCFury may be disabled, causing you to accidentally modify the original files
+* The parameters in the controller may not be of the types you expect during to parameter coercion, causing you to merge in modifications improperly
+* VRCFury's controller merger is battle-tested over many years, and covers basically every edge case you can think of
