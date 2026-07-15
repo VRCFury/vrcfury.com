@@ -38,3 +38,12 @@ There are many, many reasons for this:
 * VRCFury may be disabled, causing you to accidentally modify the original files
 * The parameters in the controller may not be of the types you expect due to parameter coercion, causing you to merge in modifications improperly
 * VRCFury's controller merge has been battle-tested over many years and covers basically every edge case
+
+## Alternative method: "Installer"
+
+If you intend for your system to be installed once and not require a long-term preprocessor during each build, you can use the
+FuryComponents class directly on the user's main avatar object (during a setup wizard rather than in a preprocessor).
+This allows you to create a VRCFury Full Controller "permanently," and then your install script could be removed.
+
+This method has its uses, but is easier for users to accidentally break if they accidentally delete your generated assets
+or remove your added components.
