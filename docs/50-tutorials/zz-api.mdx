@@ -11,10 +11,10 @@ Full Controller, Toggle, Armature Link, etc.
 If for some reason you are not able to achieve your goals with the built-in components, and you are capable of writing
 your own unity c# editor scripts, you can take advantage of VRCFury's built-in logic for controller merging, etc.
 
-## Step 1: Add a VRC Avatar Preprocessor Hook that runs before VRCFury
+## Step 1: Create a VRC Avatar Preprocessor Hook that runs before VRCFury
 
-VRCFury runs at preprocessor priority -10000. A good spot for your preprocessor might be -20000. Details about how
-to do this are beyond the scope of this document.
+A good priority for your preprocessor might be -20000. You must run before VRCFury (which runs at -10000). Details about how
+to create an avatar preprocessor (IVRCSDKPreprocessAvatarCallback) are beyond the scope of this document.
 
 ## Step 2: Generate temporary assets during your hook
 
@@ -36,4 +36,4 @@ Do not modify the user's avatar files (controllers/menu/params) directly, and do
 There are many, many reasons for this:
 * VRCFury may be disabled, causing you to accidentally modify the original files
 * The parameters in the controller may not be of the types you expect due to parameter coercion, causing you to merge in modifications improperly
-* VRCFury's controller merge has been battle-tested over many years, and covers basically every edge case
+* VRCFury's controller merge has been battle-tested over many years and covers basically every edge case
