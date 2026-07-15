@@ -24,7 +24,8 @@ user's avatar descriptor directly. You should only be creating NEW assets and sa
 ## Step 3: Instruct VRCFury to merge the controller for you
 
 In your asmdef, add a reference on `com.vrcfury.api`. This will give you access to the FuryComponents class, which
-allows you to create a vrcfury Full Controller component on the avatar, along with your controller (and params and menu).
+allows you to create a vrcfury Full Controller component on the avatar, specifying your controller, params, and menu.
+This dynamically-added component will work just as if the user had added it to their avatar by hand.
 You can also use FuryComponents to dynamically add an Armature Link or Toggle component if needed (although this is even more rare).
 
 That's it! During the build, your hook will run first, generate its temp files, create the vrcfury components, and then VRCFury will run,
