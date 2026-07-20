@@ -2,3 +2,6 @@ minimumReleaseAge: 10080
 useNodeVersion: 24.14.0
 engineStrict: true
 blockExoticSubdeps: true
+allowBuilds:
+  core-js: false
+  core-js-pure: false
