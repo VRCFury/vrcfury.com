@@ -1,0 +1,22 @@
+---
+slug: /script-errors
+---
+
+# Unity Script Errors
+
+Is one of these issues happening to you?
+
+* `Type x has an extra field`
+* `The associated script can not be loaded. Please fix any compile errors and assign a valid script.`
+* You installed VRCFury, but none of the components show up in the components menu
+
+* Open the Unity Console tab by pressing Ctrl+Shift+C Unity, then click Clear on the top left. Take note of any errors.
+* If there are errors related to AV3Manager, remove it in the VCC or delete the folder for that plugin.
+* If there are errors related to AV3Emulator, remove it in the VCC or delete the folder for that plugin and (optionally) use Gesture Manager instead.
+* If there are errors related to Poiyomi, reimport it using the VCC from https://poiyomi.github.io/vpm/.
+* If there are errors related to Gesture Manager, ensure it is up to date in the VCC or get a fresh copy from their github.
+* If there are errors related to some other script, try deleting it if you don't need it.
+* If there are NO errors after clearing, you likely have unity cache corruption.
+  * Close the project
+  * Delete the `Library` SUBFOLDER from the project in windows explorer (this is just a cache, you will not lose data)
+  * Re-open the project (it will take a while to re-import assets)

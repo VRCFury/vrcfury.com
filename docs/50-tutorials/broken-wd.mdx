@@ -1,0 +1,12 @@
+---
+slug: /broken-wd
+---
+
+# Broken Write Defaults
+
+Do you have toggles which turn on but won't turn off?
+
+* This is most likely because of a `broken Write Defaults mix`.
+* Look for a [VRCFury | Fix Write Defaults](/components/other#fix-write-defaults) component in the inspector of your avatar's root (the same object containing the VRC Avatar Descriptor).
+* If it was set to `Disabled`, this indicates that you clicked `Skip and stop asking` when VRCFury asked to fix the issue for you.
+* Change the component's Mode from `Disabled` to `Auto`.
