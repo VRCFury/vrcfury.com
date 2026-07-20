@@ -6,6 +6,18 @@
     "start": "cross-env SIMULATE_PRODUCTION_VISIBILITY=true docusaurus start",
     "build": "docusaurus build"
   },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.15.1",
+      "onFail": "download"
+    },
+    "runtime": {
+      "name": "node",
+      "version": "26.5.0",
+      "onFail": "download"
+    }
+  },
   "devDependencies": {
     "@docusaurus/core": "^3.10.2",
     "@docusaurus/module-type-aliases": "^3.10.2",
@@ -29,6 +41,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "packageManager": "pnpm@11.15.1"
+  }
 }
