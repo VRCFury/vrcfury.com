@@ -7,16 +7,16 @@
     "build": "docusaurus build"
   },
   "devDependencies": {
-    "@docusaurus/core": "^3.9.2",
-    "@docusaurus/module-type-aliases": "^3.9.2",
-    "@docusaurus/preset-classic": "^3.9.2",
+    "@docusaurus/core": "^3.10.2",
+    "@docusaurus/module-type-aliases": "^3.10.2",
+    "@docusaurus/preset-classic": "^3.10.2",
     "@easyops-cn/docusaurus-search-local": "^0.55.2",
     "@mdx-js/react": "^3.1.1",
     "clsx": "^2.1.1",
     "cross-env": "^10.1.0",
     "prism-react-renderer": "^2.4.1",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "browserslist": {
     "production": [
@@ -30,5 +30,5 @@
       "last 1 safari version"
     ]
   },
-  "packageManager": "pnpm@10.30.3"
+  "packageManager": "pnpm@11.4.0"
 }
