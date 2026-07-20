@@ -45,7 +45,7 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/VRCFury/vrcfury.com/blob/main/',
+          editUrl: 'https://github.com/VRCFury/vrcfury.com/edit/main/',
         },
         theme: {
           customCss: require.resolve('./custom.css'),
