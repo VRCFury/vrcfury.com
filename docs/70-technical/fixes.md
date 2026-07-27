@@ -30,6 +30,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury automatically adjusts avatar contacts in play mode to make "Self" and "Others" work properly
 * The VRCSDK opens an empty Animator window that cannot be closed if scripts reload while viewing a Parameter Driver
   * VRCFury patches this issue to not occur
+* The VRCSDK adds unwanted Undo entries when it synchronizes Gesture and FX layer masks while opening an avatar descriptor or finishing a build
+  * VRCFury applies these automatic mask updates without recording them in the Undo history
 * The VRCSDK switches back to the Authentication tab every time you reload scripts
   * VRCFury automatically switches the VRCSDK to the Builder tab if you are already logged in when scripts reload
 * The VRCSDK spams the console with "Animator is not playing an AnimatorController" before the animator loads if your avatar contains contacts
@@ -90,6 +92,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 ## VRCSDK (Worlds)
 
+* VRCFury can invoke VRCSDK build callbacks while testing, even though no upload is taking place
+  * VRCFury skips upload-only product ID and scene network ID assignment unless an actual upload is in progress
 * The first draw of a UdonSharp inspector can clip the component below it
   * VRCFury patches the inspector so it lays out correctly the first time
 * World projects can spam `Value cannot be null` errors during certain serialization and reload edge cases
@@ -108,6 +112,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury delays that cleanup so testing behaves correctly
 * ClientSim and related world tooling can spam the console with non-actionable errors
   * VRCFury suppresses the known noise so real errors are easier to see
+* UdonSharp can run a full recompile when VRCFury invokes build callbacks for testing
+  * VRCFury skips that upload-only recompile unless an actual upload is in progress
 
 ## Unity (Editor)
 
@@ -124,6 +130,10 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury automatically changes unity's "Compilation During Play" setting to "Recompile After Finished Playing" if it is set to "Recompile And Continue Playing"
 * Unity can segfault during the avatar build if certain methods are called after using the VRCSDK's custom thumbnail camera
   * VRCFury unsets the unity main camera before executing to prevent this issue
+* Unity can invoke expensive material property drawers while VRCFury reads or writes material properties during a build
+  * VRCFury suppresses those drawers for its build-time operations, avoiding unnecessary work and slowdowns
+* Asset postprocessors can perform expensive or unwanted work when VRCFury writes transient generated build assets
+  * VRCFury skips asset postprocessors for those generated asset writes
 * Unity Animator Controller editors spam the console with "Invalid Layer Index" and shows incorrect layer weight and parameter values while viewing an avatar controlled by a controller mixer (Gesture Manager or av3emu)
   * VRCFury patches the animator controller editor to work properly with controller mixers
 * A bug in Mono breaks the VRCSDK dialog when Harmony is used, the system locale is non-english, and the project path contains non-english characters
@@ -219,5 +229,14 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 ## Poiyomi
 
-* Poiyomi locks down all materials when preprocessor hooks are run in play mode in versions before 9
-  * VRCFury patches Poiyomi's LockMaterialsOnUpload to never apply while in play mode.
+* Poiyomi locks down all materials when preprocessor hooks run without an actual upload, including in play mode in versions before 9
+  * VRCFury only allows Poiyomi's material-locking callbacks to run during an actual upload.
+* Thry's Auto Anchor can overwrite VRCFury's Anchor Override Fix when an avatar is uploaded
+  * VRCFury skips Thry's Auto Anchor for avatars using Anchor Override Fix.
+* Thry can rebuild its preset cache after VRCFury creates generated material assets without running asset postprocessors
+  * VRCFury registers those material GUIDs with Thry's known-material cache when saving generated assets.
+
+## lilToon
+
+* lilToon can lock down materials when VRCFury invokes build callbacks without an actual upload
+  * VRCFury only allows lilToon's material-locking callback to run during an actual upload.
