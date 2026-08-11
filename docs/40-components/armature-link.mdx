@@ -29,6 +29,17 @@ In nearly all cases, this should be left empty.
 
 These settings allow you to choose if the object should be snapped to the target object's position/rotation/scale, or if it should remain where it was originally placed.
 
+### Super Advanced Options
+
+#### Remove parent constraints from merged objects
+This feature is enabled by default and will remove parent constraints from objects that will be merged together.
+
+#### Force Merged Name
+Typing a string into this box will force the name of the first object to be merged. Children of the first object will still be renamed automatically. This allows for modular compatibility with systems where an object must be named in a specific way and located in a specific spot. A common use case would be for MMD compatibility, but this feature can also bridge the gap with other prefabs such as Face Tracking.
+
+#### Force world scale to 1,1,1
+If set, armature link will set the scale of the first object merged to world scale 1,1,1.
+
 ## Debug info
 This will display where the prop will be merged, what Link Mode will be used and if Bone Offsets will be kept.\
 If there are any prop bones that Armature Link did not find an match for in the avatar's armature, they will also be displayed in Debug Info. These bones will be added as new children. In most cases these are bones like Skirt bones, Strings, Straps
