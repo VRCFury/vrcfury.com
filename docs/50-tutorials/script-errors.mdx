@@ -10,7 +10,11 @@ Is one of these issues happening to you?
 * `The associated script can not be loaded. Please fix any compile errors and assign a valid script.`
 * You installed VRCFury, but none of the components show up in the components menu
 
-Try these solutions:
+# Possible Cause 1: One of your other plugins failed to compile
+
+This is usually caused by some plugin /other/ than VRCFury. If any plugin in your project fails to compile, then every plugin, including VRCFury, will fail to load.
+
+Try this:
 
 * Open the Unity Console tab by pressing Ctrl+Shift+C Unity, then click Clear on the top left. Take note of any errors.
 * If there are errors related to AV3Manager, remove it in the VCC or delete the folder for that plugin.
@@ -18,7 +22,15 @@ Try these solutions:
 * If there are errors related to Poiyomi, reimport it using the VCC from https://poiyomi.github.io/vpm/.
 * If there are errors related to Gesture Manager, ensure it is up to date in the VCC or get a fresh copy from their github.
 * If there are errors related to some other script, try deleting it if you don't need it.
-* If there are NO errors after clearing, you likely have unity cache corruption.
-  * Close the project
-  * Delete the `Library` SUBFOLDER from the project in windows explorer (this is just a cache, you will not lose data)
-  * Re-open the project (it will take a while to re-import assets)
+* If there are NO errors after clearing, continue to the next section.
+
+# Possible Cause 2: Unity Cache Corruption
+
+If you force close unity, or unity crashes unexpected, or you focus the unity window while upgrading dependencies in the VCC, Unity's script cache can become corrupted.
+
+Thy this:
+
+* Close the project
+* Delete the `Library` SUBFOLDER from the project in windows explorer (this is just a cache, you will not lose data)
+* Re-open the project (it will take a while to re-import assets)
+* If the error persists after this solution, you likely saved assets WHILE you had corrupted scripts, resulting in the assets also becomming corrupt. There is no solution to this, aside from restoring from a backup or re-creating the broken components.
