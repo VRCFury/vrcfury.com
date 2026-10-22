@@ -42,6 +42,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury automatically clones textures and enables `Streaming Mip-Maps` on them when needed
 * The VRCSDK fails upload if menu icons are too large or uncompressed
   * VRCFury automatically clones menu icons and resizes or compresses them to fit VRCSDK limits
+* The VRCSDK can incorrectly reject valid menu icons because it checks default texture import settings instead of the active platform overrides
+  * VRCFury clones affected icons so validation uses their actual size and compression, without changing the original textures or unnecessarily reducing quality
 * The VRCSDK fails upload if audio clips do not have `Load in Background` checked
   * VRCFury automatically clones those clips and enables the setting when needed
 * Non-mobile materials can still get pulled into a Quest/mobile upload if they are referenced by animations
