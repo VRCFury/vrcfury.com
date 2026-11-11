@@ -160,9 +160,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury skips asset postprocessors for those generated asset writes
 * Unity Animator Controller editors spam the console with "Invalid Layer Index" and shows incorrect layer weight and parameter values while viewing an avatar controlled by a controller mixer (Gesture Manager or av3emu)
   * VRCFury patches the animator controller editor to work properly with controller mixers
-  * VRCFury also avoids repeatedly scanning parameter lists and searching controller mixers while drawing parameter lists and blend tree previews
 * Unity's blend tree graph editor becomes extremely slow when viewing large trees
-  * VRCFury caches repeated slider-range calculations and node-label measurements, and avoids propagating unchanged parameter values through the entire graph on every GUI event
+  * VRCFury patches Unity to resolve many of its blend tree graph editor slow-downs
 * A bug in Mono breaks the VRCSDK dialog when Harmony is used, the system locale is non-english, and the project path contains non-english characters
   * VRCFury patches Mono to prevent this issue from occurring to the VRCSDK and other plugins using Assembly.GetName()
 * Unity throws a NullReferenceException in "UnityEditor.Graphs.Edge.WakeUp" when reloading scripts if an empty animator has been open recently
@@ -274,10 +273,3 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 * lilToon can lock down materials when VRCFury invokes build callbacks without an actual upload
   * VRCFury only allows lilToon's material-locking callback to run during an actual upload.
-
-## Optional Diagnostics
-
-* To identify slow avatar preprocessors, enable `Tools > VRCFury > Utilities > Log Avatar Preprocessors`
-  * After each avatar's preprocessing finishes, VRCFury logs each preprocessor's duration, sorted slowest first
-  * The report also appears if preprocessing aborts, and marks callbacks that return false or throw an exception
-  * This option is off by default
