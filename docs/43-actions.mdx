@@ -43,18 +43,25 @@ Swaps the material on the specified renderer and material slot to the defined ma
 ## Enable SPS
 Enables SPS on an existing SPS Plug. Like an Object Toggle set to `Turn On`, this will also set the default state to off.
 
-## Change SPS Tag
-Animates SPS2 tags on an SPS Plug or SPS Socket.
+## Change SPS Channels
+Changes the channels used by an SPS Plug or SPS Socket while the action is active. Drag in the object with the plug or socket component, then configure its replacement channels.
 
 This can be used to:
 
-* Set a plug include tag
-* Set a plug exclude tag
-* Toggle a plug's `Global` SPS2 tag on or off
-* Set a socket tag
+* Add up to 2 custom channels, with `Allow Self` and `Allow Others` for each
+* Include or omit the public SPS channel
+* Check the `Final channel list`, including automatic channels
 
-When targeting a plug, the action can also control whether the tag applies to `Self`, `Others`, or both.
-When targeting a socket, it edits one of that socket's 2 custom SPS2 tag slots.
+The component's normal channels return when the action is inactive. Hip avoidance follows the target component's own setting and placement. At least one channel must remain available.
+
+:::warning
+Each channel change adds several contacts. Use this sparingly.
+:::
+
+See [SPS channels](/sps#channels) for matching rules and examples.
+
+## Legacy Change SPS Tags {#change-sps-tag}
+This obsolete action has no effect in SPS3. Replace it with `Change SPS Channels`.
 
 ## Set an FX Float
 Drives a `Float` type parameter in the FX animator controller to the defined value.\

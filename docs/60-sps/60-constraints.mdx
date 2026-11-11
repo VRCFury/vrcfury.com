@@ -1,6 +1,6 @@
 # Avoid Using Constraints with SPS
 
-SPS2 fixed a lot of the old SPS1 scaling problems, but constraints are still usually not the best way to move plugs or sockets around.
+SPS3 supports avatar scaling and sockets under non-uniformly scaled bones, but constraints are still usually not the best way to move plugs or sockets around.
 
 Most of the time, it is simpler and more reliable to just place a separate socket wherever you want one.
 
@@ -8,18 +8,18 @@ Most of the time, it is simpler and more reliable to just place a separate socke
 
 * Even after all of VRC's fixes, constraints continue to introduce jitter to contacts and physbones in some rare cases. That jitter affects SPS contacts, depth animations, and haptics.
 * Re-using one socket in multiple places usually makes the setup harder to understand than just making two sockets.
-* A shared socket cannot have different tags, guided paths, menu state, animations, or legacy settings per location.
+* A shared socket cannot have different channels, guided paths, menu state, or animations per location.
 * Auto Mode works better when each location has its own socket.
 * OGB and other haptics systems have a harder time telling which location is supposed to be active if multiple placements share one socket.
 * Constraints are still a little more fragile than just putting the SPS object where it belongs.
 
-## SPS2 note
+## SPS3 note
 
-With SPS2, the old "I need to re-use sockets to save lights" reasoning mostly does not apply anymore.
+With SPS3, you do not need to re-use sockets just to avoid lights when interacting with other SPS3 users.
 
-Pure SPS2 deformation does not need lights at all. If you are not using legacy compatibility, separate sockets are usually the cleanest option.
+SPS3-to-SPS3 deformation does not need lights. If you are not supporting older plugs, disable legacy plug compatibility in SPS Options. Separate sockets are usually the cleanest option.
 
-Also, disabled sockets have **zero performance impact**. If a socket is off, there is usually no reason to bend the setup around trying to "save" it.
+Disabled sockets do not attract plugs. They still count toward your avatar's contact/light limits, so consider those costs when adding more sockets.
 
 ## Performance
 
@@ -35,6 +35,6 @@ If you can:
 
 * Put each socket directly on the bone or object where it belongs (or use Armature Link)
 * Give each location its own socket
-* Use tags, menu toggles, guided paths, and legacy compatibility settings directly on those sockets
+* Use channels, menu toggles, and guided paths on each socket, and configure avatar-wide legacy compatibility in SPS Options
 
 Short version: use constraints with SPS only when you really need to.

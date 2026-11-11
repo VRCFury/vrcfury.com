@@ -1,45 +1,53 @@
-# Upgrade to SPS2
+# Upgrade to SPS3
 
-SPS2 is now included in the latest stable VRCFury.
+SPS3 is included in the latest stable VRCFury.
 
-## If you already use SPS
+## If You Already Use SPS1/2
 
-If your avatar already uses VRCFury SPS components:
+Update VRCFury and upload your avatar again. Existing SPS1/2 components use SPS3 automatically.
 
-* Update VRCFury to the latest version
-* Upload again
+Review these settings after updating:
 
-That is usually all you need to do to get SPS2.
+* **Legacy compatibility is avatar-wide.** Add `SPS Options` to the avatar root to configure compatibility with older plugs and sockets. The old per-plug/per-socket compatibility checkboxes no longer control it.
+* **Channels replace SPS2 tags.** Check each component's `Final channel list`. Old plug exclude tags are no longer supported; hip avoidance remains available.
+* **Replace old Change SPS Tags actions** with [Change SPS Channels](/actions#change-sps-channels). The old action is now called `Legacy Change SPS Tags` and has no effect. Channel changes add contacts, so use them sparingly.
+* **Custom guided-path tangents are no longer available.** Check your paths after upgrading; up to 4 stops are now supported.
+* **Auto Mode has changed.** It waits for the active automatic socket to move away before choosing another, and leaves manually enabled sockets alone. Individual sockets can opt out.
+* The old Stealth Mode, Disable Depth Pass, and separate SPS Options submenu are gone.
 
-After updating, review any plug and socket settings you care about, especially:
+SPS3 does not use grabpasses. The old depth-pass and render-queue workarounds for screen-effect ghost plugs are no longer needed. Restore a plug's normal render queue if you previously changed it to `5000` for that workaround.
 
-* `Disable Depth Pass` on plugs
-* `Enable Legacy Compatibility` on sockets
-* SPS2 tags on plugs and sockets
+Keep OGB up to date for the new haptics support.
 
-## If you still use DPS or TPS
+## If You Still Use DPS or TPS
 
-To convert legacy DPS setups:
+VRCFury automatically upgrades supported DPS/TPS setups during avatar processing. This is enabled by default under `Tools > VRCFury > Settings > Automatically upgrade DPS and TPS to SPS`.
 
-* Select the main object for your avatar
-* Click `Tools > VRCFury > SPS > Upgrade DPS to SPS`
-* Review the list of objects that will be upgraded
-* Click `OK`
-* Upload your avatar
+To upgrade the editable avatar itself:
 
-When your avatar is selected, you should see orange SPS gizmos in the Scene view around the upgraded areas.
+1. Make a backup of your avatar.
+2. Select its root object.
+3. Click `Tools > VRCFury > SPS > Upgrade DPS to SPS`.
+4. Review the proposed changes and confirm.
+5. Check the resulting plugs, sockets, and animations, then test and upload.
 
-## Recommended cleanup after upgrading legacy content
+The upgrader handles DPS and TPS plugs/sockets and recognized attachment setups. It removes replaced legacy lights and related obsolete setup content.
 
-For old penetrators:
+### What Is Imported
 
-* If the plug used DPS, change the material shader from `Raliv/Penetrator` to a normal shader such as `Standard`
-* If the plug used TPS, disable the `Penetrator` checkbox on the Poiyomi material
-* Remove old DPS `Tip` lights, often found in a child object named `Physics`
-* Remove any duplicate or stale old SPS Plug components if they were left behind by older setups
+* Plug position and rotation from the legacy setup
+* DPS material length and detected plug dimensions
+* Supported TPS enabled-state and mask settings
+* Socket position, rotation, and type from legacy lights
 
-## Legacy compatibility after upgrading
+Existing SPS Plug components targeting DPS/TPS renderers also have their legacy settings imported and deformation enabled. You do not need to disable the original material's DPS/TPS deformation first: SPS disables it when applying its own deformation.
 
-SPS2 can still interact with SPS1, DPS, and TPS if the relevant legacy compatibility options remain enabled.
+**We still recommend switching to a normal, non-deforming shader after upgrading**, even though SPS supports patching DPS/TPS shaders. Run the manual upgrader first so it imports the old settings **before** you change the shader, replace the material, or delete legacy lights.
 
-If you want a fully SPS2-only setup, turn those off after everyone you care about has upgraded.
+TPS depth animations are not automatically imported; recreate any needed effects as SPS depth animations and test existing custom logic.
+
+## Interacting with Older Avatars
+
+SPS3 remains compatible with older systems when the relevant [SPS Options compatibility settings](/sps#legacy-compatibility-options) are enabled.
+
+Check the [cross-version limitations](/sps#cross-version-limitations), especially for SPS2 Legacy Mode, custom channels, guided paths, and radius offset. Deformation compatibility alone does not guarantee that every older animation or haptic feature works.

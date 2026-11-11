@@ -30,6 +30,10 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury detects this condition and shows a useful error message with the icon paths
 * VRCSDK contacts do not properly distinguish between "Self" and "Others" when testing in editor play mode
   * VRCFury automatically adjusts avatar contacts in play mode to make "Self" and "Others" work properly
+* Contacts and PhysBones can make entering play mode slow on avatars with many Animator parameters
+  * VRCFury avoids the SDK's repeated copying of the entire parameter list while setting up each parameter
+* Contact receiver debug values in the VRCSDK inspector do not update during play mode unless something triggers a repaint, such as hovering over the inspector
+  * VRCFury keeps those values updating while the receiver inspector is open in play mode
 * The VRCSDK adds unwanted Undo entries when it synchronizes Gesture and FX layer masks while opening an avatar descriptor or finishing a build
   * VRCFury applies these automatic mask updates without recording them in the Undo history
 * The VRCSDK switches back to the Authentication tab every time you reload scripts
@@ -156,6 +160,9 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury skips asset postprocessors for those generated asset writes
 * Unity Animator Controller editors spam the console with "Invalid Layer Index" and shows incorrect layer weight and parameter values while viewing an avatar controlled by a controller mixer (Gesture Manager or av3emu)
   * VRCFury patches the animator controller editor to work properly with controller mixers
+  * VRCFury also avoids repeatedly scanning parameter lists and searching controller mixers while drawing parameter lists and blend tree previews
+* Unity's blend tree graph editor becomes extremely slow when viewing large trees
+  * VRCFury caches repeated slider-range calculations and node-label measurements, and avoids propagating unchanged parameter values through the entire graph on every GUI event
 * A bug in Mono breaks the VRCSDK dialog when Harmony is used, the system locale is non-english, and the project path contains non-english characters
   * VRCFury patches Mono to prevent this issue from occurring to the VRCSDK and other plugins using Assembly.GetName()
 * Unity throws a NullReferenceException in "UnityEditor.Graphs.Edge.WakeUp" when reloading scripts if an empty animator has been open recently
@@ -231,6 +238,13 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 * Av3Emualator throws errors and breaks if an animator in the scene disappears or has its controller changes after play mode has begun
   * VRCFury reinitializes Av3Emu after an avatar's preprocessor hooks have run
+* Av3Emulator does not forward advanced contact receiver outputs to its Animator controllers, leaving features that use sender position, scale, or velocity without updated values
+  * VRCFury connects those outputs to Av3Emulator so they work during play-mode testing
+
+## Gesture Manager
+
+* Gesture Manager does not forward advanced contact receiver outputs to its Animator controllers, leaving features that use sender position, scale, or velocity without updated values
+  * VRCFury connects those outputs to Gesture Manager so they work during play-mode testing
 
 ## CommonTXL / Texel
 
@@ -260,3 +274,10 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 * lilToon can lock down materials when VRCFury invokes build callbacks without an actual upload
   * VRCFury only allows lilToon's material-locking callback to run during an actual upload.
+
+## Optional Diagnostics
+
+* To identify slow avatar preprocessors, enable `Tools > VRCFury > Utilities > Log Avatar Preprocessors`
+  * After each avatar's preprocessing finishes, VRCFury logs each preprocessor's duration, sorted slowest first
+  * The report also appears if preprocessing aborts, and marks callbacks that return false or throw an exception
+  * This option is off by default
