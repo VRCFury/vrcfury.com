@@ -34,6 +34,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury avoids the SDK's repeated copying of the entire parameter list while setting up each parameter
 * Contact receiver debug values in the VRCSDK inspector do not update during play mode unless something triggers a repaint, such as hovering over the inspector
   * VRCFury keeps those values updating while the receiver inspector is open in play mode
+* [Material contacts in editor play mode can give multiple avatars the same player ID, confusing shaders about which avatar a contact belongs to](https://feedback.vrchat.com/sdk-bug-reports/p/material-contacts-playerid-collision-is-very-likely-in-editor-play-mode)
+  * VRCFury assigns each avatar's contacts a unique positive player ID so they remain separate from other avatars and detached contacts
 * The VRCSDK adds unwanted Undo entries when it synchronizes Gesture and FX layer masks while opening an avatar descriptor or finishing a build
   * VRCFury applies these automatic mask updates without recording them in the Undo history
 * The VRCSDK switches back to the Authentication tab every time you reload scripts
