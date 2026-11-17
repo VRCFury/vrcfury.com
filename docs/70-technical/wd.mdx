@@ -1,133 +1,233 @@
 # Write Default Bugs in Unity
 
-Write Defaults causes tons of undocumented unity bugs, many of which are still being discovered to this day. These
-are the bugs we are currently aware of:
+Unity's animator has tons of undocumented bugs involving Write Defaults (WD), blendtrees, layers and masks, many of which
+are still being discovered to this day. Some depend on the WD setting; others happen with either setting.
+These are the bugs we are currently aware of.
 
-## Mixed Write Defaults
+The examples below were tested in Unity **2022.3.22f1** on Windows, in both Edit Mode and Play Mode.
+The PhysBone examples use SDK **3.10.6-beta.4**. Other Unity and SDK versions may behave differently.
 
-When:
-* Controller contains a mix of WD on or WD off
-* A WD Off state is in a layer or beneath a layer containing a WD On state
+An **earlier** layer appears higher in the layer list. A **later** layer appears further down the list and normally
+has higher priority. WD Off does not always mean "leave this property alone": a state can keep writing a property's
+previous value even if its animation does not contain that property.
 
-Then:
-* Random properties in the controller will "stick," refusing to change even when they are instructed to by an animation.
+## WD Off Layers Prevent WD On Resets
 
-Possible Fixes:
-* Do not mix WD within a controller (except for direct blendtrees and additive layers, where WD MUST ALWAYS be on)
-* If a mix is absolutely required, ensure that all WD on is below any WD off
-* Note that ALL playable layer controllers in a vrchat avatar are considered one "controller"
+A WD Off state in one layer can prevent WD On states in another layer from resetting properties. After a WD On state
+animates a property, entering another WD On state which omits it can leave the property at its previous value.
+This can happen even if the WD Off layer never animates that property.
 
-## Direct Blendtrees and Additive Layers with WD Off
+Keeping each layer entirely WD On or entirely WD Off does not prevent this bug, and moving the layers around does
+not guarantee that the reset will work. In VRChat, all playable layer controllers share one animator, so keeping
+them in separate controllers does not prevent interference either.
 
-When:
-* A state containing a direct blendtree, or a state within an Additive layer, are set to WD off
+Avoid mixing WD where possible, while keeping direct blendtrees and additive layers WD On. If you need a reset,
+you can explicitly animate the default value, but this can change blending and what later WD Off states remember.
+A defaults layer at the top can also fix some cases. Do not continuously reset properties which need to keep their
+previous values with WD Off, and note that a defaults layer does not fix
+[blending against earlier layers](#partial-blendtree-weights-can-ignore-earlier-layers).
 
-Then:
-* Random properties in the controller may grow or shink in value every frame, causing them to fly off into oblivion.
-* Blendshapes animated in the controller may have their values unexpectedly multiplied by 2x or 3x.
+Animations can still explicitly change the property in this case. If even explicit curves cannot change it,
+see [WD Off None Motions Can Freeze Animated Properties](#wd-off-none-motions-can-freeze-animated-properties).
 
-Possible Fixes:
-* Ensure all Direct Blendtrees and all states within Additive layers are always WD on
+## WD Off Restores Values From Before a WD On Reset
 
-## Transforms in Unmasked Controllers with WD Off
+Mixing WD settings within one layer can make a property return to an older value after a reset. For example:
 
-When:
-* Multiple controllers in a mixer use WD off (such as Gesture and FX)
+1. A WD Off state animates the property to 20.
+2. A WD On state omits it, making it return to its default of 3.
+3. A WD Off state also omits it, and the property jumps back to 20.
 
-Then:
-* The lowest controller in the mixer (usually FX) will claim ownership of all unmasked transforms
-* Even if the transforms are not animated within any state in the controller, it will still prevent any higher controller in the mixer from animating them.
+If the middle state explicitly animates the property to 3 instead, the following WD Off state keeps 3.
+An explicit reset can therefore change what later states remember.
 
-Possible Fixes:
-* Use WD on
-* Combine Gesture and FX, so that FX claiming all transforms is acceptable (as all transform animations will be within the one controller)
-* Add masks to FX, preventing it from owning specific transforms (impossible in some scenarios due to `Broken Properties in Masked Layers`)
+Keeping all states within a layer on the same WD setting avoids this particular problem.
 
-## Muscles in Unmasked Controllers with WD Off OR On
+## WD Off Direct Blendtrees Can Accumulate Values Every Frame
 
-When:
-* Multiple controllers in a mixer animate the same humanoid muscle
+In an unnormalized direct blendtree with WD Off, a child which omits a property can still add its previous value to
+the blend. Values may grow or shrink every frame, causing them to fly off into oblivion. For example, after a
+property is set to 10, one child animating it to 10 and another omitting it, both at weight 1, can produce
+20, 30, 40, 50 on successive frames.
 
-Then:
-* The lowest controller in the mixer (usually FX) will claim ownership of all unmasked muscles
-* Even if the muscles are not animated within any state in the controller, it will still prevent any higher controller in the mixer from animating them.
+An earlier layer animating the property every frame can stop the growth, but the values from the two layers may
+still be added together incorrectly. Putting the direct blendtree inside a 1D or 2D blendtree does not prevent
+the problem.
 
-Possible Fixes:
-* Ensure each muscle is only animated by one controller
-* If overriding is required, use Playable Layer Control to weight the override controller to 0 when the animation is complete (like is done with Action)
+Keep states containing direct blendtrees WD On, including states where the direct tree is nested inside another
+tree. A tree with only one child, or with every property animated in every child, may appear to work with WD Off;
+adding more animations can break it. Normalizing the tree can stop the growth in some cases, but changes how its
+weights combine.
 
-## Muscles in Unmasked Layers with WD Off
+WD On direct blendtrees can still suffer from [failed resets](#wd-off-layers-prevent-wd-on-resets) and
+[incorrect blending against earlier layers](#partial-blendtree-weights-can-ignore-earlier-layers), including when they share a layer
+with ordinary states.
 
-When:
-* Multiple layers in a single controller use WD off
-* Two layers animate the same muscle of the humanoid rig
+## WD Off Additive Layers Can Add Unanimated Values
 
-Then:
-* The lowest layer "claims" ownership of the muscle the first time it is animated, preventing any higher layer from ever animating that muscle
-* Moving to a state no longer animating the muscle does not release ownership
-* Moving to a state with NO BINDINGS (including invalid bindings) temporarily releases ownership, but it will be reclaimed immediately upon moving to another state with any bindings
+A WD Off state in an Additive layer can add unwanted values for properties which its active blendtree children
+omit. For example, with a default of 3 and an earlier layer setting 5, a 1D tree fully weighting a child which omits
+the property can produce 8 instead of leaving it at 5. This does not require a direct blendtree.
 
-Possible Fixes
-* Use WD on
-* Use Animator Layer Control to "weight" the lower layer to 0
+Keep all states within Additive layers WD On.
 
-## Broken Properties in Masked Layers
+## WD Off Blendtrees Can Drift with Constant Inputs
 
-When:
-* A state's layer, or the controller's base layer, contains a mask that does not allow All Transforms
+Ordinary 1D and 2D blendtrees, as well as normalized direct blendtrees, can also reuse a property's previous value
+when their active children animate different sets of properties. If an earlier layer is not supplying the property
+every frame, the result can keep changing even when the clips and blend parameters are constant.
 
-Then:
-* The state cannot perform a material swap on material slot 0 if it's not an allowed transform in the mask
-* The state cannot perform a material swap on a material slot greater than 0 at all
-* The state cannot animate properties on a VRC Physbone (and possibly other non-standard component types)
+For example, starting at 3, a 1D tree blending halfway between a clip setting the property to 10 and one omitting it
+can produce 6.5, 8.25, 9.125, 9.5625 on successive frames.
 
-Possible Fixes:
-* Do not use masks on the layer or the controller's base layer
+To avoid this, animate each shared property in every relevant child. Continuously animating it in an earlier layer
+can also stop the feedback, if the property does not need to keep its previous value. Adding default curves can
+change [how the tree blends with earlier layers](#partial-blendtree-weights-can-ignore-earlier-layers).
 
-## Empty Animations with WD Off
+## Retained Values Overwritten by Other Layers
 
-When:
-* A state uses WD off
-* The state contains a "none" animation, or an empty animation clip, in the root motion or any blendtree child
+WD Off does not remember a separate value for each layer. Suppose an earlier WD Off layer animates a property to 20,
+then enters a clip which animates other properties. A later layer overrides it to 10, then stops animating it.
+The earlier layer may keep 10 instead of restoring its original 20.
 
-Then:
-* Similar symptoms to `Mixed WD`
+This can happen even if each layer uses only WD On or only WD Off. Changing the later layer to WD Off does not
+fix it.
 
-Possible Fixes:
-* If a state uses WD off, ensure that all motions and blendtree children are set to an animation clip containing at least one property (it does not have to be valid)
+Keep the earlier layer explicitly animating the value which should return after the override, or avoid sharing
+properties which a layer needs to remember. Reordering layers or adding default curves is not a general fix.
 
-## WD On Blending is not Additive
+## WD Off Controllers Can Block Other Controllers' Animations
 
-When:
-* WD is on
-* A property is set in a clip in one layer
-* The same property is modified at a partial weight >0 within a blendtree in a lower layer
+When multiple controllers in a mixer use WD Off, a later controller (usually FX in VRChat) can claim ownership of
+unmasked transforms. It can prevent earlier controllers from animating transforms which it never explicitly animates.
 
-Then:
-* The value of the final property does not account for the value in the first layer.
-* For example:
-  * If the default (resting state) value of the property is 0
-  * and the property is animated to 5 in layer 1
-  * and the property is animated to 10 with 0.1 weight in layer 2
-  * The final value will be 1 (disregarding the 5 entirely)
-  * However, if the weight on layer 2 is changed to 0, suddenly the final value is 5
+The interference is not limited to transforms. A WD Off controller animating one float on a component can prevent
+another controller from animating a different float on the same component. A controller playing a real empty clip
+can also interfere; see [WD Off Empty Clips Can Block Resets and Other Controllers](#wd-off-empty-clips-can-block-resets-and-other-controllers).
 
-Possible Fixes:
-* Do not animate the same property from multiple layers if they involve "open-ended" blending.
-* All blendtrees involving properties animated in higher layers should fully animate all shared properties in all children.
-* Direct blendtrees involving properties animated in higher layers should always have weight 1 (fully animated) or 0 (fall through to above layer).
+Possible workarounds include:
 
-## WD On breaks transition time to blendtrees when a parameter is Animated
+* Use WD On for the affected controllers. The other WD On issues on this page still apply.
+* Combine Gesture and FX. This removes the interference between those controllers, but the resulting controller
+  can still have the other layer problems described here.
+* Add masks to FX to exclude the transforms needed by earlier controllers. This is not always practical because
+  [masks can break other properties](#broken-properties-in-masked-layers).
 
-When:
-* WD is on
-* Any parameter in the animator is controlled by an animation
-* One state transitions to another state that uses a blend tree, and the current blend involves more than one motion
+## Muscle Clips Can Override Muscles They Do Not Animate
 
-Then:
-* The transition ignores the state that is being transitioned from, snapping to the new state immediately
+A clip animating a humanoid muscle can override other muscles which it does not animate, both across layers within
+one controller and across separate controllers in a mixer. For example, a later clip animating only the left arm can
+prevent an earlier layer from animating the right arm, if the later layer's mask allows the right arm.
 
-Possible Fixes:
-* Use WD off
-* Avoid this scenario entirely (do not use blendtrees in a multi-state layer)
-* Do not use animated parameters (often unavoidable)
+This happens with WD On as well as WD Off. The blocked muscle does not need to appear anywhere in the later
+controller, and the later layer does not need to animate it first. Giving each muscle to only one controller
+is therefore not enough to prevent interference.
+
+Use a humanoid body-part mask to exclude the parts which should come from earlier layers. These masks exclude whole
+body parts, not individual muscles: excluding the right arm also excludes its other muscles. When mixing controllers,
+the mask needs to apply to the controller's mixer input as well. In VRChat, the SDK copies a custom controller's
+base-layer mask to its playable-layer mask.
+
+If the later layer should temporarily override the earlier one, use Animator Layer Control or Playable Layer Control
+to weight it to 0 when the animation is complete, as is done with Action. Moving to a real clip containing only
+non-muscle bindings can also release the muscles. A WD Off "none" motion can still lock them;
+see [WD Off None Motions Can Freeze Animated Properties](#wd-off-none-motions-can-freeze-animated-properties).
+
+## Avatar Masks Can Block Material Swaps and PhysBone Properties {#broken-properties-in-masked-layers}
+
+An Avatar Mask containing explicit transform paths can break some animations on that layer or controller mixer
+input. Both WD On and WD Off are affected:
+
+* Material swaps on slots greater than 0 can be blocked, even when every listed transform is enabled.
+* Material swaps on slot 0 can also be blocked. Enabling the renderer's path or an ancestor's path can allow the swap,
+  so this does not follow exactly the same rules as masking transform animations.
+* PhysBone enum properties, such as Integration Type, and object references, such as Root Transform, can be blocked.
+  Float and bool properties including Pull, Gravity, Radius and Is Animated can still be animated, even when every
+  transform path is disabled.
+
+A mask with no transform paths did not cause these failures. If you only need humanoid masking, use a mask with no
+transform paths. Enabling every path in an existing transform-path mask does not fix material slots greater than 0
+or these PhysBone enum and reference properties. Keep affected animations out of layers or mixer inputs with
+these masks.
+
+In Unity alone, a mask on the controller's base layer does not automatically mask its other layers. In VRChat,
+the SDK copies a custom controller's base-layer mask to its playable-layer mask, which can affect the whole controller.
+
+## WD Off None Motions Can Freeze Animated Properties
+
+A WD Off state with a "none" (null) motion, or a null blendtree child, can freeze properties which its layer previously
+animated. Earlier layers can then be prevented from changing those properties even with explicit animation curves.
+This also happens when both layers use WD Off; mixed WD settings are not required.
+
+Replace "none" motions and null blendtree children with real animation clips. A clip containing at least one
+property, which does not have to be a valid binding, avoids this lock in the tested cases. Weighting the offending
+layer to 0 can also release the lock, although this cannot be done to the controller's base layer.
+
+Replacing null motions does not fix every problem caused by missing curves or separate controllers.
+[Real empty clips behave differently](#wd-off-empty-clips-can-block-resets-and-other-controllers).
+
+## WD Off Empty Clips Can Block Resets and Other Controllers
+
+A real animation clip with no animated properties behaves differently from a "none" motion. Within one controller, a WD Off
+empty clip can allow earlier layers to change a property with explicit curves, while still preventing a WD On state
+from resetting it.
+
+For example, after a later layer animates a property and enters an empty clip, an earlier layer can change it from
+10 to 20. If the earlier layer then relies on WD On to reset it, it can stay at 20.
+
+Across separate controllers in a mixer, a WD Off controller playing an empty clip can still prevent an earlier
+controller from changing properties with explicit curves. Adding a dummy binding does not fix this interference
+or the failed resets within one controller.
+
+Explicitly animate a reset value where one is needed, remembering that this can change blending and later WD Off
+holds. For interference between separate controllers, use WD On or combine the controllers as described under
+[WD Off Controllers Can Block Other Controllers' Animations](#wd-off-controllers-can-block-other-controllers-animations).
+
+## Partial Blendtree Weights Can Ignore Earlier Layers
+
+Partial blending inside a tree on an override layer can use the default value instead of the value from an earlier
+layer. This does not require an Additive layer.
+
+For example, with WD On and a default of 0, an earlier layer sets 5. A later direct blendtree has one child setting
+10 at weight 0.1 and another child omitting the property at weight 0.9. The result is 1 instead of 5.5: the missing
+contribution comes from the default of 0, ignoring the earlier layer's 5. If the animated child's weight drops to 0,
+the earlier layer's 5 can suddenly show through again.
+
+An unnormalized direct blendtree can also fill missing weight from the default with WD Off. This can happen with
+one child or multiple children, even if every child animates the property. With a default of 3, an earlier layer
+setting 5, and two children each setting 10 at weight 0.05, the result is 3.7 instead of 5.5.
+
+Adding another child does not fix an unfilled weight deficit unless it supplies the intended contribution.
+Adding a base defaults layer does not fix the blending either.
+
+To avoid the problem:
+
+* Avoid sharing properties between layers which involve open-ended blending.
+* Animate shared properties in every child, using the values which should be blended together, and ensure the total
+  contribution is fully weighted. Adding curves alone does not fix an unnormalized direct tree's weight deficit.
+* For a shared property in a direct blendtree, keep its animated contribution fully weighted or zero.
+* For ordinary normalized blendtrees, WD Off can blend against an earlier layer which supplies the property every
+  frame. The other WD Off problems on this page still apply. Keep direct blendtrees and Additive layers WD On;
+  changing an unnormalized direct tree to WD Off does not fix its weight deficit.
+
+Replacing a direct blendtree with 1D or 2D blendtrees can change how the weights combine and how fast the animations
+play, so it is not a general fix.
+
+## Animated Parameters Can Delay WD On Resets Until a Transition Ends
+
+With WD On, an animated float parameter in the controller can affect how a transition resets properties, even if
+that parameter is unrelated to the blendtree. This can happen when transitioning from a state animating a property
+to a tree whose currently weighted children omit it, but which contains it in an inactive child.
+
+Some properties can keep the source value throughout the transition, then jump to their default when it finishes.
+For example, with a default of 3 and a source value of 20, Light intensity and a blendshape stayed at 20 until the
+transition ended. Without the animated parameter, they blended from 20 to 3. Transform position still blended
+normally in the same test.
+
+This can happen with 1D, 2D Simple Directional and normalized direct blendtrees. Transitions where both states
+explicitly animate the property can still blend normally.
+
+Explicitly animate the intended reset value in the relevant children to avoid relying on WD during the transition.
+This can change [blending with earlier layers](#partial-blendtree-weights-can-ignore-earlier-layers). Avoid animated parameters where
+possible, although this is often unavoidable. Switching to WD Off does not replace an authored reset and can
+introduce the blendtree problems described above.

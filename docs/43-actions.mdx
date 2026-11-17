@@ -65,7 +65,7 @@ This obsolete action has no effect in SPS3. Replace it with `Change SPS Channels
 
 ## Set an FX Float
 Drives a `Float` type parameter in the FX animator controller to the defined value.\
-Can also be used to drive `Bool` or `Int` type parameters, but this is **less performant**. Consider using a Float instead, it can be used in the same way.
+Can also be used to drive `Bool` or `Int` parameters. VRCFury automatically converts the FX controller parameter to a `Float` and updates its conditions.
 :::warning
 This will cause the FX parameter to be 'animated', which means it cannot be used in a menu or otherwise controlled by VRChat.
 :::
