@@ -165,7 +165,7 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 * When Unity highlights an asset in the Project window, the highlight can be hidden behind another tab
   * VRCFury brings the Project window forward when an asset is highlighted and the Project window is in the background
 * Double-clicking an animation clip in an Animator state can leave the Animation window on the previous clip, especially when the clip is embedded in a controller
-  * VRCFury opens the selected clip in the Animation window when you double-click the state or its Motion field
+  * VRCFury opens the selected clip in the Animation window when you double-click a state, its Motion field, or a clip node in a blend tree
 * Unity's blend tree graph editor becomes extremely slow when viewing large trees
   * VRCFury patches Unity to resolve many of its blend tree graph editor slow-downs
 * A bug in Mono breaks the VRCSDK dialog when Harmony is used, the system locale is non-english, and the project path contains non-english characters

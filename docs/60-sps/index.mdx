@@ -16,7 +16,7 @@ Deformation, contacts, and OGB haptics are for desktop avatars; non-desktop uplo
 * No lights needed between SPS3 plugs and sockets, or when SPS3 plugs target SPS1/2 sockets
 * Fewer contacts with smaller ranges than previous SPS versions
 * Fixes the screen-effect "ghost plugs" issue when SPS3 plugs target SPS3/SPS2/SPS1 sockets
-* Guided paths with up to 4 stops
+* Guided paths with up to 4 nodes after the entrance
 * Radius offset that follows the plug's radius profile
 * Depth animations and plug entry radius animations
 * Channels for filtering which plugs can target which sockets
@@ -50,8 +50,6 @@ Existing DPS/TPS materials are supported: SPS imports their settings and disable
   * Can be animated to temporarily disable deformation. See [toggling deformation](#disabling-sps-plug-deformation-with-a-toggle-or-animation).
 * `Animated blendshapes to keep while deforming`
   * Lists blendshapes that should continue animating during deformation.
-* `Allow Hole Overrun`
-  * Lets the plug extend slightly past a hole for better collapse visuals.
 
 ## How to Set Up a Socket
 
@@ -72,11 +70,12 @@ Unchecking `Enable Deformation` prevents this socket from attracting plugs, whil
 
 ### Radius Offset and Guided Paths
 
-`Radius Offset` moves the target in the socket's up direction by the plug's radius. This is useful for hand-style sockets. With SPS3 plugs, it follows the radius profile at the socket entrance rather than just the plug's overall radius.
+`Radius Offset` moves the target in the socket's up direction by the plug's radius. This is useful for hand-style sockets. You can enable it separately at the entrance and at each guided node. The offset follows the SPS3 plug's radius profile. Use `Limit Radius Offset` to cap how far a target can move.
 
-A `Guided Path` can have **up to 4 stops**. After entering the socket, the plug follows those stops. Path segments can optionally collapse the plug; for a Hole socket, final collapse occurs at the last stop.
+Click `Add Guided Path Node` to guide the plug through **up to 4 nodes after the entrance**. Select the socket and use Unity's move, rotate, or scale tool to adjust the nodes. Each node needs a transform that contains no other SPS socket. Custom tangent overrides are no longer supported.
 
-Select the socket and use Unity's current move, rotate, or scale tool to adjust its stops. Stop transforms must not contain other SPS sockets. Radius offset only applies at the path entry. Custom tangent overrides are no longer supported.
+* Enable `Collapse until next node` where the plug should disappear. Consecutive collapsed sections act as one span. The plug tapers within the first quarter of that span and gradually reappears at the reopening node before continuing. If it joins partway along the path, the span starts at the join.
+* Enable `Collapse plug at exit` on the last node to end the plug there. Its tip tapers in place at the node. Leave this unchecked to let the plug continue out of the path.
 
 Avatar sockets can be placed under non-uniformly scaled bones. World sockets still require a hierarchy with uniform, positive scale.
 
