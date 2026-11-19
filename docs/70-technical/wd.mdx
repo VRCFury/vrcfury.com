@@ -71,7 +71,7 @@ the property can produce 8 instead of leaving it at 5. This does not require a d
 
 Keep all states within Additive layers WD On.
 
-## WD Off Blendtrees Can Drift with Constant Inputs
+## Normalized WD Off Blendtrees Can Drift with Constant Inputs {#wd-off-blendtrees-can-drift-with-constant-inputs}
 
 Ordinary 1D and 2D blendtrees, as well as normalized direct blendtrees, can also reuse a property's previous value
 when their active children animate different sets of properties. If an earlier layer is not supplying the property
@@ -98,8 +98,9 @@ properties which a layer needs to remember. Reordering layers or adding default 
 
 ## WD Off Controllers Can Block Other Controllers' Animations
 
-When multiple controllers in a mixer use WD Off, a later controller (usually FX in VRChat) can claim ownership of
-unmasked transforms. It can prevent earlier controllers from animating transforms which it never explicitly animates.
+A later WD Off controller in a mixer (usually FX in VRChat) can claim ownership of unmasked transforms. It can
+prevent earlier controllers from animating transforms which it never explicitly animates, even if those earlier
+controllers use WD On. Only the later controller needs to use WD Off for this interference to occur.
 
 The interference is not limited to transforms. A WD Off controller animating one float on a component can prevent
 another controller from animating a different float on the same component. A controller playing a real empty clip
@@ -168,22 +169,21 @@ Replacing null motions does not fix every problem caused by missing curves or se
 
 ## WD Off Empty Clips Can Block Resets and Other Controllers
 
-A real animation clip with no animated properties behaves differently from a "none" motion. Within one controller, a WD Off
-empty clip can allow earlier layers to change a property with explicit curves, while still preventing a WD On state
-from resetting it.
+A real animation clip with no animated properties behaves differently from a "none" motion. Within one controller,
+it can avoid the [null-motion lock](#wd-off-none-motions-can-freeze-animated-properties), allowing earlier layers to
+change a property with explicit curves. The WD Off state can still
+[prevent WD On resets](#wd-off-layers-prevent-wd-on-resets).
 
 For example, after a later layer animates a property and enters an empty clip, an earlier layer can change it from
 10 to 20. If the earlier layer then relies on WD On to reset it, it can stay at 20.
 
-Across separate controllers in a mixer, a WD Off controller playing an empty clip can still prevent an earlier
-controller from changing properties with explicit curves. Adding a dummy binding does not fix this interference
-or the failed resets within one controller.
+Across separate controllers in a mixer, an empty clip can still cause the
+[controller interference described above](#wd-off-controllers-can-block-other-controllers-animations), blocking
+explicit animation curves in an earlier controller. These are the same reset and controller-interference problems;
+using an empty clip does not avoid them. Use the workarounds in those sections. Adding a dummy binding does not
+fix either problem.
 
-Explicitly animate a reset value where one is needed, remembering that this can change blending and later WD Off
-holds. For interference between separate controllers, use WD On or combine the controllers as described under
-[WD Off Controllers Can Block Other Controllers' Animations](#wd-off-controllers-can-block-other-controllers-animations).
-
-## Transitions and Blendtrees Can Ignore Earlier Layers {#partial-blendtree-weights-can-ignore-earlier-layers}
+## WD On Transitions Can Ignore Earlier Layers
 
 On an override layer, a WD On state transition can blend from the object's default (resting) value instead of the
 value supplied by an earlier layer. This happens when one state animates the property and the other state omits it.
@@ -196,8 +196,21 @@ the result is 6.5, blending from 3 to 10, instead of 7.5, blending from 5 to 10.
 The reverse transition has the same problem: it blends from 10 toward 3, then returns to the earlier layer's 5 when
 the transition finishes. This can cause a jump at the start or end of the transition.
 
-Partial blending inside a blendtree can also use the default instead of the earlier layer's value. Neither case
-requires an Additive layer.
+If the intended values are known, explicitly animate them in both states. Animating a fixed default is different
+from following a value supplied by an earlier layer, so this is not a general fix for sharing animated properties.
+Adding a base defaults layer does not fix the transition either.
+
+For ordinary clip states, WD Off can blend against an earlier layer which supplies the property every frame.
+The other WD Off problems on this page still apply, and any required resets need explicit curves. Keep direct
+blendtrees and Additive layers WD On.
+
+Blendtrees can also [use the default instead of the earlier layer's value](#partial-blendtree-weights-can-ignore-earlier-layers).
+
+## Partial Blendtree Weights Can Ignore Earlier Layers
+
+Partial blending inside a tree on an override layer can use the default value instead of the value from an earlier
+layer. This does not require an Additive layer. It uses defaults in a similar way to
+[WD On state transitions](#wd-on-transitions-can-ignore-earlier-layers).
 
 For example, with WD On and a default of 0, an earlier layer sets 5. A later direct blendtree has one child setting
 10 at weight 0.1 and another child omitting the property at weight 0.9. The result is 1 instead of 5.5: the missing
@@ -216,12 +229,10 @@ To avoid the problem:
 * Avoid sharing properties between layers which involve open-ended blending.
 * Animate shared properties in every child, using the values which should be blended together, and ensure the total
   contribution is fully weighted. Adding curves alone does not fix an unnormalized direct tree's weight deficit.
-* For state transitions, explicitly animate the intended values in both states if those values are known.
-  Animating a fixed default is different from following a value supplied by an earlier layer.
 * For a shared property in a direct blendtree, keep its animated contribution fully weighted or zero.
-* With ordinary clip transitions or normalized blendtrees, WD Off can blend against an earlier layer which supplies
-  the property every frame. The other WD Off problems on this page still apply. Keep direct blendtrees and Additive
-  layers WD On; changing an unnormalized direct tree to WD Off does not fix its weight deficit.
+* With ordinary normalized blendtrees, WD Off can blend against an earlier layer which supplies the property every
+  frame. The other WD Off problems on this page still apply. Keep direct blendtrees and Additive layers WD On;
+  changing an unnormalized direct tree to WD Off does not fix its weight deficit.
 
 Replacing a direct blendtree with 1D or 2D blendtrees can change how the weights combine and how fast the animations
 play, so it is not a general fix.
@@ -242,6 +253,6 @@ This can happen with 1D, 2D and direct blendtrees, including normalized direct b
 states explicitly animate the property can still blend normally.
 
 Explicitly animate the intended reset value in the relevant children to avoid relying on WD during the transition.
-This can change [blending with earlier layers](#partial-blendtree-weights-can-ignore-earlier-layers). Avoid animated parameters where
+This can change [blending with earlier layers](#wd-on-transitions-can-ignore-earlier-layers). Avoid animated parameters where
 possible, although this is often unavoidable. Switching to WD Off does not replace an authored reset and can
 introduce the blendtree problems described above.
