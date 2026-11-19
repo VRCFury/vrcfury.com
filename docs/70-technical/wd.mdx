@@ -183,10 +183,21 @@ Explicitly animate a reset value where one is needed, remembering that this can 
 holds. For interference between separate controllers, use WD On or combine the controllers as described under
 [WD Off Controllers Can Block Other Controllers' Animations](#wd-off-controllers-can-block-other-controllers-animations).
 
-## Partial Blendtree Weights Can Ignore Earlier Layers
+## Transitions and Blendtrees Can Ignore Earlier Layers {#partial-blendtree-weights-can-ignore-earlier-layers}
 
-Partial blending inside a tree on an override layer can use the default value instead of the value from an earlier
-layer. This does not require an Additive layer.
+On an override layer, a WD On state transition can blend from the object's default (resting) value instead of the
+value supplied by an earlier layer. This happens when one state animates the property and the other state omits it.
+It can happen with ordinary animation clips; blendtrees and animated parameters are not required.
+
+For example, suppose the default is 3 and an earlier layer continuously sets 5. A later WD On layer is in a state
+which omits the property, so the visible value is 5. It then transitions to a state setting 10. Halfway through,
+the result is 6.5, blending from 3 to 10, instead of 7.5, blending from 5 to 10.
+
+The reverse transition has the same problem: it blends from 10 toward 3, then returns to the earlier layer's 5 when
+the transition finishes. This can cause a jump at the start or end of the transition.
+
+Partial blending inside a blendtree can also use the default instead of the earlier layer's value. Neither case
+requires an Additive layer.
 
 For example, with WD On and a default of 0, an earlier layer sets 5. A later direct blendtree has one child setting
 10 at weight 0.1 and another child omitting the property at weight 0.9. The result is 1 instead of 5.5: the missing
@@ -205,10 +216,12 @@ To avoid the problem:
 * Avoid sharing properties between layers which involve open-ended blending.
 * Animate shared properties in every child, using the values which should be blended together, and ensure the total
   contribution is fully weighted. Adding curves alone does not fix an unnormalized direct tree's weight deficit.
+* For state transitions, explicitly animate the intended values in both states if those values are known.
+  Animating a fixed default is different from following a value supplied by an earlier layer.
 * For a shared property in a direct blendtree, keep its animated contribution fully weighted or zero.
-* For ordinary normalized blendtrees, WD Off can blend against an earlier layer which supplies the property every
-  frame. The other WD Off problems on this page still apply. Keep direct blendtrees and Additive layers WD On;
-  changing an unnormalized direct tree to WD Off does not fix its weight deficit.
+* With ordinary clip transitions or normalized blendtrees, WD Off can blend against an earlier layer which supplies
+  the property every frame. The other WD Off problems on this page still apply. Keep direct blendtrees and Additive
+  layers WD On; changing an unnormalized direct tree to WD Off does not fix its weight deficit.
 
 Replacing a direct blendtree with 1D or 2D blendtrees can change how the weights combine and how fast the animations
 play, so it is not a general fix.
@@ -217,15 +230,16 @@ play, so it is not a general fix.
 
 With WD On, an animated float parameter in the controller can affect how a transition resets properties, even if
 that parameter is unrelated to the blendtree. This can happen when transitioning from a state animating a property
-to a tree whose currently weighted children omit it, but which contains it in an inactive child.
+to a tree whose currently weighted children omit it. The property can be absent from every clip in the destination
+tree.
 
-Some properties can keep the source value throughout the transition, then jump to their default when it finishes.
-For example, with a default of 3 and a source value of 20, Light intensity and a blendshape stayed at 20 until the
-transition ended. Without the animated parameter, they blended from 20 to 3. Transform position still blended
-normally in the same test.
+Some properties can keep the source value throughout the transition, then return to an earlier layer's value or
+their default when it finishes. For example, with a default of 3, a source value of 20, and no earlier layer animating
+the property, Light intensity and a blendshape stayed at 20 until the transition ended. Without the animated
+parameter, they blended from 20 to 3. Transform position still blended normally in the same test.
 
-This can happen with 1D, 2D Simple Directional and normalized direct blendtrees. Transitions where both states
-explicitly animate the property can still blend normally.
+This can happen with 1D, 2D and direct blendtrees, including normalized direct blendtrees. Transitions where both
+states explicitly animate the property can still blend normally.
 
 Explicitly animate the intended reset value in the relevant children to avoid relying on WD during the transition.
 This can change [blending with earlier layers](#partial-blendtree-weights-can-ignore-earlier-layers). Avoid animated parameters where
