@@ -17,10 +17,10 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury recognizes the later platform builds so upload-only steps still run
 * ~~Having the VRCSDK in a project creates a useless folder called XR in the Assets root~~
   * ~~VRCFury automatically moves the Assets/XR folder into its own temporary package to keep your project clean~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~Some versions of the VRCSDK save assets for no useful reason during script reloads~~
   * ~~VRCFury removes that extra save step to reduce unnecessary scene and asset churn~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 
 ## VRCSDK (Avatars)
 
@@ -30,12 +30,6 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury repairs the descriptor by restoring the proper FX and Action layer assignments
 * The VRCSDK fails with a cryptic error message when menu icons are too large
   * VRCFury detects this condition and shows a useful error message with the icon paths
-* ~~VRCSDK contacts do not properly distinguish between "Self" and "Others" when testing in editor play mode~~
-  * ~~VRCFury automatically adjusts avatar contacts in play mode to make "Self" and "Others" work properly~~
-  * ~~Fixed in VRCSDK 3.10.4~~
-* ~~[Contacts and PhysBones can make entering play mode slow on avatars with many Animator parameters](https://feedback.vrchat.com/sdk-bug-reports/p/animparameteraccessavatarsdk-can-add-multiple-seconds-to-avatar-play-mode-entry)~~
-  * ~~VRCFury avoids the SDK's repeated copying of the entire parameter list while setting up each parameter~~
-  * ~~Fixed in VRCSDK 3.11.0-beta.1~~
 * Contact receiver debug values in the VRCSDK inspector do not update during play mode unless something triggers a repaint, such as hovering over the inspector
   * VRCFury keeps those values updating while the receiver inspector is open in play mode
 * The VRCSDK counts default contacts created by Gesture Manager and Av3Emulator, such as finger contacts, toward the avatar's performance rank in Play Mode
@@ -50,16 +44,10 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury preserves those settings when the inspector loads
 * The VRCSDK can [prompt you to import TextMesh Pro Essentials in avatar projects](https://feedback.vrchat.com/unity-6-sdk/p/avatar-6-template-immediately-opens-tmp-importer-prompt)
   * VRCFury skips the automatic import prompt
-* ~~[Material contacts in editor play mode can give multiple avatars the same player ID, confusing shaders about which avatar a contact belongs to](https://feedback.vrchat.com/sdk-bug-reports/p/material-contacts-playerid-collision-is-very-likely-in-editor-play-mode)~~
-  * ~~VRCFury assigns each avatar's contacts a unique positive player ID so they remain separate from other avatars and detached contacts~~
-  * ~~Fixed in VRCSDK 3.11.0-beta.1~~
 * The VRCSDK adds unwanted Undo entries when it synchronizes Gesture and FX layer masks while opening an avatar descriptor or finishing a build
   * VRCFury applies these automatic mask updates without recording them in the Undo history
 * The VRCSDK switches back to the Authentication tab every time you reload scripts
   * VRCFury automatically switches the VRCSDK to the Builder tab if you are already logged in when scripts reload
-* ~~[Dynamics and contacts stop working](https://feedback.vrchat.com/sdk-bug-reports/p/376-dynamics-only-work-the-first-time-you-enter-play-mode) after the first time you enter play mode in VRCSDK 3.7.6~~
-  * ~~VRCFury patches the VRCSDK to fix this bug~~
-  * ~~Fixed in VRCSDK 3.8.0~~
 * [Avatar colliders can be unset or set to incorrect transforms](https://feedback.vrchat.com/sdk-bug-reports/p/avatar-auto-collider-transforms-are-not-updated-before-an-upload) if the rig is modified and then the VRCSDK collider section is not viewed afterward
   * VRCFury forces the VRCSDK to recalculate collider transforms at the beginning of each build
 * [Overlapping contacts can fail to register](https://feedback.vrchat.com/bug-reports/p/overlapping-on-load-receivers-are-still-broken) when the avatar loads or changes scale
@@ -105,30 +93,42 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury automatically marks all physbones targeting humanoid bones as animated
 * The expressions menu can fail to appear in-game if your avatar is missing an Animator or a valid avatar rig
   * VRCFury adds a generic rig during the build when needed and suppresses the SDK's missing Animator error when VRCFury will supply the Animator
+* ~~VRCSDK contacts do not properly distinguish between "Self" and "Others" when testing in editor play mode~~
+  * ~~VRCFury automatically adjusts avatar contacts in play mode to make "Self" and "Others" work properly~~
+  * ~~Fixed in VRCSDK 3.10.4~~
+* ~~[Contacts and PhysBones can make entering play mode slow on avatars with many Animator parameters](https://feedback.vrchat.com/sdk-bug-reports/p/animparameteraccessavatarsdk-can-add-multiple-seconds-to-avatar-play-mode-entry)~~
+  * ~~VRCFury avoids the SDK's repeated copying of the entire parameter list while setting up each parameter~~
+  * ~~Fixed in VRCSDK 3.11.0-beta.1~~
+* ~~[Material contacts in editor play mode can give multiple avatars the same player ID, confusing shaders about which avatar a contact belongs to](https://feedback.vrchat.com/sdk-bug-reports/p/material-contacts-playerid-collision-is-very-likely-in-editor-play-mode)~~
+  * ~~VRCFury assigns each avatar's contacts a unique positive player ID so they remain separate from other avatars and detached contacts~~
+  * ~~Fixed in VRCSDK 3.11.0-beta.1~~
+* ~~[Dynamics and contacts stop working](https://feedback.vrchat.com/sdk-bug-reports/p/376-dynamics-only-work-the-first-time-you-enter-play-mode) after the first time you enter play mode in VRCSDK 3.7.6~~
+  * ~~VRCFury patches the VRCSDK to fix this bug~~
+  * ~~Fixed in VRCSDK 3.8.0~~
 * ~~The [VRCSDK dialog box crashes](https://feedback.vrchat.com/sdk-bug-reports/p/vrcsdk-panel-crashes-if-you-dont-own-the-blueprint-id-for-the-selected-avatar) when you don't own the blueprint ID currently set in the Pipeline Manager~~
   * ~~VRCFury patches this VRCSDK bug~~
   * ~~Fixed in VRCSDK 3.10.5~~
 * ~~The VRCSDK [opens an empty Animator window that cannot be closed](https://feedback.vrchat.com/sdk-bug-reports/p/parameter-driver-editor-sometimes-causes-broken-animator-windows) if scripts reload while viewing a Parameter Driver~~
   * ~~VRCFury patches this issue to not occur~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~The VRCSDK spams the console with "Animator is not playing an AnimatorController" before the animator loads if your avatar contains contacts~~
   * ~~VRCFury patches this issue to not occur~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~Because of a Unity editor bug, VRCSDK's AnimatorPlayAudioEditor can throw an exception after scripts reload if the editor was previously used on a behaviour that has since been deleted~~
   * ~~VRCFury patches this editor path to return safely instead of throwing~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~Some versions of the VRCSDK [break the testing of contacts in play mode](https://feedback.vrchat.com/sdk-bug-reports/p/race-condition-in-contactmanager-often-crashes-contacts-in-the-editor)~~
   * ~~VRCFury patches the VRCSDK to resolve this issue~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.7.6~~
 * ~~A bug in the VRCSDK [prints an error message related to "stopwatch"](https://feedback.vrchat.com/sdk-bug-reports/p/contactmanager-throws-an-npe-because-stopwatch-may-not-exist) when using play mode for the first time after scripts reload~~
   * ~~VRCFury patches the VRCSDK to fix this bug~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.7.6~~
 * ~~The VRCSDK collider editor automatically reverts custom collider transforms any time you look at the component~~
   * ~~VRCFury prevents this from happening when in play mode, so custom collider transforms will appear properly while testing~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~The VRCSDK collider editor doesn't mirror offsets properly if the avatar is not at `x=0`~~
   * ~~VRCFury patches the mirroring logic so colliders mirror properly across the avatar origin~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 
 ## VRCSDK (Worlds)
 
@@ -141,28 +141,28 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury suppresses the known noise so real errors are easier to see
 * ~~The first draw of a UdonSharp inspector can [clip the component below it](https://feedback.vrchat.com/sdk-bug-reports/p/udonsharp-components-eat-the-body-of-the-component-beneath-them-on-first-view)~~
   * ~~VRCFury patches the inspector so it lays out correctly the first time~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~World projects can spam `Value cannot be null` errors during certain serialization and reload edge cases~~
   * ~~VRCFury suppresses this non-actionable error noise~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~[`UdonBehaviour.OnDisable` can run during play mode teardown](https://feedback.vrchat.com/sdk-bug-reports/p/udon-behaviours-shouldnt-run-ondisable-in-the-editor-when-play-mode-is-exiting) when the scene is already half unloaded~~
   * ~~VRCFury blocks that broken teardown path to avoid follow-on errors~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~["Build & Reload" can leave the SDK world build flag unset](https://feedback.vrchat.com/sdk-bug-reports/p/vrc-sdkbuilderactivebuildtype-remains-unset-during-build-and-reload-for-worlds) on supported SDK versions~~
   * ~~VRCFury patches the build flow so world testing and build state stay in sync~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~[ClientSim persistence can try to save multiple times in parallel](https://feedback.vrchat.com/sdk-bug-reports/p/clientsimplayerobjectstorage-throws-an-error-if-persistence-updates-happen-too-f)~~
   * ~~VRCFury gates those saves so they do not race each other~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~[`ClientSimNetworkingUtilities` can break when domain reload is disabled](https://feedback.vrchat.com/sdk-bug-reports/p/clientsim-crashes-in-some-cases-when-play-mode-domain-reloading-is-disabled)~~
   * ~~VRCFury resets that state so play mode remains usable~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~[ClientSim can delete `EditorOnly` objects too early when scene reload is disabled](https://feedback.vrchat.com/sdk-bug-reports/p/editoronly-objects-are-deleted-too-early-by-clientsim-when-you-use-play-mode-opt)~~
   * ~~VRCFury delays that cleanup so testing behaves correctly~~
-  * ~~Fixed in latest VRCSDK~~
-* ~~UdonSharp can run a full recompile when VRCFury invokes build callbacks for testing~~
-  * ~~VRCFury skips that upload-only recompile unless an actual upload is in progress~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
+* ~~UdonSharp upgrades can trigger repeated asset imports and slow down large projects~~
+  * ~~VRCFury batches asset imports during those upgrades~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 
 ## Mono
 
@@ -175,9 +175,6 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 * VRCFury removes the built-in unity "Toggle", "Dropdown" and "Toggle Group" components from the Add Component menu, as they are not usable
   during avatar creation, and cause confusion when creating an avatar Toggle.
-* Unity 2019 does not properly apply changes from nested prefabs when those changes are made externally (for example, using version management) until the outer prefab is reimported
-  * VRCFury automatically recursively triggers unity to reimport prefabs in inside-out order prior to loading their vrcfury components
-  * This bug is resolved in Unity 2022
 * Users accidentally hide console errors and then complain that there are no script errors when checking
   * VRCFury ensures the Error logging level is enabled in the unity console whenever scripts are reloaded
 * Users accidentally go into pause mode forever and then complain that Gesture Manager does not work properly
@@ -211,6 +208,9 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury prevents you from dragging controller states while previewing them in live-link
 * Unity's controller layer list scrolls all the way to the top any time you move or delete a layer
   * VRCFury patches this issue
+* ~~Unity 2019 does not properly apply changes from nested prefabs when those changes are made externally (for example, using version management) until the outer prefab is reimported~~
+  * ~~VRCFury automatically recursively triggers unity to reimport prefabs in inside-out order prior to loading their vrcfury components~~
+  * ~~This bug is resolved in Unity 2022~~
 
 ## Unity (Avatars)
 
