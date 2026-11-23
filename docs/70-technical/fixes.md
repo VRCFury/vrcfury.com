@@ -15,6 +15,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury hides that warning when Unity 2022.3 is the recommended version
 * The VRCSDK can [lose track of the active upload after switching platforms](https://feedback.vrchat.com/sdk-bug-reports/p/multi-platform-build-does-not-set-vrc-sdkbuilderactivebuildtype-after-the-first) during a multi-platform build
   * VRCFury recognizes the later platform builds so upload-only steps still run
+* The VRCSDK Control Panel [blocks switching tabs during Play Mode](https://feedback.vrchat.com/sdk-bug-reports/p/sdk-3110-beta1-the-vrcsdk-panel-doesnt-work-properly-in-play-mode)
+  * VRCFury keeps the tabs usable and shows **Exit Play Mode to Build** on the Builder tab when the SDK has no other build warning to show
 * ~~Having the VRCSDK in a project creates a useless folder called XR in the Assets root~~
   * ~~VRCFury automatically moves the Assets/XR folder into its own temporary package to keep your project clean~~
   * ~~Fixed in VRCSDK 3.10.5~~
@@ -48,6 +50,8 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury applies these automatic mask updates without recording them in the Undo history
 * The VRCSDK switches back to the Authentication tab every time you reload scripts
   * VRCFury automatically switches the VRCSDK to the Builder tab if you are already logged in when scripts reload
+* Removing an avatar can [cause the VRCSDK avatar dropdown to throw an error](https://feedback.vrchat.com/sdk-bug-reports/p/sdk-3110-beta1-removed-descriptors-can-cause-vrcsdk-panel-to-crash-until-reloade)
+  * VRCFury keeps the dropdown usable and labels removed entries **(Missing Avatar)** until the SDK refreshes the list
 * [Avatar colliders can be unset or set to incorrect transforms](https://feedback.vrchat.com/sdk-bug-reports/p/avatar-auto-collider-transforms-are-not-updated-before-an-upload) if the rig is modified and then the VRCSDK collider section is not viewed afterward
   * VRCFury forces the VRCSDK to recalculate collider transforms at the beginning of each build
 * [Overlapping contacts can fail to register](https://feedback.vrchat.com/bug-reports/p/overlapping-on-load-receivers-are-still-broken) when the avatar loads or changes scale
