@@ -11,8 +11,6 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 * The VRCSDK spams the unity console with AmplitudeAPI errors if your network uses pihole or adguard
   * VRCFury hides these messages from the console, since they are non-actionable and clutter actual errors that the user is looking for
-* A [bug in Mono](https://feedback.vrchat.com/sdk-bug-reports/p/string-conversion-errors-from-runtimeassemblygetcodebase-with-japanese-locale-an) can make the VRCSDK builder fail to open when the system locale is non-English and the project path contains non-English characters
-  * VRCFury patches this so the builder still opens normally
 * The VRCSDK can show an outdated Unity version warning recommending Unity 2022.3
   * VRCFury hides that warning when Unity 2022.3 is the recommended version
 * The VRCSDK can [lose track of the active upload after switching platforms](https://feedback.vrchat.com/sdk-bug-reports/p/multi-platform-build-does-not-set-vrc-sdkbuilderactivebuildtype-after-the-first) during a multi-platform build
@@ -162,6 +160,12 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * ~~VRCFury skips that upload-only recompile unless an actual upload is in progress~~
   * ~~Fixed in latest VRCSDK~~
 
+## Mono
+
+* On Windows, Mono can throw a string conversion error when a Unity project path contains characters that the system's non-UTF-8 locale encodes differently from UTF-8. The error can occur when a tool reads the name of an assembly loaded at runtime, such as one created by Harmony. [Mono issue #20968](https://github.com/mono/mono/issues/20968)
+  * This can prevent the VRCSDK Builder from opening. Other Unity editor tools and plugins that read assembly names can fail the same way. [VRChat SDK bug report](https://feedback.vrchat.com/sdk-bug-reports/p/string-conversion-errors-from-runtimeassemblygetcodebase-with-japanese-locale-an)
+  * VRCFury catches the error so those tools can continue.
+
 ## Unity (Editor)
 
 * VRCFury removes the built-in unity "Toggle", "Dropdown" and "Toggle Group" components from the Add Component menu, as they are not usable
@@ -189,8 +193,6 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury opens the selected clip in the Animation window when you double-click a state, its Motion field, or a clip node in a blend tree
 * Unity's blend tree graph editor becomes extremely slow when viewing large trees
   * VRCFury patches Unity to resolve many of its blend tree graph editor slow-downs
-* A bug in Mono breaks the VRCSDK dialog when Harmony is used, the system locale is non-english, and the project path contains non-english characters
-  * VRCFury patches Mono to prevent this issue from occurring to the VRCSDK and other plugins using Assembly.GetName()
 * Unity throws a NullReferenceException in "UnityEditor.Graphs.Edge.WakeUp" when reloading scripts if an empty animator has been open recently
   * VRCFury fixes this unity bug and prevents the error
 * Unity reloads all scripts and scenes when entering play mode
