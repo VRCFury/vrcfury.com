@@ -11,10 +11,12 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 * The VRCSDK spams the unity console with AmplitudeAPI errors if your network uses pihole or adguard
   * VRCFury hides these messages from the console, since they are non-actionable and clutter actual errors that the user is looking for
-* A bug in Mono can make the VRCSDK builder fail to open when the system locale is non-English and the project path contains non-English characters
+* A [bug in Mono](https://feedback.vrchat.com/sdk-bug-reports/p/string-conversion-errors-from-runtimeassemblygetcodebase-with-japanese-locale-an) can make the VRCSDK builder fail to open when the system locale is non-English and the project path contains non-English characters
   * VRCFury patches this so the builder still opens normally
 * The VRCSDK can show an outdated Unity version warning recommending Unity 2022.3
   * VRCFury hides that warning when Unity 2022.3 is the recommended version
+* The VRCSDK can [lose track of the active upload after switching platforms](https://feedback.vrchat.com/sdk-bug-reports/p/multi-platform-build-does-not-set-vrc-sdkbuilderactivebuildtype-after-the-first) during a multi-platform build
+  * VRCFury recognizes the later platform builds so upload-only steps still run
 * ~~Having the VRCSDK in a project creates a useless folder called XR in the Assets root~~
   * ~~VRCFury automatically moves the Assets/XR folder into its own temporary package to keep your project clean~~
   * ~~Fixed in latest VRCSDK~~
@@ -40,13 +42,13 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury excludes those contacts from the count while keeping them available for interaction testing
 * The VRCSDK [counts contacts on objects tagged `EditorOnly` or on their children](https://feedback.vrchat.com/sdk-bug-reports/p/sdk-3110-beta1-performance-rank-improperly-includes-editoronly-dontsaveinbuild-c), even though those objects are removed from the uploaded avatar
   * VRCFury excludes those contacts from both the avatar's performance rank and the contact upload limit
-* A contact receiver enabled during Play Mode can trigger an `IndexOutOfRangeException` before it is ready
+* A contact receiver enabled during Play Mode can [trigger an `IndexOutOfRangeException` before it is ready](https://feedback.vrchat.com/open-beta/p/sdk-3110-beta1-indexoutofrangeexception-thrown-when-reload-domain-is-disabled)
   * VRCFury delays the receiver's first update until the SDK has registered it
 * On Unity 6, PhysBones and constraints can [flood the Console with `Adding null Transform to TransformAccessArray` warnings](https://feedback.vrchat.com/sdk-bug-reports/p/sdk-3110-beta1-physbones-flood-play-mode-console-with-adding-null-transform-to-t)
   * VRCFury prevents these warnings when the SDK is setting up empty slots
-* Opening an Expression Parameters asset in Unity 6 can reset custom bit widths and signedness
+* Opening an Expression Parameters asset in Unity 6 can [reset custom bit widths and signedness](https://feedback.vrchat.com/unity-6-sdk/p/u6sdk-3110-truncated-unsigned-parameters-arent-saved)
   * VRCFury preserves those settings when the inspector loads
-* The VRCSDK can prompt you to import TextMesh Pro Essentials in avatar projects
+* The VRCSDK can [prompt you to import TextMesh Pro Essentials in avatar projects](https://feedback.vrchat.com/unity-6-sdk/p/avatar-6-template-immediately-opens-tmp-importer-prompt)
   * VRCFury skips the automatic import prompt
 * [Material contacts in editor play mode can give multiple avatars the same player ID, confusing shaders about which avatar a contact belongs to](https://feedback.vrchat.com/sdk-bug-reports/p/material-contacts-playerid-collision-is-very-likely-in-editor-play-mode)
   * VRCFury assigns each avatar's contacts a unique positive player ID so they remain separate from other avatars and detached contacts
@@ -104,7 +106,7 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 * ~~The [VRCSDK dialog box crashes](https://feedback.vrchat.com/sdk-bug-reports/p/vrcsdk-panel-crashes-if-you-dont-own-the-blueprint-id-for-the-selected-avatar) when you don't own the blueprint ID currently set in the Pipeline Manager~~
   * ~~VRCFury patches this VRCSDK bug~~
   * ~~Fixed in latest VRCSDK~~
-* ~~The VRCSDK opens an empty Animator window that cannot be closed if scripts reload while viewing a Parameter Driver~~
+* ~~The VRCSDK [opens an empty Animator window that cannot be closed](https://feedback.vrchat.com/sdk-bug-reports/p/parameter-driver-editor-sometimes-causes-broken-animator-windows) if scripts reload while viewing a Parameter Driver~~
   * ~~VRCFury patches this issue to not occur~~
   * ~~Fixed in latest VRCSDK~~
 * ~~The VRCSDK spams the console with "Animator is not playing an AnimatorController" before the animator loads if your avatar contains contacts~~
