@@ -30,10 +30,12 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury repairs the descriptor by restoring the proper FX and Action layer assignments
 * The VRCSDK fails with a cryptic error message when menu icons are too large
   * VRCFury detects this condition and shows a useful error message with the icon paths
-* VRCSDK contacts do not properly distinguish between "Self" and "Others" when testing in editor play mode
-  * VRCFury automatically adjusts avatar contacts in play mode to make "Self" and "Others" work properly
-* [Contacts and PhysBones can make entering play mode slow on avatars with many Animator parameters](https://feedback.vrchat.com/sdk-bug-reports/p/animparameteraccessavatarsdk-can-add-multiple-seconds-to-avatar-play-mode-entry)
-  * VRCFury avoids the SDK's repeated copying of the entire parameter list while setting up each parameter
+* ~~VRCSDK contacts do not properly distinguish between "Self" and "Others" when testing in editor play mode~~
+  * ~~VRCFury automatically adjusts avatar contacts in play mode to make "Self" and "Others" work properly~~
+  * ~~Fixed in VRCSDK 3.10.4~~
+* ~~[Contacts and PhysBones can make entering play mode slow on avatars with many Animator parameters](https://feedback.vrchat.com/sdk-bug-reports/p/animparameteraccessavatarsdk-can-add-multiple-seconds-to-avatar-play-mode-entry)~~
+  * ~~VRCFury avoids the SDK's repeated copying of the entire parameter list while setting up each parameter~~
+  * ~~Fixed in VRCSDK 3.11.0-beta.1~~
 * Contact receiver debug values in the VRCSDK inspector do not update during play mode unless something triggers a repaint, such as hovering over the inspector
   * VRCFury keeps those values updating while the receiver inspector is open in play mode
 * The VRCSDK counts default contacts created by Gesture Manager and Av3Emulator, such as finger contacts, toward the avatar's performance rank in Play Mode
@@ -48,14 +50,16 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury preserves those settings when the inspector loads
 * The VRCSDK can [prompt you to import TextMesh Pro Essentials in avatar projects](https://feedback.vrchat.com/unity-6-sdk/p/avatar-6-template-immediately-opens-tmp-importer-prompt)
   * VRCFury skips the automatic import prompt
-* [Material contacts in editor play mode can give multiple avatars the same player ID, confusing shaders about which avatar a contact belongs to](https://feedback.vrchat.com/sdk-bug-reports/p/material-contacts-playerid-collision-is-very-likely-in-editor-play-mode)
-  * VRCFury assigns each avatar's contacts a unique positive player ID so they remain separate from other avatars and detached contacts
+* ~~[Material contacts in editor play mode can give multiple avatars the same player ID, confusing shaders about which avatar a contact belongs to](https://feedback.vrchat.com/sdk-bug-reports/p/material-contacts-playerid-collision-is-very-likely-in-editor-play-mode)~~
+  * ~~VRCFury assigns each avatar's contacts a unique positive player ID so they remain separate from other avatars and detached contacts~~
+  * ~~Fixed in VRCSDK 3.11.0-beta.1~~
 * The VRCSDK adds unwanted Undo entries when it synchronizes Gesture and FX layer masks while opening an avatar descriptor or finishing a build
   * VRCFury applies these automatic mask updates without recording them in the Undo history
 * The VRCSDK switches back to the Authentication tab every time you reload scripts
   * VRCFury automatically switches the VRCSDK to the Builder tab if you are already logged in when scripts reload
-* [Dynamics and contacts stop working](https://feedback.vrchat.com/sdk-bug-reports/p/376-dynamics-only-work-the-first-time-you-enter-play-mode) after the first time you enter play mode in VRCSDK 3.7.6
-  * VRCFury patches the VRCSDK to fix this bug
+* ~~[Dynamics and contacts stop working](https://feedback.vrchat.com/sdk-bug-reports/p/376-dynamics-only-work-the-first-time-you-enter-play-mode) after the first time you enter play mode in VRCSDK 3.7.6~~
+  * ~~VRCFury patches the VRCSDK to fix this bug~~
+  * ~~Fixed in VRCSDK 3.8.0~~
 * [Avatar colliders can be unset or set to incorrect transforms](https://feedback.vrchat.com/sdk-bug-reports/p/avatar-auto-collider-transforms-are-not-updated-before-an-upload) if the rig is modified and then the VRCSDK collider section is not viewed afterward
   * VRCFury forces the VRCSDK to recalculate collider transforms at the beginning of each build
 * [Overlapping contacts can fail to register](https://feedback.vrchat.com/bug-reports/p/overlapping-on-load-receivers-are-still-broken) when the avatar loads or changes scale
@@ -88,7 +92,7 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 * VRChat throws away parameters in game if there are more than 256 unique params, even if they are not network synced
   * VRCFury detects this condition and shows a useful error message
 * VRChat [throws away contacts in game if you have more than 256 total](https://feedback.vrchat.com/sdk-bug-reports/p/avatar-contact-hard-limit-is-not-documented-or-sdk-enforced)
-  * VRCFury detects this condition and shows a useful error message
+  * As of VRCSDK 3.7.5, the Control Panel checks this limit using a separate total that includes Local Only contacts. VRCFury also checks after its build steps have generated contacts.
 * VRChat IK and OSC will crash if you have two parameters with the same name, except one has underscores where the other has spaces
   * VRCFury automatically renames parameters conflicting in this way
 * VRChat IK and OSC will crash if you have a parameter containing the text `[]`
@@ -103,7 +107,7 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury adds a generic rig during the build when needed and suppresses the SDK's missing Animator error when VRCFury will supply the Animator
 * ~~The [VRCSDK dialog box crashes](https://feedback.vrchat.com/sdk-bug-reports/p/vrcsdk-panel-crashes-if-you-dont-own-the-blueprint-id-for-the-selected-avatar) when you don't own the blueprint ID currently set in the Pipeline Manager~~
   * ~~VRCFury patches this VRCSDK bug~~
-  * ~~Fixed in latest VRCSDK~~
+  * ~~Fixed in VRCSDK 3.10.5~~
 * ~~The VRCSDK [opens an empty Animator window that cannot be closed](https://feedback.vrchat.com/sdk-bug-reports/p/parameter-driver-editor-sometimes-causes-broken-animator-windows) if scripts reload while viewing a Parameter Driver~~
   * ~~VRCFury patches this issue to not occur~~
   * ~~Fixed in latest VRCSDK~~
@@ -164,6 +168,7 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 * On Windows, Mono can throw a string conversion error when a Unity project path contains characters that the system's non-UTF-8 locale encodes differently from UTF-8. The error can occur when a tool reads the name of an assembly loaded at runtime, such as one created by Harmony. [Mono issue #20968](https://github.com/mono/mono/issues/20968)
   * This can prevent the VRCSDK Builder from opening. Other Unity editor tools and plugins that read assembly names can fail the same way. [VRChat SDK bug report](https://feedback.vrchat.com/sdk-bug-reports/p/string-conversion-errors-from-runtimeassemblygetcodebase-with-japanese-locale-an)
+  * This issue still exists in Unity 6.
   * VRCFury catches the error so those tools can continue.
 
 ## Unity (Editor)
