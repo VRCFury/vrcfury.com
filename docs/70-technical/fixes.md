@@ -54,8 +54,6 @@ When VRCFury is present in a project, it applies several fixes to resolve common
   * VRCFury keeps the dropdown usable and labels removed entries **(Missing Avatar)** until the SDK refreshes the list
 * [Avatar colliders can be unset or set to incorrect transforms](https://feedback.vrchat.com/sdk-bug-reports/p/avatar-auto-collider-transforms-are-not-updated-before-an-upload) if the rig is modified and then the VRCSDK collider section is not viewed afterward
   * VRCFury forces the VRCSDK to recalculate collider transforms at the beginning of each build
-* [Overlapping contacts can fail to register](https://feedback.vrchat.com/bug-reports/p/overlapping-on-load-receivers-are-still-broken) when the avatar loads or changes scale
-  * For features that need this workaround, VRCFury briefly disables receivers so existing overlaps can register when they turn back on
 * The built-in [`ScaleFactor` parameter can be wrong for other players](https://feedback.vrchat.com/bug-reports/p/scalefactor-is-not-synchronized-to-late-joiners-or-existing-players-in-newly-joi) when an avatar joins an instance
   * VRCFury measures the avatar's live scale for features that need it
 * The VRCSDK fails upload if textures do not have `Streaming Mip-Maps` enabled
@@ -133,6 +131,9 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 * ~~The VRCSDK collider editor doesn't mirror offsets properly if the avatar is not at `x=0`~~
   * ~~VRCFury patches the mirroring logic so colliders mirror properly across the avatar origin~~
   * ~~Fixed in VRCSDK 3.10.5~~
+* ~~[Overlapping contacts can fail to register](https://feedback.vrchat.com/bug-reports/p/overlapping-on-load-receivers-are-still-broken) when the avatar loads or changes scale~~
+  * ~~VRCFury briefly disables receivers so existing overlaps can register when they turn back on~~
+  * ~~Fixed by [VRChat 2026.4.2 open beta, build 1952](https://docs.vrchat.com/docs/vrchat-202642-open-beta)~~
 
 ## VRCSDK (Worlds)
 
@@ -273,18 +274,24 @@ When VRCFury is present in a project, it applies several fixes to resolve common
 
 ## Av3Emulator
 
-* Av3Emualator throws errors and breaks if an animator in the scene disappears or has its controller changes after play mode has begun
-  * VRCFury reinitializes Av3Emu after an avatar's preprocessor hooks have run
-* Av3Emulator does not forward advanced contact receiver outputs to its Animator controllers, leaving features that use sender position, scale, or velocity without updated values
-  * VRCFury connects those outputs to Av3Emulator so they work during play-mode testing
 * Older versions of Av3Emulator can make the avatar's Play Mode contact count appear higher by adding default senders such as finger contacts
   * VRCFury keeps those senders working for interaction testing while excluding them from the SDK's contact counts
   * [Av3Emulator pull request #231](https://github.com/lyuma/Av3Emulator/pull/231)
+* Av3Emulator's older 200 ms sync default can make compressed expression parameters behave differently on remote clones than they do in VRChat
+  * VRCFury changes the older default to 100 ms to match VRChat's usual fast sync rate
+  * [Av3Emulator pull request #233](https://github.com/lyuma/Av3Emulator/pull/233)
+* ~~Av3Emulator does not forward advanced contact receiver outputs to its Animator controllers, leaving features that use sender position, scale, or velocity without updated values~~
+  * ~~VRCFury connects those outputs to Av3Emulator so they work during Play Mode testing~~
+  * ~~Fixed in [Av3Emulator 3.5.0](https://github.com/lyuma/Av3Emulator/releases/tag/v3.5.0)~~
 
 ## Gesture Manager
 
 * Gesture Manager does not forward advanced contact receiver outputs to its Animator controllers, leaving features that use sender position, scale, or velocity without updated values
-  * VRCFury connects those outputs to Gesture Manager so they work during play-mode testing
+  * VRCFury connects those outputs on builds without native support
+  * [Gesture Manager pull request #108](https://github.com/BlackStartx/VRC-Gesture-Manager/pull/108)
+* ~~Gesture Manager overrides the SDK's player IDs on some dynamics components, which can break how those components distinguish between Self and Others~~
+  * ~~VRCFury prevents Gesture Manager from overriding the SDK's player IDs~~
+  * ~~Fixed in [Gesture Manager 3.10.0](https://github.com/BlackStartx/VRC-Gesture-Manager/releases/tag/v3.10.0)~~
 
 ## CommonTXL / Texel
 
